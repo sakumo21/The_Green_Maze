@@ -23,23 +23,34 @@ static int	free_img(t_data *img)
 
 static int	key_handler(int keysym, t_data *img)
 {
-	double moveSpeed = 0.1 * 5.0; //the constant value is in squares/second
+	double moveSpeed = 0.1 * 5.0;
     double rotSpeed = 0.1 * 3.0;
-	printf("%d:%c\n", keysym, keysym);
 	if (keysym == 65307)
 	{
 		free_img(img);
 		exit(0);
 	}
-	if (keysym == 122) //z
-		img->ray.posx -= img->ray.dirX;
-	if (keysym == 115) // s
-		img->ray.posx += img->ray.dirX;
-	if (keysym == 113) // q
-		img->ray.posy -= img->ray.dirY;
-	if (keysym == 100) // d
-		img->ray.posy += img->ray.dirY;
-	if (keysym == 65363) // ->
+	else if  (keysym == 122) //z
+	{
+		img->ray.posx += img->ray.dirX * moveSpeed;
+		img->ray.posy += img->ray.dirY * moveSpeed;
+	}
+	else if (keysym == 115) // s
+	{
+		img->ray.posx -= img->ray.dirX * moveSpeed;
+		img->ray.posy -= img->ray.dirY * moveSpeed;
+	}
+	else if (keysym == 113) // q
+	{
+		img->ray.posx -= img->ray.planeX * moveSpeed;
+		img->ray.posy -= img->ray.planeY * moveSpeed;
+	}
+	else if (keysym == 100) // d
+	{
+		img->ray.posx += img->ray.planeX * moveSpeed;
+		img->ray.posy += img->ray.planeY * moveSpeed;
+	}
+	else if (keysym == 65363) // ->
 	{
       double oldDirX = img->ray.dirX;
       img->ray.dirX = img->ray.dirX * cos(-rotSpeed) - img->ray.dirY * sin(-rotSpeed);
@@ -48,7 +59,7 @@ static int	key_handler(int keysym, t_data *img)
       img->ray.planeX = img->ray.planeX * cos(-rotSpeed) - img->ray.planeY * sin(-rotSpeed);
       img->ray.planeY = oldPlaneX * sin(-rotSpeed) + img->ray.planeY * cos(-rotSpeed);
 	}
-	if (keysym == 65361) // <-
+	else if (keysym == 65361) // <-
 	{
       double oldDirX = img->ray.dirX;
       img->ray.dirX = img->ray.dirX * cos(rotSpeed) - img->ray.dirY * sin(rotSpeed);

@@ -1,0 +1,4 @@
+*.o
+a.out
+minilibx_linux/
+minilibx_mms_20200219/
