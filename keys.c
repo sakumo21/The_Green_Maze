@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 static int	free_img(t_data *img)
 {
@@ -24,13 +24,13 @@ static int	free_img(t_data *img)
 static int	key_handler(int keysym, t_data *img)
 {
 	double moveSpeed = 0.1 * 5.0;
-    double rotSpeed = 0.1 * 3.0;
+    double rotSpeed = 0.1;
 	if (keysym == 65307)
 	{
 		free_img(img);
 		exit(0);
 	}
-	else if  (keysym == 122) //z
+	else if  (keysym == 119) //z
 	{
 		img->ray.posx += img->ray.dirX * moveSpeed;
 		img->ray.posy += img->ray.dirY * moveSpeed;
@@ -40,7 +40,7 @@ static int	key_handler(int keysym, t_data *img)
 		img->ray.posx -= img->ray.dirX * moveSpeed;
 		img->ray.posy -= img->ray.dirY * moveSpeed;
 	}
-	else if (keysym == 113) // q
+	else if (keysym == 97) // q
 	{
 		img->ray.posx -= img->ray.planeX * moveSpeed;
 		img->ray.posy -= img->ray.planeY * moveSpeed;
@@ -68,7 +68,7 @@ static int	key_handler(int keysym, t_data *img)
       img->ray.planeX = img->ray.planeX * cos(rotSpeed) - img->ray.planeY * sin(rotSpeed);
       img->ray.planeY = oldPlaneX * sin(rotSpeed) + img->ray.planeY * cos(rotSpeed);
 	}
-	rendering_image(img, 0, 0X0000FF);
+	rendering_image(img, 0);
 	return (0);
 }
 
