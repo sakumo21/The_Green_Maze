@@ -85,9 +85,9 @@ void	calculate_ray(t_data *img, int i)
 		img->ray.DsideY = fabs(1.0 / img->ray.rayY);
 }
 
-void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove one line (the map array is not included)
+void	calculate_vector(t_data *img, int mapX, int mapY, int hit)
 {
-	int worldMap[mapWidth][mapHeight]=
+	int map[mapWidth][mapHeight]=
 	{
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -97,10 +97,10 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,2,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -114,7 +114,6 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
-
 	while (!hit)
 	{
 		if (img->ray.SsideX < img->ray.SsideY)
@@ -129,9 +128,24 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 			mapY += img->ray.stepY;
 			img->ray.side = 1;
 		}
-		if (worldMap[mapX][mapY] == 1)
+		if (map[mapX][mapY] != 0)
+		{
 			hit = 1;
+			if (map[mapX][mapY] == 2)
+			{
+				if (mapX == (int)img->ray.posx)
+					if (mapY == (int)img->ray.posy + 1 || mapY == (int)img->ray.posy - 1)
+						hit = 0;
+				else if (mapY == (int)img->ray.posy)
+					if (mapX == (int)img->ray.posx + 1 || mapX == (int)img->ray.posx - 1)
+						hit = 0;
+			}
+		}
 	}
+	if (map[mapX][mapY] == 2)
+		img->ray.color = 0X00FF00;
+	else 
+		img->ray.color = 0X0000FF;
 	if(img->ray.side == 0)
 		img->ray.perpwalldist = (img->ray.SsideX - img->ray.DsideX);
 	else
@@ -142,12 +156,14 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 
 void	initialize_data(t_data *img)
 {
-	img->ray.posx = 7.55;
+	img->ray.posx = 20.55;
 	img->ray.posy = 2.44;
 	img->ray.dirX = -1;
 	img->ray.dirY = 0;
 	img->ray.planeX = 0;
 	img->ray.planeY = 0.66;
+	img->ray.color = 0X0000FF;
+	img->ray.door = 0;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)
@@ -182,7 +198,7 @@ void	init_cube(t_data *img)
 		exit (0);
 }
 
-void	rendering_image(t_data *img, int i, int color)
+void	rendering_image(t_data *img, int i)
 {
 	int		mapX;
 	int		mapY;
@@ -202,8 +218,8 @@ void	rendering_image(t_data *img, int i, int color)
 		calculate_vector(img, mapX, mapY, 0);
 		calculate_wall_height(img, lineheight);
 		if (side == 1)
-			color = color / 2;
-		coloring_the_image(img, i, color);
+			img->ray.color = img->ray.color / 2;
+		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
 	event_keys(img);
@@ -214,8 +230,35 @@ void	rendering_image(t_data *img, int i, int color)
 int main()
 {
 	t_data	img;
+	int worldMap[mapWidth][mapHeight]=
+	{
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,2,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	};
 	
 	initialize_data(&img);
 	init_cube(&img);
-	rendering_image(&img, 0, 0X0000FF);
+	rendering_image(&img, 0);
 }	

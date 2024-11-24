@@ -23,32 +23,69 @@ static int	free_img(t_data *img)
 
 static int	key_handler(int keysym, t_data *img)
 {
-	double moveSpeed = 0.1 * 5.0;
-    double rotSpeed = 0.1 * 3.0;
+	int	newX;
+	int	newY;
+	int map[mapWidth][mapHeight]=
+	{
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,2,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	};
+	double moveSpeed = 0.1 * 1.0;
+    double rotSpeed = 0.1 * 1.0;
 	if (keysym == 65307)
 	{
 		free_img(img);
 		exit(0);
 	}
-	else if  (keysym == 122) //z
+	else if  (keysym == 119)//w
 	{
-		img->ray.posx += img->ray.dirX * moveSpeed;
-		img->ray.posy += img->ray.dirY * moveSpeed;
+		newX = (int)(img->ray.posx + img->ray.dirX * moveSpeed);
+		newY = (int)(img->ray.posy + img->ray.dirY * moveSpeed);
+      if(map[newX][(int)img->ray.posy] == 0) img->ray.posx += img->ray.dirX * moveSpeed;
+      if(map[(int)img->ray.posx][newY] == 0) img->ray.posy += img->ray.dirY * moveSpeed;
 	}
 	else if (keysym == 115) // s
 	{
-		img->ray.posx -= img->ray.dirX * moveSpeed;
-		img->ray.posy -= img->ray.dirY * moveSpeed;
+		newX = (int)(img->ray.posx - img->ray.dirX * moveSpeed);
+		newY = (int)(img->ray.posy - img->ray.dirY * moveSpeed);
+    	if(map[newX][(int)img->ray.posy] == 0) img->ray.posx -= img->ray.dirX * moveSpeed;
+    	if(map[(int)img->ray.posx][newY] == 0) img->ray.posy -= img->ray.dirY * moveSpeed;
 	}
-	else if (keysym == 113) // q
+	else if (keysym == 97) // a
 	{
-		img->ray.posx -= img->ray.planeX * moveSpeed;
-		img->ray.posy -= img->ray.planeY * moveSpeed;
+		newX = (int)(img->ray.posx - img->ray.planeX * moveSpeed);
+		newY = (int)(img->ray.posy - img->ray.planeY * moveSpeed);
+    	if(map[newX][(int)img->ray.posy] == 0) img->ray.posx -= img->ray.planeX * moveSpeed;
+    	if(map[(int)img->ray.posx][newY] == 0) img->ray.posy -= img->ray.planeY * moveSpeed;
 	}
 	else if (keysym == 100) // d
 	{
-		img->ray.posx += img->ray.planeX * moveSpeed;
-		img->ray.posy += img->ray.planeY * moveSpeed;
+		newX = (int)(img->ray.posx + img->ray.planeX * moveSpeed);
+		newY = (int)(img->ray.posy + img->ray.planeY * moveSpeed);
+    	if(map[newX][(int)img->ray.posy] == 0) img->ray.posx += img->ray.planeX * moveSpeed;
+    	if(map[(int)img->ray.posx][newY] == 0) img->ray.posy += img->ray.planeY * moveSpeed;
 	}
 	else if (keysym == 65363) // ->
 	{
@@ -68,7 +105,7 @@ static int	key_handler(int keysym, t_data *img)
       img->ray.planeX = img->ray.planeX * cos(rotSpeed) - img->ray.planeY * sin(rotSpeed);
       img->ray.planeY = oldPlaneX * sin(rotSpeed) + img->ray.planeY * cos(rotSpeed);
 	}
-	rendering_image(img, 0, 0X0000FF);
+	rendering_image(img, 0);
 	return (0);
 }
 

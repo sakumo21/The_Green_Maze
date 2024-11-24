@@ -45,6 +45,9 @@ typedef struct s_ray
   	double	planeX;
 	double	planeY;
 	int		side;
+	int		color;
+	int		**map;
+	int		door;
 	double perpwalldist;
 }				t_ray;
 
@@ -60,7 +63,7 @@ typedef struct	s_data
 	t_ray	ray;
 }				t_data;
 
-void	rendering_image(t_data *img, int i, int color);
+void	rendering_image(t_data *img, int i);
 void	event_keys(t_data *img);
 
 #endif
