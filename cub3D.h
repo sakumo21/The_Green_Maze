@@ -36,6 +36,7 @@ typedef struct s_texture
     int E_check;
     int F_check;
     int C_check;
+	int exit;
 }               t_texture;
 
 typedef struct s_map

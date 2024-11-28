@@ -17,7 +17,13 @@ int texturing(char **path, char *new, t_texture *flag)
         return (check_set_color(&flag->F_check, "Floor color", new));
     else if (!ft_strncmp(path[0], "C", 1))
         return (check_set_color(&flag->C_check, "Ceiling color", new));
-    else
+    else if (ft_isalpha(path[0][0]))
+    {
+        flag->exit = 1;
+        printf("Error : %s is not a valid identifier.\n", path[0]);
+        return (1);
+    }
+    else 
         return (1);
     return (0);
 }
@@ -54,6 +60,7 @@ void init_flag(t_texture *flag, t_map *map)
     flag->E_check = 0;
     flag->F_check = 0;
     flag->C_check = 0;
+    flag->exit = 0;
     map->map = NULL;
 }
 

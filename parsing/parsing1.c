@@ -30,6 +30,8 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
             break;
         free(line);
     }
+    if (flag.exit)
+        return (1); 
     if (check_texture(&flag))
         return (1);
     if (mini_map(line, map, fd, 0) || my_map(map, img))
