@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 19:00:09 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 19:00:09 by marvin           ###   ########.fr       */
+/*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/03 22:10:43 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,11 @@ void	rendering_image(t_data *img, int i)
 		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
+	img->map->height = get_map_width(img->map, 1);
+	img->map->width = get_map_width(img->map, 0);
+	draw_minimap(img, img->map->map);
 	event_keys(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-	mlx_loop(img->mlx);
 }
 
 int main(int ac, char **av)
@@ -205,11 +207,12 @@ int main(int ac, char **av)
     img.map = malloc(sizeof(t_map));
     if (main_parsing(av, ac, img.map, &img))
 		return (1);
-	printf("map : (%s)\n", img.map->map[2]);
+	// printf("map : (%s)\n", img.map->map[2]);
 	// printf("%f %f\n", img.ray.posx, img.ray.posy);
 	// printf("%c\n", img.map->map[(int)img.ray.posy][(int)img.ray.posx]);
 	initialize_data(&img);
 	init_cube(&img);
 	rendering_image(&img, 0);
+	mlx_loop(img.mlx);
 	exit(0);
 }	

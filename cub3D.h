@@ -22,8 +22,12 @@
 #include "Libft/libft.h"
 #include "Get_next_line/get_next_line.h"
 
-#define WIDTH 800
-#define HEIGHT 800
+#define MINIMAP_SCALE 0.2  // Scale factor for minimap
+#define MINIMAP_SIZE 150  // Size of the minimap in pixels
+#define MINIMAP_PLAYER_SIZE 5  // Size of the player marker
+
+#define WIDTH 1920
+#define HEIGHT 1080
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
@@ -42,8 +46,9 @@ typedef struct s_texture
 typedef struct s_map
 {
     char **map;
-    int map_x;
-    int map_y;
+	int height;
+	int width;
+	char player;
 }               t_map;
 
 
@@ -103,10 +108,16 @@ int check_line(char **line);
 int mini_map(char *line, t_map *map, int fd, int i);
 int my_map(t_map *map, t_data *img);
 int check_map_enclosure(char **map, int i, int j);
-void flood_fill(char **map, int x, int y, int max_x, int max_y);
+void flood_fill(t_map *map, int x, int y, int max_x, int max_y);
 int check_filled_map(char **map);
 int find_starting_point(char **map, t_data *img, int i);
-void flood_fill2(char **map, int x, int y, int max_x, int max_y);
+void flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
 int parsing_map(char **map);
+
+
+//minimap
+void draw_minimap(t_data *img, char **map);
+void my_put(t_data *data, int x, int y, int color);
+int get_map_width(t_map *map, int i);
 
 #endif

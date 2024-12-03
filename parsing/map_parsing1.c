@@ -41,13 +41,10 @@ int my_map(t_map *map, t_data *img)
         return (1);
     if (find_starting_point(map->map, img, 0))
         return (1);
-    printf("qq%s\n", map->map[9]);
-    flood_fill(map->map, img->ray.posx, img->ray.posy, max_x, max_y);
-    printf("qq%s\n", map->map[9]);
+    flood_fill(map, img->ray.posx, img->ray.posy, max_x, max_y);
     if (check_filled_map(map->map))
         return (printf("Error: The map is not properly enclosed.\n"), 1);
-    flood_fill2(map->map, img->ray.posx, img->ray.posy, max_x, max_y);
-    printf("aa%s\n", map->map[9]);
+    flood_fill2(map, img->ray.posx, img->ray.posy, max_x, max_y);
     return (0);
 }
 
@@ -93,7 +90,7 @@ int parsing_map(char **map)
         while (map[i][j])
         {
             if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W' && map[i][j] != 'E' && map[i][j] != 'D')
-                return (printf("Error: -Invalid map character at (%d, %d) = '%c'\n", i, j, map[i][j]), 1);
+                return (printf("Error: Invalid map character at (%d, %d) = '%c'\n", i, j, map[i][j]), 1);
             j++;
         }
         i++;
@@ -118,7 +115,6 @@ int find_starting_point(char **map, t_data *img, int i)
                     return (printf("Error: Multiple starting points found.\n"), 1);
                 img->ray.posx = j + 0.5;
                 img->ray.posy = i + 0.5;
-                map[i][j] = '0'; // Replace the starting point with '0'
                 found = 1;
             }
             else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'D')

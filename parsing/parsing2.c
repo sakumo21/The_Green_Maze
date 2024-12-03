@@ -62,6 +62,7 @@ void init_flag(t_texture *flag, t_map *map)
     flag->C_check = 0;
     flag->exit = 0;
     map->map = NULL;
+    map->player = 0;
 }
 
 int parse_input(int ac, char **av)
