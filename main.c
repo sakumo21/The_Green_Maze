@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/03 22:10:43 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:04:52 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ void	init_cube(t_data *img)
 		exit (0);
 }
 
+
 void	rendering_image(t_data *img, int i)
 {
 	int		mapX;
@@ -195,7 +196,7 @@ void	rendering_image(t_data *img, int i)
 	}
 	img->map->height = get_map_width(img->map, 1);
 	img->map->width = get_map_width(img->map, 0);
-	draw_minimap(img, img->map->map);
+	draw_minimap(img);
 	event_keys(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }

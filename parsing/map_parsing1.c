@@ -115,6 +115,8 @@ int find_starting_point(char **map, t_data *img, int i)
                     return (printf("Error: Multiple starting points found.\n"), 1);
                 img->ray.posx = j + 0.5;
                 img->ray.posy = i + 0.5;
+                img->map->player_x = i;
+                img->map->player_y = j;
                 found = 1;
             }
             else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'D')

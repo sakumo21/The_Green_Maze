@@ -32,6 +32,7 @@
 #define mapHeight 24
 #define EPSILON 1e-6
 
+
 typedef struct s_texture
 {
     int N_check;
@@ -49,6 +50,8 @@ typedef struct s_map
 	int height;
 	int width;
 	char player;
+	int player_x;
+	int player_y;
 }               t_map;
 
 
@@ -116,7 +119,7 @@ int parsing_map(char **map);
 
 
 //minimap
-void draw_minimap(t_data *img, char **map);
+void draw_minimap(t_data *img);
 void my_put(t_data *data, int x, int y, int color);
 int get_map_width(t_map *map, int i);
 

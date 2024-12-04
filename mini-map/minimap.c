@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/03 23:00:23 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/04 19:07:13 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,26 @@ int get_map_width(t_map *map, int i) {
     return max_width;
 }
 
-void draw_minimap(t_data *img, char **map)
+void draw_minimap(t_data *img)
 {
     int cell_size = 13; // Increased size for visibility
     int x, y;
     int color;
-    int offset_x = 50; // Horizontal offset to move minimap to the right
-    int offset_y = 50; // Vertical offset to move minimap down
+    int offset_x = 30; // Horizontal offset for the minimap
+    int offset_y = 30; // Vertical offset for the minimap
 
+    // Render the map
     for (int i = 0; i < img->map->height; i++) {
         for (int j = 0; j < img->map->width; j++) {
-            if (j < (int)strlen(map[i])) { // Ensure the row is not out of bounds
-                if (map[i][j] == '1')
+            if (j < (int)strlen(img->map->map[i])) { // Ensure the row is not out of bounds
+                if (img->map->map[i][j] == '1')
                     color = 0xFF0000; // Red for walls
-                else if (map[i][j] == '0')
+                else if (img->map->map[i][j] == '0')
                     color = 0xFFFFFF; // White for empty space
-                else if (map[i][j] == 'D')
+                else if (img->map->map[i][j] == 'D')
                     color = 0x0000FF; // Blue for sprites
-                else if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
-                    color = 0x00FF00; // Green for player}
+                else if (img->map->map[i][j] == img->map->player)
+                    color = 0xFFFFFF; 
                 else
                     continue;
 
@@ -76,6 +77,7 @@ void draw_minimap(t_data *img, char **map)
         }
     }
 }
+
 
 
 
