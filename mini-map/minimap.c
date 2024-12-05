@@ -6,22 +6,12 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/04 19:07:13 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:34:45 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-void my_put(t_data *data, int x, int y, int color)
-{
-    char *dst;
-
-    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-        return;
-
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int *)dst = color;
-}
 
 
 int get_map_width(t_map *map, int i) {
@@ -44,39 +34,72 @@ int get_map_width(t_map *map, int i) {
     return max_width;
 }
 
-void draw_minimap(t_data *img)
+void my_put(t_data *data, int x, int y, int color)
 {
-    int cell_size = 13; // Increased size for visibility
-    int x, y;
-    int color;
-    int offset_x = 30; // Horizontal offset for the minimap
-    int offset_y = 30; // Vertical offset for the minimap
+    char *dst;
 
-    // Render the map
-    for (int i = 0; i < img->map->height; i++) {
-        for (int j = 0; j < img->map->width; j++) {
-            if (j < (int)strlen(img->map->map[i])) { // Ensure the row is not out of bounds
-                if (img->map->map[i][j] == '1')
-                    color = 0xFF0000; // Red for walls
-                else if (img->map->map[i][j] == '0')
-                    color = 0xFFFFFF; // White for empty space
-                else if (img->map->map[i][j] == 'D')
-                    color = 0x0000FF; // Blue for sprites
-                else if (img->map->map[i][j] == img->map->player)
-                    color = 0xFFFFFF; 
-                else
-                    continue;
+    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+        return;
 
-                // Draw the corresponding pixels with offsets
-                for (y = i * cell_size + offset_y; y < (i + 1) * cell_size + offset_y; y++) {
-                    for (x = j * cell_size + offset_x; x < (j + 1) * cell_size + offset_x; x++) {
-                        my_put(img, x, y, color);
-                    }
-                }
-            }
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int *)dst = color;
+}
+
+void draw_rectangle(t_data *img, int x, int y, int width, int height, int color)
+{
+    int i, j;
+
+    // Iterate over the area of the rectangle
+    for (i = x; i < x + width; i++) {
+        for (j = y; j < y + height; j++) {
+            my_put(img, i, j, color);  
         }
     }
 }
+void draw_rectangle_border(t_data *img, int x, int y, int width, int height, int color)
+{
+    int i, j;
+
+    // Draw a black border around the rectangle by coloring the edges
+    for (i = x; i < x + width; i++) {
+        my_put(img, i, y, color);  // Top border
+        my_put(img, i, y + height - 1, color);  // Bottom border
+    }
+
+    for (j = y; j < y + height; j++) {
+        my_put(img, x, j, color);  // Left border
+        my_put(img, x + width - 1, j, color);  // Right border
+    }
+}
+
+
+void draw_minimap(t_data *img)
+{
+    int i, j;
+    int x, y;
+
+    // Iterate over the map grid
+    for (i = 0; i < img->map->height; i++) {
+        for (j = 0; j < img->map->width; j++) {
+            // Calculate the position of the current tile on the minimap
+            x = j * TILE_SIZE;
+            y = i * TILE_SIZE;
+
+            // Check the map character and draw the appropriate tile
+            if (img->map->map[i][j] == '1')  // Wall
+                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0xFF0000);  // Red for wall
+                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}
+            else if (img->map->map[i][j] == '0')  // Floor
+                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0xFFFFFF);  // White for floor
+                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}
+            else if (img->map->map[i][j] == 'D')
+                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0x0000FF);  // BLUE for Doors
+                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}        
+        }
+    }
+}
+
+
 
 
 

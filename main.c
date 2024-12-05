@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/04 19:04:52 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:30:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ void	init_cube(t_data *img)
 	img->win = NULL;
 	img->img = NULL;
 	img->addr = NULL;
+	img->mini = NULL;
 	img->mlx = mlx_init();
 	if (!img->mlx)
 		exit (0);
@@ -169,8 +170,10 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		exit (0);
+	// img->mini = mlx_new_image(img->mlx, img->map->width * TILE_SIZE, img->map->height * TILE_SIZE);
+	// img->addr = mlx_get_data_addr(img->mini, &img->bits_per_pixel,
+	// 		&img->line_length, &img->endian);
 }
-
 
 void	rendering_image(t_data *img, int i)
 {
@@ -194,11 +197,10 @@ void	rendering_image(t_data *img, int i)
 		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
-	img->map->height = get_map_width(img->map, 1);
-	img->map->width = get_map_width(img->map, 0);
 	draw_minimap(img);
 	event_keys(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	// mlx_put_image_to_window(img->mlx, img->win, img->mini, 10, 10);
 }
 
 int main(int ac, char **av)
@@ -212,8 +214,13 @@ int main(int ac, char **av)
 	// printf("%f %f\n", img.ray.posx, img.ray.posy);
 	// printf("%c\n", img.map->map[(int)img.ray.posy][(int)img.ray.posx]);
 	initialize_data(&img);
+	img.map->height = get_map_width(img.map, 1);
+	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
+	
+	
 	rendering_image(&img, 0);
+	
 	mlx_loop(img.mlx);
 	exit(0);
 }	

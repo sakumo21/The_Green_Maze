@@ -22,16 +22,14 @@
 #include "Libft/libft.h"
 #include "Get_next_line/get_next_line.h"
 
-#define MINIMAP_SCALE 0.2  // Scale factor for minimap
-#define MINIMAP_SIZE 150  // Size of the minimap in pixels
-#define MINIMAP_PLAYER_SIZE 5  // Size of the player marker
+
 
 #define WIDTH 1920
 #define HEIGHT 1080
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
-
+#define TILE_SIZE 20
 
 typedef struct s_texture
 {
@@ -83,6 +81,7 @@ typedef struct	s_data
 {
 	void	*mlx;
 	void	*win;
+	void 	*mini;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
