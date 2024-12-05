@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/05 16:36:02 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/05 21:19:30 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,8 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		exit (0);
-	img->map->minimap_height = HEIGHT / 4;
-	img->map->minimap_width = WIDTH / 4;
+	img->map->minimap_height = HEIGHT / 6;
+	img->map->minimap_width = WIDTH / 6;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
 }
 

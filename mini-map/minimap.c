@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/05 16:34:57 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/05 21:20:52 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,22 @@ void draw_rectangle_border(t_data *img, int x, int y, int width, int height, int
     }
 }
 
+void draw_player(t_data *img)
+{
+    // int x, y;
+    int player_x, player_y;
+
+    // Calculate the position of the player on the minimap
+    // printf("player_x : %.f\n", img->ray.posx);
+    // printf("player_y : %.f\n", img->ray.posy);
+    player_x = img->map->player_x * img->map->tile_size;
+    player_y = img->map->player_y * img->map->tile_size;
+
+    // Draw a yellow rectangle for the player
+    draw_rectangle(img, player_x, player_y, img->map->tile_size, img->map->tile_size, 0xFFFF00);  // Yellow for player
+    draw_rectangle_border(img, player_x, player_y, img->map->tile_size, img->map->tile_size, 0x000000);
+}
+
 
 void draw_minimap(t_data *img)
 {
@@ -94,9 +110,10 @@ void draw_minimap(t_data *img)
                 draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}
             else if (img->map->map[i][j] == 'D')
                 {draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x0000FF);  // BLUE for Doors
-                draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}        
+                draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}
         }
     }
+    draw_player(img);
 }
 
 

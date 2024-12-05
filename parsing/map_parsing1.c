@@ -28,11 +28,9 @@ int mini_map(char *line, t_map *map, int fd, int i)
 
 int my_map(t_map *map, t_data *img)
 {
-    int max_x;  
     int max_y;
 
     max_y = 0;
-    max_x = ft_strlen(map->map[0]); // Assuming all lines have the same length
     if (parsing_map(map->map))
         return (1);
     while (map->map[max_y] != NULL)
@@ -41,10 +39,10 @@ int my_map(t_map *map, t_data *img)
         return (1);
     if (find_starting_point(map->map, img, 0))
         return (1);
-    flood_fill(map, img->ray.posx, img->ray.posy, max_x, max_y);
-    if (check_filled_map(map->map))
-        return (printf("Error: The map is not properly enclosed.\n"), 1);
-    flood_fill2(map, img->ray.posx, img->ray.posy, max_x, max_y);
+    // flood_fill(map, img->ray.posx, img->ray.posy, max_x, max_y);
+    // if (check_filled_map(map->map))
+    //     return (printf("Error: The map is not properly enclosed.\n"), 1);
+    // flood_fill2(map, img->ray.posx, img->ray.posy, max_x, max_y);
     return (0);
 }
 
@@ -115,8 +113,9 @@ int find_starting_point(char **map, t_data *img, int i)
                     return (printf("Error: Multiple starting points found.\n"), 1);
                 img->ray.posx = j + 0.5;
                 img->ray.posy = i + 0.5;
-                img->map->player_x = i;
-                img->map->player_y = j;
+                img->map->player_x = j;
+                img->map->player_y = i;
+                img->map->map[i][j] = '0';
                 found = 1;
             }
             else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'D')

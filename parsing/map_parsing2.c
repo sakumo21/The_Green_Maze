@@ -58,7 +58,7 @@ void flood_fill2(t_map *map, int x, int y, int max_x, int max_y)
     else if (map->map[y][x] == '+')
         map->map[y][x] = 'D';
     else if (map->map[y][x] == '-')
-        map->map[y][x] = '0';
+        map->map[y][x] = map->player;
     
     // printf("Filling (%d, %d)\n", x, y);
     flood_fill2(map, x + 1, y, max_x, max_y);  // Right
