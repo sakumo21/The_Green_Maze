@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/05 15:34:45 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:34:57 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,19 @@ void draw_minimap(t_data *img)
     for (i = 0; i < img->map->height; i++) {
         for (j = 0; j < img->map->width; j++) {
             // Calculate the position of the current tile on the minimap
-            x = j * TILE_SIZE;
-            y = i * TILE_SIZE;
+            x = j * img->map->tile_size;
+            y = i * img->map->tile_size;
 
             // Check the map character and draw the appropriate tile
             if (img->map->map[i][j] == '1')  // Wall
-                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0xFF0000);  // Red for wall
-                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}
+                {draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0xFF0000);  // Red for wall
+                draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}
             else if (img->map->map[i][j] == '0')  // Floor
-                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0xFFFFFF);  // White for floor
-                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}
+                {draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0xFFFFFF);  // White for floor
+                draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}
             else if (img->map->map[i][j] == 'D')
-                {draw_rectangle(img, x, y, TILE_SIZE, TILE_SIZE, 0x0000FF);  // BLUE for Doors
-                draw_rectangle_border(img, x, y, TILE_SIZE, TILE_SIZE, 0x000000);}        
+                {draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x0000FF);  // BLUE for Doors
+                draw_rectangle_border(img, x, y, img->map->tile_size, img->map->tile_size, 0x000000);}        
         }
     }
 }

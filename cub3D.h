@@ -24,12 +24,12 @@
 
 
 
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 800
+#define HEIGHT 800
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
-#define TILE_SIZE 20
+
 
 typedef struct s_texture
 {
@@ -50,6 +50,9 @@ typedef struct s_map
 	char player;
 	int player_x;
 	int player_y;
+	int minimap_width;
+	int minimap_height;
+	int tile_size;
 }               t_map;
 
 
@@ -81,7 +84,6 @@ typedef struct	s_data
 {
 	void	*mlx;
 	void	*win;
-	void 	*mini;
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -90,6 +92,8 @@ typedef struct	s_data
 	t_ray	ray;
 	t_map	*map;
 }				t_data;
+
+
 
 void	rendering_image(t_data *img, int i);
 void	event_keys(t_data *img);
