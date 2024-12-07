@@ -23,6 +23,8 @@ static int	free_img(t_data *img)
 
 static int	key_handler(int keysym, t_data *img)
 {
+	int	newX;
+	int	newY;
 	double moveSpeed = 0.1 * 5.0;
     double rotSpeed = 0.1;
 	if (keysym == 65307)
@@ -30,25 +32,35 @@ static int	key_handler(int keysym, t_data *img)
 		free_img(img);
 		exit(0);
 	}
-	else if  (keysym == 119) //z
+	else if  (keysym == 119)//w
 	{
-		img->ray.posx += img->ray.dirX * moveSpeed;
-		img->ray.posy += img->ray.dirY * moveSpeed;
+		newX = (int)(img->ray.posx + img->ray.dirX * moveSpeed);
+		newY = (int)(img->ray.posy + img->ray.dirY * moveSpeed);
+      if(img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D') 
+	  	img->ray.posx += img->ray.dirX * moveSpeed;
+      if(img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D') 
+	  	img->ray.posy += img->ray.dirY * moveSpeed;
 	}
 	else if (keysym == 115) // s
 	{
-		img->ray.posx -= img->ray.dirX * moveSpeed;
-		img->ray.posy -= img->ray.dirY * moveSpeed;
+		newX = (int)(img->ray.posx - img->ray.dirX * moveSpeed);
+		newY = (int)(img->ray.posy - img->ray.dirY * moveSpeed);
+    	if(img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D') img->ray.posx -= img->ray.dirX * moveSpeed;
+    	if(img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D') img->ray.posy -= img->ray.dirY * moveSpeed;
 	}
-	else if (keysym == 97) // q
+	else if (keysym == 97) // a
 	{
-		img->ray.posx -= img->ray.planeX * moveSpeed;
-		img->ray.posy -= img->ray.planeY * moveSpeed;
+		newX = (int)(img->ray.posx - img->ray.planeX * moveSpeed);
+		newY = (int)(img->ray.posy - img->ray.planeY * moveSpeed);
+    	if(img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D') img->ray.posx -= img->ray.planeX * moveSpeed;
+    	if(img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D') img->ray.posy -= img->ray.planeY * moveSpeed;
 	}
 	else if (keysym == 100) // d
 	{
-		img->ray.posx += img->ray.planeX * moveSpeed;
-		img->ray.posy += img->ray.planeY * moveSpeed;
+		newX = (int)(img->ray.posx + img->ray.planeX * moveSpeed);
+		newY = (int)(img->ray.posy + img->ray.planeY * moveSpeed);
+    	if(img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D') img->ray.posx += img->ray.planeX * moveSpeed;
+    	if(img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D') img->ray.posy += img->ray.planeY * moveSpeed;
 	}
 	else if (keysym == 65363) // ->
 	{
