@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/05 21:19:30 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:24:37 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,8 @@ void	rendering_image(t_data *img, int i)
 		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
-	draw_minimap(img);
 	event_keys(img);
+	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
 
