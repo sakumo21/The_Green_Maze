@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 19:00:09 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 19:00:09 by marvin           ###   ########.fr       */
+/*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/07 16:32:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 void my_mlx_pixel_put(t_data *data, int x, int color)
 {
@@ -87,33 +87,6 @@ void	calculate_ray(t_data *img, int i)
 
 void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove one line (the map array is not included)
 {
-	int worldMap[mapWidth][mapHeight]=
-	{
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
 
 	while (!hit)
 	{
@@ -129,8 +102,24 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 			mapY += img->ray.stepY;
 			img->ray.side = 1;
 		}
-		if (worldMap[mapX][mapY] == 1)
+		if (img->map->map[mapY][mapX] != '0')
+		{
 			hit = 1;
+			img->ray.color = 0X00000FF;
+			if (img->map->map[mapY][mapX] == 'D')
+			{
+				if (mapX == (int)img->ray.posx)
+				{
+					if (mapY == (int)img->ray.posy + 1 || mapY == (int)img->ray.posy - 1)
+						hit = 0;
+				}
+				else if (mapY == (int)img->ray.posy)
+					if (mapX == (int)img->ray.posx + 1 || mapX == (int)img->ray.posx - 1)
+						hit = 0;
+			}
+			else
+				img->ray.color = 0XFF0000;
+		}
 	}
 	if(img->ray.side == 0)
 		img->ray.perpwalldist = (img->ray.SsideX - img->ray.DsideX);
@@ -142,12 +131,11 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 
 void	initialize_data(t_data *img)
 {
-	img->ray.posx = 7.55;
-	img->ray.posy = 2.44;
 	img->ray.dirX = -1;
 	img->ray.dirY = 0;
 	img->ray.planeX = 0;
 	img->ray.planeY = 0.66;
+	img->ray.color = 0X0000FF;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)
@@ -159,6 +147,7 @@ void	calculate_wall_height(t_data *img, int lineheight)
 	img->ray.drawend = lineheight / 2 + HEIGHT / 2;
 	if (img->ray.drawend >= HEIGHT)
 		img->ray.drawend =  HEIGHT - 1;
+	
 }
 
 void	init_cube(t_data *img)
@@ -170,7 +159,7 @@ void	init_cube(t_data *img)
 	img->mlx = mlx_init();
 	if (!img->mlx)
 		exit (0);
-	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "fract_ol");
+	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "cub3d");
 	if (!img->win)
 		exit (0);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
@@ -180,14 +169,15 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		exit (0);
+	img->map->minimap_height = HEIGHT / 6;
+	img->map->minimap_width = WIDTH / 6;
+	img->map->tile_size = img->map->minimap_width / img->map->width;
 }
 
-void	rendering_image(t_data *img, int i, int color)
+void	rendering_image(t_data *img, int i)
 {
 	int		mapX;
 	int		mapY;
-	int		lineheight;
-	int		side;
 
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
@@ -200,22 +190,35 @@ void	rendering_image(t_data *img, int i, int color)
 		mapY = (int)img->ray.posy;
 		calculate_sside(img, mapX, mapY);
 		calculate_vector(img, mapX, mapY, 0);
-		calculate_wall_height(img, lineheight);
-		if (side == 1)
-			color = color / 2;
-		coloring_the_image(img, i, color);
+		calculate_wall_height(img, 0);
+		if (img->ray.side == 1)
+			img->ray.color = img->ray.color / 2;
+		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
+	draw_minimap(img);
 	event_keys(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-	mlx_loop(img->mlx);
 }
 
-int main()
+int main(int ac, char **av)
 {
 	t_data	img;
-	
+
+    img.map = malloc(sizeof(t_map));
+    if (main_parsing(av, ac, img.map, &img))
+		return (1);
+	// printf("map : (%s)\n", img.map->map[2]);
+	// printf("%f %f\n", img.ray.posx, img.ray.posy);
+	// printf("%c\n", img.map->map[(int)img.ray.posy][(int)img.ray.posx]);
 	initialize_data(&img);
+	img.map->height = get_map_width(img.map, 1);
+	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	rendering_image(&img, 0, 0X0000FF);
+	
+	
+	rendering_image(&img, 0);
+	
+	mlx_loop(img.mlx);
+	exit(0);
 }	

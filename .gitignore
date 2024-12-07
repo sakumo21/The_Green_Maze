@@ -1,4 +1,6 @@
 *.o
 a.out
 minilibx_linux/
+minilibx-linux/
 minilibx_mms_20200219/
+cub3D
