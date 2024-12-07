@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/05 21:19:30 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/07 16:32:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,13 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 			img->ray.color = 0X00000FF;
 			if (img->map->map[mapY][mapX] == 'D')
 			{
-				if (img->ray.side == 0)
+				if (mapX == (int)img->ray.posx)
 				{
-					if ((int)(HEIGHT / (img->ray.SsideX - img->ray.DsideX)) > 420)
+					if (mapY == (int)img->ray.posy + 1 || mapY == (int)img->ray.posy - 1)
 						hit = 0;
 				}
-				else
-					if ((int)(HEIGHT / (img->ray.SsideY - img->ray.DsideY)) > 420)
+				else if (mapY == (int)img->ray.posy)
+					if (mapX == (int)img->ray.posx + 1 || mapX == (int)img->ray.posx - 1)
 						hit = 0;
 			}
 			else
