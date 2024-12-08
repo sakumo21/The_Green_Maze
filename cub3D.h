@@ -29,6 +29,9 @@
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
+#define x_offset 10
+#define y_offset 10
+
 
 
 typedef struct s_texture

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/07 16:24:37 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:49:55 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,34 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 
 void	initialize_data(t_data *img)
 {
-	img->ray.dirX = -1;
-	img->ray.dirY = 0;
-	img->ray.planeX = 0;
-	img->ray.planeY = 0.66;
+	if (img->map->player == 'N') // Facing North
+    {
+        img->ray.dirX = 0;
+        img->ray.dirY = -1;
+        img->ray.planeX = 0.66;
+        img->ray.planeY = 0;
+    }
+    else if (img->map->player == 'S') // Facing South
+    {
+        img->ray.dirX = 0;
+        img->ray.dirY = 1;
+        img->ray.planeX = -0.66;
+        img->ray.planeY = 0;
+    }
+    else if (img->map->player == 'E') // Facing East
+    {
+        img->ray.dirX = 1;
+        img->ray.dirY = 0;
+        img->ray.planeX = 0;
+        img->ray.planeY = 0.66;
+    }
+    else if (img->map->player == 'W') // Facing West
+    {
+        img->ray.dirX = -1;
+        img->ray.dirY = 0;
+        img->ray.planeX = 0;
+        img->ray.planeY = -0.66;
+    }
 	img->ray.color = 0X0000FF;
 }
 
@@ -169,8 +193,8 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		exit (0);
-	img->map->minimap_height = HEIGHT / 6;
-	img->map->minimap_width = WIDTH / 6;
+	img->map->minimap_height = HEIGHT / 8;
+	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
 }
 
