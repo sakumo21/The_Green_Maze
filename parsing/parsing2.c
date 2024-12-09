@@ -14,9 +14,9 @@ int texturing(char **path, char *new, t_texture *flag)
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
         return (check_and_set(path, &flag->E_check, "East texture"));
     else if (!ft_strncmp(path[0], "F", 1))
-        return (check_set_color(&flag->F_check, "Floor color", new));
+        return (check_set_color(&flag->F_check, "Floor color", new, flag));
     else if (!ft_strncmp(path[0], "C", 1))
-        return (check_set_color(&flag->C_check, "Ceiling color", new));
+        return (check_set_color(&flag->C_check, "Ceiling color", new, flag));
     else if (ft_isalpha(path[0][0]))
     {
         flag->exit = 1;
@@ -28,14 +28,14 @@ int texturing(char **path, char *new, t_texture *flag)
     return (0);
 }
 
-int check_set_color(int *flag, char *msg, char *new)
+int check_set_color(int *flag, char *msg, char *new, t_texture *text)
 {
     if (*flag)
         return (printf("Error : %s already defined.\n", msg), 1);
     *flag = 1;
     if (new)
     {
-        if (check_range(new + 2))
+        if (check_range(new, text))
             return (1);
     }
     return (0);
@@ -65,6 +65,8 @@ void init_flag(t_texture *flag, t_map *map)
     map->player = 0;
     map->player_x = 0;
     map->player_y = 0;
+    flag->floor = NULL;
+    flag->ceiling = NULL;
 }
 
 int parse_input(int ac, char **av)

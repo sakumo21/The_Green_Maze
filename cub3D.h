@@ -43,6 +43,8 @@ typedef struct s_texture
     int F_check;
     int C_check;
 	int exit;
+	char *floor;
+	char *ceiling;
 }               t_texture;
 
 typedef struct s_map
@@ -106,11 +108,11 @@ void print_error(char *message, int *flag, int *error);
 int parse_line(char *line, t_texture *flag, int i);
 void free_path(char **path, char *new);
 int texturing(char **path, char *new, t_texture *flag);
-int check_set_color(int *flag, char *msg, char *new);
+int check_set_color(int *flag, char *msg, char *new, t_texture *text);
 int check_and_set(char **path, int *flag, char *msg);
 void init_flag(t_texture *flag, t_map *map);
 int parse_input(int ac, char **av);
-int check_range(char *line);
+int check_range(char *line, t_texture *text);
 int check_path_exists(char *path);
 void free_range(char **p, int i);
 int check_line(char **line);
