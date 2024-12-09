@@ -34,8 +34,6 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
         return (1); 
     if (check_texture(&flag))
         return (1);
-    printf("F = (%s)\n", flag.floor);
-    printf("C = (%s)\n", flag.ceiling);
     if (mini_map(line, map, fd, 0) || my_map(map, img))
         return (1);
     int i = 0;
