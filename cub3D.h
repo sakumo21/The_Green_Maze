@@ -43,8 +43,6 @@ typedef struct s_texture
     int F_check;
     int C_check;
 	int exit;
-	char *floor;
-	char *ceiling;
 }               t_texture;
 
 typedef struct s_map
@@ -94,8 +92,11 @@ typedef struct	s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	char *floor;
+	char *ceiling;
 	t_ray	ray;
 	t_map	*map;
+	t_texture	*text;
 }				t_data;
 
 
@@ -105,14 +106,14 @@ void	event_keys(t_data *img);
 int main_parsing(char **av, int ac, t_map *map, t_data *img);
 int check_texture(t_texture *flag);
 void print_error(char *message, int *flag, int *error);
-int parse_line(char *line, t_texture *flag, int i);
+int parse_line(char *line, t_texture *flag, int i, t_data *img);
 void free_path(char **path, char *new);
-int texturing(char **path, char *new, t_texture *flag);
-int check_set_color(int *flag, char *msg, char *new, t_texture *text);
+int texturing(char **path, char *new, t_texture *flag, t_data *img);
+int check_set_color(int *flag, char *msg, char *new, t_data *img);
 int check_and_set(char **path, int *flag, char *msg);
-void init_flag(t_texture *flag, t_map *map);
+void init_flag(t_texture *flag, t_map *map, t_data *img);
 int parse_input(int ac, char **av);
-int check_range(char *line, t_texture *text);
+int check_range(char *line, t_data *img);
 int check_path_exists(char *path);
 void free_range(char **p, int i);
 int check_line(char **line);

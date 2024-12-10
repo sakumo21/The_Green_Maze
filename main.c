@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/09 15:32:30 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:10:39 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,52 @@ void my_mlx_pixel_put(t_data *data, int x, int color)
     }
 }
 
+unsigned int rgb_to_hex(int r, int g, int b)
+{
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+    {
+        printf("Error: RGB values must be between 0 and 255.\n");
+        return 0;
+    }
+    return ((r << 16) | (g << 8) | b);
+}
+
+unsigned int convert_ceiling_to_hex(char *ceiling)
+{
+    char **rgb;
+    int r;
+	int g;
+	int b;
+    unsigned int color;
+    rgb = ft_split(ceiling, ',');
+	if (!rgb)
+		return (0);
+	
+    r = ft_atoi(rgb[0]);
+    g = ft_atoi(rgb[1]);
+    b = ft_atoi(rgb[2]);
+    free_range(rgb, 0);
+    color = rgb_to_hex(r, g, b);
+    return (color);
+}
+
 void coloring_the_image(t_data *img, int i, int color)
 {
+	unsigned int cel;
+	unsigned int flo;
+
+	cel = convert_ceiling_to_hex(img->ceiling);
+	flo = convert_ceiling_to_hex(img->floor);
 	for(int y = 0; y < img->ray.drawstart; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
-		*(unsigned int*)dst = 0x808080;
+		*(unsigned int*)dst = cel;
 	}
 	my_mlx_pixel_put(img, i, color);
 	for(int y = img->ray.drawend; y < HEIGHT; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
-		*(unsigned int*)dst = 0x303030;
+		*(unsigned int*)dst = flo;
 	}
 }
 
@@ -239,7 +273,6 @@ int main(int ac, char **av)
 	img.map->height = get_map_width(img.map, 1);
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	
 	
 	rendering_image(&img, 0);
 	

@@ -3,7 +3,7 @@
 
 
 
-int texturing(char **path, char *new, t_texture *flag)
+int texturing(char **path, char *new, t_texture *flag, t_data *img)
 {
     if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
         return (check_and_set(path, &flag->N_check, "North texture"));
@@ -14,9 +14,9 @@ int texturing(char **path, char *new, t_texture *flag)
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
         return (check_and_set(path, &flag->E_check, "East texture"));
     else if (!ft_strncmp(path[0], "F", 1))
-        return (check_set_color(&flag->F_check, "Floor color", new, flag));
+        return (check_set_color(&flag->F_check, "Floor color", new, img));
     else if (!ft_strncmp(path[0], "C", 1))
-        return (check_set_color(&flag->C_check, "Ceiling color", new, flag));
+        return (check_set_color(&flag->C_check, "Ceiling color", new, img));
     else if (ft_isalpha(path[0][0]))
     {
         flag->exit = 1;
@@ -28,14 +28,14 @@ int texturing(char **path, char *new, t_texture *flag)
     return (0);
 }
 
-int check_set_color(int *flag, char *msg, char *new, t_texture *text)
+int check_set_color(int *flag, char *msg, char *new, t_data *img)
 {
     if (*flag)
         return (printf("Error : %s already defined.\n", msg), 1);
     *flag = 1;
     if (new)
     {
-        if (check_range(new, text))
+        if (check_range(new, img))
             return (1);
     }
     return (0);
@@ -52,7 +52,7 @@ int check_and_set(char **path, int *flag, char *msg)
     return (0);
 }
 
-void init_flag(t_texture *flag, t_map *map)
+void init_flag(t_texture *flag, t_map *map, t_data *img)
 {
     flag->N_check = 0;
     flag->S_check = 0;
@@ -65,8 +65,8 @@ void init_flag(t_texture *flag, t_map *map)
     map->player = 0;
     map->player_x = 0;
     map->player_y = 0;
-    flag->floor = NULL;
-    flag->ceiling = NULL;
+    img->floor = NULL;
+    img->ceiling = NULL;
 }
 
 int parse_input(int ac, char **av)

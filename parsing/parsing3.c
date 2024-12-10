@@ -54,39 +54,41 @@ int check_extra_values(char **p)
     }
     return (0);
 }
-void set_set(char *line, char **p, t_texture *text, char *tmp)
+
+char *ft_strjoin_three(char *s1, char *s2, char *s3)
 {
+    char *tmp;
+    char *result;
+
+    tmp = ft_strjoin(s1, s2);
+    if (!tmp)
+        return (NULL);
+    result = ft_strjoin(tmp, s3);
+    free(tmp);
+    return (result);
+}
+
+
+void set_set(char *line, char **p, t_data *img)
+{
+    char *tmp;
+
     if (line[0] == 'F')
     {
-        text->floor = ft_strdup(p[0]);
-        text->floor = ft_strjoin(text->floor, ",");
-        tmp = text->floor;
-        text->floor = ft_strjoin(text->floor, p[1]);
-        free(tmp);
-        tmp = text->floor;
-        text->floor = ft_strjoin(text->floor, ",");
-        free(tmp);
-        tmp = text->floor;
-        text->floor = ft_strjoin(text->floor, p[2]);
+        tmp = ft_strjoin_three(p[0], ",", p[1]);
+        img->floor = ft_strjoin_three(tmp, ",", p[2]);
         free(tmp);
     }
     else if (line[0] == 'C')
     {
-        text->ceiling = ft_strdup(p[0]);
-        text->ceiling = ft_strjoin(text->ceiling, ",");
-        tmp = text->ceiling;
-        text->ceiling = ft_strjoin(text->ceiling, p[1]);
-        free(tmp);
-        tmp = text->ceiling;
-        text->ceiling = ft_strjoin(text->ceiling, ",");
-        free(tmp);
-        tmp = text->ceiling;
-        text->ceiling = ft_strjoin(text->ceiling, p[2]);
+        tmp = ft_strjoin_three(p[0], ",", p[1]);
+        img->ceiling = ft_strjoin_three(tmp, ",", p[2]);
         free(tmp);
     }
 }
 
-int check_range(char *line, t_texture *text)
+
+int check_range(char *line, t_data *img)
 {
     char **p;
     char *trimmed;
@@ -116,7 +118,7 @@ int check_range(char *line, t_texture *text)
 
     if (validate_values(p) || check_extra_values(p) || check_value_range(p))
         return (1);
-    set_set(line, p, text, tmp);
+    set_set(line, p, img);
     free_range(p, 0);
     return (0);
 }
