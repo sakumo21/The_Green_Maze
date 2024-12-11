@@ -2,7 +2,7 @@ N ./text.xpm
 WE ./text.xpm
 C 169,169,169
 EA ./text.xpm
-F 135,206,235
+F 100, 250, 88
 S ./text.xpm
 
 111111111111111111

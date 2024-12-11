@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/10 13:10:39 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:43:59 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,12 @@ void	initialize_data(t_data *img)
         img->ray.planeY = -0.66;
     }
 	img->ray.color = 0X0000FF;
+	img->ray.move_forward = 0;
+    img->ray.move_backward = 0;
+    img->ray.move_left = 0;
+    img->ray.move_right = 0;
+    img->ray.rotate_left = 0;
+    img->ray.rotate_right = 0;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)

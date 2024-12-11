@@ -5,22 +5,28 @@
 
 int texturing(char **path, char *new, t_texture *flag, t_data *img)
 {
+    path[0] = ft_strtrim(path[0], "\n");
     if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
-        return (check_and_set(path, &flag->N_check, "North texture"));
+        return (check_and_set(path, &flag->N_check, "North texture", flag));
     else if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
-        return (check_and_set(path, &flag->S_check, "South texture"));
+        return (check_and_set(path, &flag->S_check, "South texture", flag));
     else if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
-        return (check_and_set(path, &flag->W_check, "West texture"));
+        return (check_and_set(path, &flag->W_check, "West texture", flag));
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
-        return (check_and_set(path, &flag->E_check, "East texture"));
+        return (check_and_set(path, &flag->E_check, "East texture", flag));
     else if (!ft_strncmp(path[0], "F", 1))
         return (check_set_color(&flag->F_check, "Floor color", new, img));
     else if (!ft_strncmp(path[0], "C", 1))
         return (check_set_color(&flag->C_check, "Ceiling color", new, img));
-    else if (ft_isalpha(path[0][0]))
+    else if (ft_strncmp(path[0], "N", ft_strlen("N")) && ft_strncmp(path[0], "NO", ft_strlen("NO")) &&
+                ft_strncmp(path[0], "S", ft_strlen("S")) && ft_strncmp(path[0], "SO", ft_strlen("SO")) &&
+                ft_strncmp(path[0], "W", ft_strlen("W")) && ft_strncmp(path[0], "WE", ft_strlen("WE")) &&
+                ft_strncmp(path[0], "E", ft_strlen("E")) && ft_strncmp(path[0], "EA", ft_strlen("EA")) &&
+                ft_strncmp(path[0], "F", ft_strlen("F")) && ft_strncmp(path[0], "C", ft_strlen("C")) &&
+                ft_isalpha(path[0][0]))
     {
-        flag->exit = 1;
         printf("Error : %s is not a valid identifier.\n", path[0]);
+        flag->exit = 2;
         return (1);
     }
     else 
@@ -41,13 +47,13 @@ int check_set_color(int *flag, char *msg, char *new, t_data *img)
     return (0);
 }
 
-int check_and_set(char **path, int *flag, char *msg)
+int check_and_set(char **path, int *flag, char *msg, t_texture *flagg)
 {
     if (*flag)
         return (printf("Error : %s already defined.\n", msg), 1);
     *flag = 1;
     path[1] = ft_strtrim(path[1], "\n");
-    if (check_line(path))
+    if (check_line(path, flagg))
         return (1);
     return (0);
 }

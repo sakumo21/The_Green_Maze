@@ -39,15 +39,19 @@ int parse_path(char **av)
     return (0);
 }
 
-int check_line(char **line)
+int check_line(char **line, t_texture *flagg)
 {
+    (void)flagg;
     if (line[1] && line[1][0] != '\0' && line[1][0] != '\n')
     {
         if (parse_path(line) || check_path_exists(line[1]))
             return (1);
     } 
     else
+    {
+        // flagg->exit = 1;
         return (printf("Error: No path specified for %s\n", line[0]), 1);
+    }
     return (0);
 }
 
