@@ -24,8 +24,8 @@
 
 
 
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 800
+#define HEIGHT 800
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
