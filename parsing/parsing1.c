@@ -14,7 +14,7 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
 {
     int fd;
     char *line;
-    t_texture flag;
+    t_flag flag;
     
     if (first_parse(ac, av, &fd))
         return (1);
@@ -46,7 +46,7 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
     return (0);
 }
 
-int check_texture(t_texture *flag)
+int check_texture(t_flag *flag)
 {
     int error = 0;
 
@@ -61,7 +61,7 @@ int check_texture(t_texture *flag)
     return (0);
 }
 
-int parse_line(char *line, t_texture *flag, int i, t_data *img)
+int parse_line(char *line, t_flag *flag, int i, t_data *img)
 {
     char **path;
     char *new;

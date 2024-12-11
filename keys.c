@@ -86,7 +86,7 @@ static int	key_handler(int keysym, t_data *img)
 
 void	event_keys(t_data *img)
 {
-	mlx_hook(img->win, KeyPress, KeyPressMask, key_handler, img);
+	// mlx_hook(img->win, KeyPress, KeyPressMask, key_handler, img);
 	mlx_hook(img->win, KeyRelease, KeyReleaseMask, key_handler, img);
 	mlx_hook(img->win, DestroyNotify, StructureNotifyMask, free_img, img);
 }
