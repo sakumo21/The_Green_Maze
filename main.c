@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/07 16:32:24 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/10 17:43:59 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,52 @@ void my_mlx_pixel_put(t_data *data, int x, int color)
     }
 }
 
+unsigned int rgb_to_hex(int r, int g, int b)
+{
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+    {
+        printf("Error: RGB values must be between 0 and 255.\n");
+        return 0;
+    }
+    return ((r << 16) | (g << 8) | b);
+}
+
+unsigned int convert_ceiling_to_hex(char *ceiling)
+{
+    char **rgb;
+    int r;
+	int g;
+	int b;
+    unsigned int color;
+    rgb = ft_split(ceiling, ',');
+	if (!rgb)
+		return (0);
+	
+    r = ft_atoi(rgb[0]);
+    g = ft_atoi(rgb[1]);
+    b = ft_atoi(rgb[2]);
+    free_range(rgb, 0);
+    color = rgb_to_hex(r, g, b);
+    return (color);
+}
+
 void coloring_the_image(t_data *img, int i, int color)
 {
+	unsigned int cel;
+	unsigned int flo;
+
+	cel = convert_ceiling_to_hex(img->ceiling);
+	flo = convert_ceiling_to_hex(img->floor);
 	for(int y = 0; y < img->ray.drawstart; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
-		*(unsigned int*)dst = 0x808080;
+		*(unsigned int*)dst = cel;
 	}
 	my_mlx_pixel_put(img, i, color);
 	for(int y = img->ray.drawend; y < HEIGHT; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
-		*(unsigned int*)dst = 0x303030;
+		*(unsigned int*)dst = flo;
 	}
 }
 
@@ -131,11 +165,41 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 
 void	initialize_data(t_data *img)
 {
-	img->ray.dirX = -1;
-	img->ray.dirY = 0;
-	img->ray.planeX = 0;
-	img->ray.planeY = 0.66;
+	if (img->map->player == 'N') // Facing North
+    {
+        img->ray.dirX = 0;
+        img->ray.dirY = -1;
+        img->ray.planeX = 0.66;
+        img->ray.planeY = 0;
+    }
+    else if (img->map->player == 'S') // Facing South
+    {
+        img->ray.dirX = 0;
+        img->ray.dirY = 1;
+        img->ray.planeX = -0.66;
+        img->ray.planeY = 0;
+    }
+    else if (img->map->player == 'E') // Facing East
+    {
+        img->ray.dirX = 1;
+        img->ray.dirY = 0;
+        img->ray.planeX = 0;
+        img->ray.planeY = 0.66;
+    }
+    else if (img->map->player == 'W') // Facing West
+    {
+        img->ray.dirX = -1;
+        img->ray.dirY = 0;
+        img->ray.planeX = 0;
+        img->ray.planeY = -0.66;
+    }
 	img->ray.color = 0X0000FF;
+	img->ray.move_forward = 0;
+    img->ray.move_backward = 0;
+    img->ray.move_left = 0;
+    img->ray.move_right = 0;
+    img->ray.rotate_left = 0;
+    img->ray.rotate_right = 0;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)
@@ -169,8 +233,8 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		exit (0);
-	img->map->minimap_height = HEIGHT / 6;
-	img->map->minimap_width = WIDTH / 6;
+	img->map->minimap_height = HEIGHT / 8;
+	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
 }
 
@@ -196,8 +260,8 @@ void	rendering_image(t_data *img, int i)
 		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
-	draw_minimap(img);
 	event_keys(img);
+	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
 
@@ -215,7 +279,6 @@ int main(int ac, char **av)
 	img.map->height = get_map_width(img.map, 1);
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	
 	
 	rendering_image(&img, 0);
 	

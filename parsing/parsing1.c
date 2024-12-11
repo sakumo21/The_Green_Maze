@@ -18,7 +18,7 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
     
     if (first_parse(ac, av, &fd))
         return (1);
-    init_flag(&flag, map);
+    init_flag(&flag, map, img);
     while ((line = get_next_line(fd))) 
     {
         if (line[0] == '\n')
@@ -26,14 +26,14 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
             free(line);
             continue;
         }
-        if (parse_line(line, &flag, 0))
+        if (parse_line(line, &flag, 0, img))
             break;
         free(line);
     }
-    if (flag.exit)
-        return (1); 
     if (check_texture(&flag))
         return (1);
+    if (flag.exit == 2)
+        return (1); 
     if (mini_map(line, map, fd, 0) || my_map(map, img))
         return (1);
     int i = 0;
@@ -61,7 +61,7 @@ int check_texture(t_texture *flag)
     return (0);
 }
 
-int parse_line(char *line, t_texture *flag, int i)
+int parse_line(char *line, t_texture *flag, int i, t_data *img)
 {
     char **path;
     char *new;
@@ -102,7 +102,7 @@ int parse_line(char *line, t_texture *flag, int i)
         }
         i++;
     }
-    if (texturing(path, new, flag))
+    if (texturing(path, new, flag, img))
         return (free_path(path, new), 1);
     return (free_path(path, new), 0);
 }

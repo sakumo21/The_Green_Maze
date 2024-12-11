@@ -55,12 +55,47 @@ int check_extra_values(char **p)
     return (0);
 }
 
-int check_range(char *line)
+char *ft_strjoin_three(char *s1, char *s2, char *s3)
+{
+    char *tmp;
+    char *result;
+
+    tmp = ft_strjoin(s1, s2);
+    if (!tmp)
+        return (NULL);
+    result = ft_strjoin(tmp, s3);
+    free(tmp);
+    return (result);
+}
+
+
+void set_set(char *line, char **p, t_data *img)
+{
+    char *tmp;
+
+    if (line[0] == 'F')
+    {
+        tmp = ft_strjoin_three(p[0], ",", p[1]);
+        img->floor = ft_strjoin_three(tmp, ",", p[2]);
+        free(tmp);
+    }
+    else if (line[0] == 'C')
+    {
+        tmp = ft_strjoin_three(p[0], ",", p[1]);
+        img->ceiling = ft_strjoin_three(tmp, ",", p[2]);
+        free(tmp);
+    }
+}
+
+
+int check_range(char *line, t_data *img)
 {
     char **p;
     char *trimmed;
     char *tmp;
-    p = ft_split(line, ',');
+    char *new;
+    new = line + 2;
+    p = ft_split(new, ',');
     if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2] && p[2][0] == '\n'))
     {
         free_range(p, 0);
@@ -83,6 +118,7 @@ int check_range(char *line)
 
     if (validate_values(p) || check_extra_values(p) || check_value_range(p))
         return (1);
+    set_set(line, p, img);
     free_range(p, 0);
     return (0);
 }

@@ -115,6 +115,7 @@ int find_starting_point(char **map, t_data *img, int i)
                 img->ray.posy = i + 0.5;
                 img->map->player_x = j;
                 img->map->player_y = i;
+                img->map->player = map[i][j];
                 img->map->map[i][j] = '0';
                 found = 1;
             }
