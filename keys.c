@@ -46,7 +46,7 @@ int	handle_movement(t_data *img)
 		newY = (int)(img->ray.posy + img->ray.dirY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
 			img->ray.posx += img->ray.dirX * moveSpeed;
-		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
 			img->ray.posy += img->ray.dirY * moveSpeed;
 	}
 
@@ -57,7 +57,7 @@ int	handle_movement(t_data *img)
 		newY = (int)(img->ray.posy - img->ray.dirY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
 			img->ray.posx -= img->ray.dirX * moveSpeed;
-		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
 			img->ray.posy -= img->ray.dirY * moveSpeed;
 	}
 
@@ -68,7 +68,7 @@ int	handle_movement(t_data *img)
 		newY = (int)(img->ray.posy - img->ray.planeY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
 			img->ray.posx -= img->ray.planeX * moveSpeed;
-		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
 			img->ray.posy -= img->ray.planeY * moveSpeed;
 	}
 
@@ -79,7 +79,7 @@ int	handle_movement(t_data *img)
 		newY = (int)(img->ray.posy + img->ray.planeY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
 			img->ray.posx += img->ray.planeX * moveSpeed;
-		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+		if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
 			img->ray.posy += img->ray.planeY * moveSpeed;
 	}
 
