@@ -35,6 +35,17 @@
 #define y_offset 10
 
 
+typedef struct s_keys
+{
+	int w;
+	int s;
+	int a;
+	int d;
+	int left;
+	int right;
+} t_keys;
+
+
 typedef struct s_texture
 {
     void    *img;           // Image pointer for the texture
@@ -115,6 +126,7 @@ typedef struct	s_data
 	t_ray	ray;
 	t_map	*map;
 	t_texture textures[4];
+	t_keys keys;
 }				t_data;
 
 
@@ -144,6 +156,7 @@ int find_starting_point(char **map, t_data *img, int i);
 void flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
 int parsing_map(char **map);
 void	initialize_data(t_data *img);
+int	handle_movement(t_data *img);
 
 
 //minimap

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/11 16:25:12 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/12 11:48:42 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void draw_textured_wall(t_data *img, int x)
         texX = img->textures[texture_index].width - texX - 1;
 
     step = 1.0 * img->textures[texture_index].height / (img->ray.drawend - img->ray.drawstart);
-    texPos = (img->ray.drawstart - HEIGHT / 2 + (img->ray.drawend - img->ray.drawstart) / 2) * step;
+	texPos = (img->ray.drawstart - HEIGHT / 2 + (img->ray.drawend - img->ray.drawstart) / 2) * step;
+
 
     for (int y = img->ray.drawstart; y < img->ray.drawend; y++)
     {
@@ -120,6 +121,7 @@ void coloring_the_image(t_data *img, int i, int color)
 		*(unsigned int*)dst = cel;
 	}
 	draw_textured_wall(img, i);
+	// my_mlx_pixel_put(img, i, color);
 	for(int y = img->ray.drawend; y < HEIGHT; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
@@ -247,17 +249,23 @@ void	initialize_data(t_data *img)
     img->ray.move_right = 0;
     img->ray.rotate_left = 0;
     img->ray.rotate_right = 0;
+	img->keys.w = 0;
+	img->keys.s = 0;
+	img->keys.a = 0;
+	img->keys.d = 0;
+	img->keys.left = 0;
+	img->keys.right = 0;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)
 {
 	lineheight = (int)(HEIGHT / img->ray.perpwalldist);
-	img->ray.drawstart = -lineheight / 2 + HEIGHT / 2;
-	if (img->ray.drawstart <  0)
-		img->ray.drawstart = 0;
-	img->ray.drawend = lineheight / 2 + HEIGHT / 2;
-	if (img->ray.drawend >= HEIGHT)
-		img->ray.drawend =  HEIGHT - 1;
+    img->ray.drawstart = -lineheight / 2 + HEIGHT / 2;
+    if (img->ray.drawstart < 0)
+        img->ray.drawstart = 0;
+    img->ray.drawend = lineheight / 2 + HEIGHT / 2;
+    if (img->ray.drawend >= HEIGHT)
+        img->ray.drawend = HEIGHT - 1;
 	
 }
 
@@ -357,7 +365,6 @@ int main(int ac, char **av)
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
 	rendering_image(&img, 0);
-	
 	mlx_loop(img.mlx);
 	free_textures(&img);
 	exit(0);
