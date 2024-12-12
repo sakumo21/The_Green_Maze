@@ -21,11 +21,13 @@
 #include <fcntl.h>
 #include "Libft/libft.h"
 #include "Get_next_line/get_next_line.h"
+#include <sys/time.h>
 
 
 
-#define WIDTH 800
-#define HEIGHT 800
+
+#define WIDTH 2560
+#define HEIGHT 1440
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
@@ -33,8 +35,29 @@
 #define y_offset 10
 
 
+typedef struct s_keys
+{
+	int w;
+	int s;
+	int a;
+	int d;
+	int left;
+	int right;
+} t_keys;
+
 
 typedef struct s_texture
+{
+    void    *img;           // Image pointer for the texture
+    char    *addr;          // Pixel data of the texture
+    int     width;          // Texture width
+    int     height;         // Texture height
+    int     bits_per_pixel; // Bits per pixel
+    int     line_length;    // Line size in bytes
+    int     endian;         // Endian format
+}               t_texture;
+
+typedef struct s_flag
 {
     int N_check;
     int S_check;
@@ -43,7 +66,7 @@ typedef struct s_texture
     int F_check;
     int C_check;
 	int exit;
-}               t_texture;
+}               t_flag;
 
 typedef struct s_map
 {
@@ -102,7 +125,8 @@ typedef struct	s_data
 	char *ceiling;
 	t_ray	ray;
 	t_map	*map;
-	t_texture	*text;
+	t_texture textures[4];
+	t_keys keys;
 }				t_data;
 
 
@@ -110,19 +134,19 @@ typedef struct	s_data
 void	rendering_image(t_data *img, int i);
 void	event_keys(t_data *img);
 int main_parsing(char **av, int ac, t_map *map, t_data *img);
-int check_texture(t_texture *flag);
+int check_texture(t_flag *flag);
 void print_error(char *message, int *flag, int *error);
-int parse_line(char *line, t_texture *flag, int i, t_data *img);
+int parse_line(char *line, t_flag *flag, int i, t_data *img);
 void free_path(char **path, char *new);
-int texturing(char **path, char *new, t_texture *flag, t_data *img);
+int texturing(char **path, char *new, t_flag *flag, t_data *img);
 int check_set_color(int *flag, char *msg, char *new, t_data *img);
-int check_and_set(char **path, int *flag, char *msg, t_texture *flagg);
-void init_flag(t_texture *flag, t_map *map, t_data *img);
+int check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
+void init_flag(t_flag *flag, t_map *map, t_data *img);
 int parse_input(int ac, char **av);
 int check_range(char *line, t_data *img);
 int check_path_exists(char *path);
 void free_range(char **p, int i);
-int check_line(char **line, t_texture *flagg);
+int check_line(char **line, t_flag *flagg);
 int mini_map(char *line, t_map *map, int fd, int i);
 int my_map(t_map *map, t_data *img);
 int check_map_enclosure(char **map, int i, int j);
@@ -132,6 +156,7 @@ int find_starting_point(char **map, t_data *img, int i);
 void flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
 int parsing_map(char **map);
 void	initialize_data(t_data *img);
+int	handle_movement(t_data *img);
 
 
 //minimap

@@ -3,7 +3,7 @@
 
 
 
-int texturing(char **path, char *new, t_texture *flag, t_data *img)
+int texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
     path[0] = ft_strtrim(path[0], "\n");
     if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
@@ -47,7 +47,7 @@ int check_set_color(int *flag, char *msg, char *new, t_data *img)
     return (0);
 }
 
-int check_and_set(char **path, int *flag, char *msg, t_texture *flagg)
+int check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 {
     if (*flag)
         return (printf("Error : %s already defined.\n", msg), 1);
@@ -58,7 +58,7 @@ int check_and_set(char **path, int *flag, char *msg, t_texture *flagg)
     return (0);
 }
 
-void init_flag(t_texture *flag, t_map *map, t_data *img)
+void init_flag(t_flag *flag, t_map *map, t_data *img)
 {
     flag->N_check = 0;
     flag->S_check = 0;

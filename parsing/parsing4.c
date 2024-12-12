@@ -39,7 +39,7 @@ int parse_path(char **av)
     return (0);
 }
 
-int check_line(char **line, t_texture *flagg)
+int check_line(char **line, t_flag *flagg)
 {
     (void)flagg;
     if (line[1] && line[1][0] != '\0' && line[1][0] != '\n')

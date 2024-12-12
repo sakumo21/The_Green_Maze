@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/10 17:43:59 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/12 11:48:42 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,56 @@ unsigned int convert_ceiling_to_hex(char *ceiling)
     return (color);
 }
 
+
+
+int get_texture_index(t_data *img)
+{
+    if (img->ray.side == 0)
+        return (img->ray.rayX < 0) ? 0 : 1; // North or South
+    else
+        return (img->ray.rayY < 0) ? 2 : 3; // West or East
+}
+
+void draw_textured_wall(t_data *img, int x)
+{
+    int texX, texY;
+    int texture_index = get_texture_index(img);
+    double wallX;
+    double step;
+    double texPos;
+
+    // Calculate where the wall was hit
+    if (img->ray.side == 0)
+        wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
+    else
+        wallX = img->ray.posx + img->ray.perpwalldist * img->ray.rayX;
+    wallX -= floor(wallX);
+
+    texX = (int)(wallX * (double)img->textures[texture_index].width);
+    if ((img->ray.side == 0 && img->ray.rayX > 0) || (img->ray.side == 1 && img->ray.rayY < 0))
+        texX = img->textures[texture_index].width - texX - 1;
+
+    step = 1.0 * img->textures[texture_index].height / (img->ray.drawend - img->ray.drawstart);
+	texPos = (img->ray.drawstart - HEIGHT / 2 + (img->ray.drawend - img->ray.drawstart) / 2) * step;
+
+
+    for (int y = img->ray.drawstart; y < img->ray.drawend; y++)
+    {
+        texY = (int)texPos & (img->textures[texture_index].height - 1);
+        texPos += step;
+
+        unsigned int color = *(unsigned int *)(img->textures[texture_index].addr + 
+            (texY * img->textures[texture_index].line_length + texX * (img->textures[texture_index].bits_per_pixel / 8)));
+
+        char *dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+        *(unsigned int*)dst = color;
+    }
+}
+
+
 void coloring_the_image(t_data *img, int i, int color)
 {
+	(void)color;
 	unsigned int cel;
 	unsigned int flo;
 
@@ -72,7 +120,8 @@ void coloring_the_image(t_data *img, int i, int color)
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
 		*(unsigned int*)dst = cel;
 	}
-	my_mlx_pixel_put(img, i, color);
+	draw_textured_wall(img, i);
+	// my_mlx_pixel_put(img, i, color);
 	for(int y = img->ray.drawend; y < HEIGHT; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
@@ -200,19 +249,46 @@ void	initialize_data(t_data *img)
     img->ray.move_right = 0;
     img->ray.rotate_left = 0;
     img->ray.rotate_right = 0;
+	img->keys.w = 0;
+	img->keys.s = 0;
+	img->keys.a = 0;
+	img->keys.d = 0;
+	img->keys.left = 0;
+	img->keys.right = 0;
 }
 
 void	calculate_wall_height(t_data *img, int lineheight)
 {
 	lineheight = (int)(HEIGHT / img->ray.perpwalldist);
-	img->ray.drawstart = -lineheight / 2 + HEIGHT / 2;
-	if (img->ray.drawstart <  0)
-		img->ray.drawstart = 0;
-	img->ray.drawend = lineheight / 2 + HEIGHT / 2;
-	if (img->ray.drawend >= HEIGHT)
-		img->ray.drawend =  HEIGHT - 1;
+    img->ray.drawstart = -lineheight / 2 + HEIGHT / 2;
+    if (img->ray.drawstart < 0)
+        img->ray.drawstart = 0;
+    img->ray.drawend = lineheight / 2 + HEIGHT / 2;
+    if (img->ray.drawend >= HEIGHT)
+        img->ray.drawend = HEIGHT - 1;
 	
 }
+
+
+void load_textures(t_data *img)
+{
+    img->textures[0].img = mlx_xpm_file_to_image(img->mlx, "textures/bluestone.xpm", &img->textures[0].width, &img->textures[0].height);
+    img->textures[1].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_gb05(1)(1).xpm", &img->textures[1].width, &img->textures[1].height);
+    img->textures[2].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[2].width, &img->textures[2].height);
+    img->textures[3].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[3].width, &img->textures[3].height);
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (!img->textures[i].img)
+        {
+            printf("Error loading texture %d\n", i);
+            exit(1);
+        }
+        img->textures[i].addr = mlx_get_data_addr(img->textures[i].img,
+            &img->textures[i].bits_per_pixel, &img->textures[i].line_length, &img->textures[i].endian);
+    }
+}
+
 
 void	init_cube(t_data *img)
 {
@@ -236,6 +312,7 @@ void	init_cube(t_data *img)
 	img->map->minimap_height = HEIGHT / 8;
 	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
+	load_textures(img);
 }
 
 void	rendering_image(t_data *img, int i)
@@ -264,11 +341,19 @@ void	rendering_image(t_data *img, int i)
 	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
+void free_textures(t_data *img)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (img->textures[i].img)
+            mlx_destroy_image(img->mlx, img->textures[i].img);
+    }
+}
+
 
 int main(int ac, char **av)
 {
 	t_data	img;
-
     img.map = malloc(sizeof(t_map));
     if (main_parsing(av, ac, img.map, &img))
 		return (1);
@@ -279,9 +364,8 @@ int main(int ac, char **av)
 	img.map->height = get_map_width(img.map, 1);
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	
 	rendering_image(&img, 0);
-	
 	mlx_loop(img.mlx);
+	free_textures(&img);
 	exit(0);
 }	
