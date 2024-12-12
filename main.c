@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/10 13:10:39 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:41:10 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,12 +232,83 @@ void	init_cube(t_data *img)
 	img->map->tile_size = img->map->minimap_width / img->map->width;
 }
 
+
+void	put_to_image(t_data *img, char *str)
+{
+	int		img_width;
+	int		img_height;
+	// mlx_destroy_image(img->mlx, img->img);
+	img->img2 = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
+	img->addr2 = mlx_get_data_addr(img->img2, &img->bits_per_pixel, &img->line_length, &img->endian);
+	mlx_put_image_to_window(img->mlx, img->win, img->img2, 0, 350);
+}
+
+static int	key_handler2(int keysym, t_data *img)
+{
+	if (keysym == 32)
+	{
+		if (img->weapon == 0)
+		{
+		put_to_image(img, "./puunch2.xpm");
+		usleep(70000);
+		put_to_image(img, "./puunch3.xpm");
+		usleep(70000);
+		put_to_image(img, "./puunch2.xpm");
+		usleep(70000);
+		put_to_image(img, "./puunch.xpm");
+		}
+		else if (img->weapon == 1)
+		{
+		put_to_image(img, "./pistool2.xpm");
+		usleep(70000);
+		put_to_image(img, "./pistool3.xpm");
+		usleep(70000);
+		put_to_image(img, "./pistool4.xpm");
+		usleep(70000);
+		put_to_image(img, "./pistool5.xpm");
+		usleep(70000);
+		put_to_image(img, "./pistool2.xpm");
+		usleep(70000);
+		put_to_image(img, "./pistool.xpm");
+		}
+	}
+	else if (keysym == 49)
+	{
+		img->weapon = 0;
+		put_to_image(img, "./puunch.xpm");
+	}
+	else if (keysym == 50)
+	{
+		img->weapon = 1;
+		put_to_image(img, "./pistool.xpm");
+	}
+	return (0);
+}
+
+static void	event_keys2(t_data *img)
+{
+	mlx_hook(img->win, KeyRelease, KeyReleaseMask, key_handler2, img);
+}
+
+void	rendering_wepon(t_data *img)
+{
+	int		img_width;
+	int		img_height;
+
+	if (!img->weapon || img->weapon == 0)
+    	img->img2 = mlx_xpm_file_to_image(img->mlx, "./puunch.xpm", &img_width, &img_height);
+    else
+		img->img2 = mlx_xpm_file_to_image(img->mlx, "./pistool.xpm", &img_width, &img_height);
+	img->addr2 = mlx_get_data_addr(img->img2, &img->bits_per_pixel, &img->line_length, &img->endian);
+	event_keys2(img);
+    mlx_put_image_to_window(img->mlx, img->win, img->img2, 0, 350);
+}
+
 void	rendering_image(t_data *img, int i)
 {
 	int		mapX;
 	int		mapY;
 
-	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
@@ -257,7 +328,8 @@ void	rendering_image(t_data *img, int i)
 	event_keys(img);
 	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-}
+	// rendering_wepon(img);
+}  
 
 int main(int ac, char **av)
 {
@@ -273,9 +345,7 @@ int main(int ac, char **av)
 	img.map->height = get_map_width(img.map, 1);
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	
 	rendering_image(&img, 0);
-	
 	mlx_loop(img.mlx);
 	exit(0);
 }	

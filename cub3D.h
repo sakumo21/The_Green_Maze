@@ -24,8 +24,8 @@
 
 
 
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 800
+#define HEIGHT 800
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
@@ -88,10 +88,13 @@ typedef struct	s_data
 	void	*mlx;
 	void	*win;
 	void	*img;
+	void	*img2;
 	char	*addr;
+	char	*addr2;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		weapon;
 	char *floor;
 	char *ceiling;
 	t_ray	ray;
