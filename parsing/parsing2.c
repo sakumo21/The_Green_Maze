@@ -7,13 +7,25 @@ int texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
     path[0] = ft_strtrim(path[0], "\n");
     if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
+    {
+        img->textures[0].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->N_check, "North texture", flag));
+    }
     else if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
+    {
+        img->textures[1].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->S_check, "South texture", flag));
+    }
     else if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
+    {
+        img->textures[2].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->W_check, "West texture", flag));
+    }
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
+    {
+        img->textures[3].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->E_check, "East texture", flag));
+    }
     else if (!ft_strncmp(path[0], "F", 1))
         return (check_set_color(&flag->F_check, "Floor color", new, img));
     else if (!ft_strncmp(path[0], "C", 1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/12 11:48:42 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:42:02 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,19 @@ unsigned int convert_ceiling_to_hex(char *ceiling)
 int get_texture_index(t_data *img)
 {
     if (img->ray.side == 0)
-        return (img->ray.rayX < 0) ? 0 : 1; // North or South
+	{
+		if (img->ray.rayX < 0)
+			return (0);
+		else
+			return (1);
+	}
     else
-        return (img->ray.rayY < 0) ? 2 : 3; // West or East
+    {
+		if (img->ray.rayY < 0)
+			return (2);
+		else
+			return (3);
+	}
 }
 
 void draw_textured_wall(t_data *img, int x)
@@ -83,21 +93,20 @@ void draw_textured_wall(t_data *img, int x)
         wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
     else
         wallX = img->ray.posx + img->ray.perpwalldist * img->ray.rayX;
-    wallX -= floor(wallX);
+    wallX -= (int)wallX; // This works correctly for both positive and negative values
+	if (wallX < 0)
+    	wallX += 1.0;     // For positive values
 
     texX = (int)(wallX * (double)img->textures[texture_index].width);
     if ((img->ray.side == 0 && img->ray.rayX > 0) || (img->ray.side == 1 && img->ray.rayY < 0))
-        texX = img->textures[texture_index].width - texX - 1;
-
+        {texX = img->textures[texture_index].width - texX - 1;}
     step = 1.0 * img->textures[texture_index].height / (img->ray.drawend - img->ray.drawstart);
 	texPos = (img->ray.drawstart - HEIGHT / 2 + (img->ray.drawend - img->ray.drawstart) / 2) * step;
-
 
     for (int y = img->ray.drawstart; y < img->ray.drawend; y++)
     {
         texY = (int)texPos & (img->textures[texture_index].height - 1);
         texPos += step;
-
         unsigned int color = *(unsigned int *)(img->textures[texture_index].addr + 
             (texY * img->textures[texture_index].line_length + texX * (img->textures[texture_index].bits_per_pixel / 8)));
 
@@ -272,10 +281,11 @@ void	calculate_wall_height(t_data *img, int lineheight)
 
 void load_textures(t_data *img)
 {
-    img->textures[0].img = mlx_xpm_file_to_image(img->mlx, "textures/bluestone.xpm", &img->textures[0].width, &img->textures[0].height);
-    img->textures[1].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_gb05(1)(1).xpm", &img->textures[1].width, &img->textures[1].height);
-    img->textures[2].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[2].width, &img->textures[2].height);
-    img->textures[3].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[3].width, &img->textures[3].height);
+	
+	img->textures[0].img = mlx_xpm_file_to_image(img->mlx, img->textures[0].path, &img->textures[0].width, &img->textures[0].height);
+    img->textures[1].img = mlx_xpm_file_to_image(img->mlx, img->textures[1].path, &img->textures[1].width, &img->textures[1].height);
+    img->textures[2].img = mlx_xpm_file_to_image(img->mlx, img->textures[2].path, &img->textures[2].width, &img->textures[2].height);
+    img->textures[3].img = mlx_xpm_file_to_image(img->mlx, img->textures[3].path, &img->textures[3].width, &img->textures[3].height);
 
     for (int i = 0; i < 4; i++)
     {

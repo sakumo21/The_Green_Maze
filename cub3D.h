@@ -46,16 +46,17 @@ typedef struct s_keys
 } t_keys;
 
 
-typedef struct s_texture
-{
-    void    *img;           // Image pointer for the texture
-    char    *addr;          // Pixel data of the texture
-    int     width;          // Texture width
-    int     height;         // Texture height
-    int     bits_per_pixel; // Bits per pixel
-    int     line_length;    // Line size in bytes
-    int     endian;         // Endian format
-}               t_texture;
+	typedef struct s_texture
+	{
+		void    *img;           // Image pointer for the texture
+		char    *addr;          // Pixel data of the texture
+		int     width;          // Texture width
+		int     height;         // Texture height
+		int     bits_per_pixel; // Bits per pixel
+		int     line_length;    // Line size in bytes
+		int     endian;        // Endian format
+		char *path;
+	}               t_texture;
 
 typedef struct s_flag
 {
