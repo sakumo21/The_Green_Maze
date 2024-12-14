@@ -6,29 +6,73 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/11 20:41:10 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:55:49 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+void	my_mlx_pixel_put_image(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
 void my_mlx_pixel_put(t_data *data, int x, int color)
 {
-    char *dst;
-    int y = data->ray.drawstart;
+	char *dst;
+	int y = data->ray.drawstart;
+	
+	if (x < 0 || x >= WIDTH)
+		return;
+		
+	while (y <= data->ray.drawend)
+	{
+		if (y >= 0 && y < HEIGHT)
+		{
+			dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+			*(unsigned int*)dst = color;
+		}
+		y++;
+	}
+}
+
+void my_mlx_pixel_put_sprite(t_data *data,int start_x, int start_y, int height, int width)
+{
+	int	i;
+	int	y;
     
-    if (x < 0 || x >= WIDTH)
-        return;
-        
-    while (y <= data->ray.drawend)
-    {
-        if (y >= 0 && y < HEIGHT)
-        {
-            dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-            *(unsigned int*)dst = color;
-        }
-        y++;
-    }
+	i = 0;
+	while (i < width)
+	{
+		y = 0;
+		while(y < height)
+		{
+            int src_pixel_index = (y * data->sprite->line_length) + (i * (data->sprite->bits_per_pixel / 8));
+            unsigned int src_color = *(unsigned int *)(data->sprite->addr + src_pixel_index);
+            
+            // Skip truly transparent pixels (assuming 0x00000000 is transparent)
+            if ((src_color & 0xFF000000) == 0)
+			{
+				i++;
+                continue;
+			}
+            
+            // Calculate destination pixel index
+            int dest_x = start_x + i;
+            int dest_y = start_y + y;
+            
+            // Bounds checking
+            if (dest_x < 0 || dest_x >= WIDTH || dest_y < 0 || dest_y >= HEIGHT)
+                continue;
+            
+            // Write pixel to destination
+			my_mlx_pixel_put_image(data, i, y, src_color);
+		}
+		i++;
+	}
 }
 
 unsigned int rgb_to_hex(int r, int g, int b)
@@ -238,9 +282,10 @@ void	put_to_image(t_data *img, char *str)
 	int		img_width;
 	int		img_height;
 	// mlx_destroy_image(img->mlx, img->img);
-	img->img2 = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
-	img->addr2 = mlx_get_data_addr(img->img2, &img->bits_per_pixel, &img->line_length, &img->endian);
-	mlx_put_image_to_window(img->mlx, img->win, img->img2, 0, 350);
+	img->sprite->img = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
+	img->sprite->addr = mlx_get_data_addr(img->sprite->img, &img->sprite->bits_per_pixel, &img->sprite->line_length, &img->sprite->endian);
+	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
+	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
 
 static int	key_handler2(int keysym, t_data *img)
@@ -292,16 +337,17 @@ static void	event_keys2(t_data *img)
 
 void	rendering_wepon(t_data *img)
 {
-	int		img_width;
-	int		img_height;
+	int			img_width;
+	int			img_height;
 
 	if (!img->weapon || img->weapon == 0)
-    	img->img2 = mlx_xpm_file_to_image(img->mlx, "./puunch.xpm", &img_width, &img_height);
+    	img->sprite->img = mlx_xpm_file_to_image(img->mlx, "./puunch.xpm", &img_width, &img_height);
     else
-		img->img2 = mlx_xpm_file_to_image(img->mlx, "./pistool.xpm", &img_width, &img_height);
-	img->addr2 = mlx_get_data_addr(img->img2, &img->bits_per_pixel, &img->line_length, &img->endian);
+		img->sprite->img = mlx_xpm_file_to_image(img->mlx, "./pistool.xpm", &img_width, &img_height);
+	img->sprite->addr = mlx_get_data_addr(img->sprite->img, &img->sprite->bits_per_pixel, &img->sprite->line_length, &img->sprite->endian);
 	event_keys2(img);
-    mlx_put_image_to_window(img->mlx, img->win, img->img2, 0, 350);
+	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
+	mlx_put_image_to_window(img->mlx, img->win, img->sprite->img, 0, 0);
 }
 
 void	rendering_image(t_data *img, int i)
@@ -328,7 +374,7 @@ void	rendering_image(t_data *img, int i)
 	event_keys(img);
 	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-	// rendering_wepon(img);
+	rendering_wepon(img);
 }  
 
 int main(int ac, char **av)
