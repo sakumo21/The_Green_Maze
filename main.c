@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/13 15:42:02 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:06:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,40 +80,52 @@ int get_texture_index(t_data *img)
 	}
 }
 
+
 void draw_textured_wall(t_data *img, int x)
 {
-    int texX, texY;
+    int texX, texY; // Texture coordinates
     int texture_index = get_texture_index(img);
-    double wallX;
-    double step;
-    double texPos;
+    double wallX, step, texPos; // Wall hit position, texture step, vertical texture position
 
-    // Calculate where the wall was hit
+    // 1. Calculate wallX: Horizontal position where the ray hits the wall
     if (img->ray.side == 0)
         wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
     else
         wallX = img->ray.posx + img->ray.perpwalldist * img->ray.rayX;
-    wallX -= (int)wallX; // This works correctly for both positive and negative values
-	if (wallX < 0)
-    	wallX += 1.0;     // For positive values
+    wallX -= floor(wallX); // Fractional part
 
-    texX = (int)(wallX * (double)img->textures[texture_index].width);
+    // 2. Calculate texX: Horizontal texture coordinate
+    texX = (int)(wallX * img->textures[texture_index].width);
     if ((img->ray.side == 0 && img->ray.rayX > 0) || (img->ray.side == 1 && img->ray.rayY < 0))
-        {texX = img->textures[texture_index].width - texX - 1;}
-    step = 1.0 * img->textures[texture_index].height / (img->ray.drawend - img->ray.drawstart);
-	texPos = (img->ray.drawstart - HEIGHT / 2 + (img->ray.drawend - img->ray.drawstart) / 2) * step;
+        texX = img->textures[texture_index].width - texX - 1;
 
-    for (int y = img->ray.drawstart; y < img->ray.drawend; y++)
+    // 3. Calculate wall height on screen
+    int wallHeight = (int)(HEIGHT / img->ray.perpwalldist); // Height is inversely proportional to distance
+    int startY = -wallHeight / 2 + HEIGHT / 2; // Top of the wall slice
+    if (startY < 0) startY = 0; // Clamp to top of screen
+    int endY = wallHeight / 2 + HEIGHT / 2;   // Bottom of the wall slice
+    if (endY >= HEIGHT) endY = HEIGHT - 1;    // Clamp to bottom of screen
+
+    // 4. Calculate step: How much to increment texPos for each screen pixel
+    step = 1.0 * img->textures[texture_index].height / wallHeight;
+    texPos = (startY - HEIGHT / 2 + wallHeight / 2) * step; // Initial texture position
+
+    // 5. Draw the wall slice column by column
+    for (int y = startY; y < endY; y++)
     {
-        texY = (int)texPos & (img->textures[texture_index].height - 1);
+        texY = (int)texPos & (img->textures[texture_index].height - 1); // Wrap texY if necessary
         texPos += step;
-        unsigned int color = *(unsigned int *)(img->textures[texture_index].addr + 
+
+        // Get the pixel color from the texture
+        unsigned int color = *(unsigned int *)(img->textures[texture_index].addr +
             (texY * img->textures[texture_index].line_length + texX * (img->textures[texture_index].bits_per_pixel / 8)));
 
+        // Put the pixel on the screen
         char *dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-        *(unsigned int*)dst = color;
+        *(unsigned int *)dst = color;
     }
 }
+
 
 
 void coloring_the_image(t_data *img, int i, int color)
