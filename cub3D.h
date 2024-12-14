@@ -99,9 +99,7 @@ typedef struct	s_data
 	void	*mlx;
 	void	*win;
 	void	*img;
-	void	*img2;
 	char	*addr;
-	char	*addr2;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -111,7 +109,7 @@ typedef struct	s_data
 	t_ray	ray;
 	t_map	*map;
 	t_texture	*text;
-	t_sprite	*sprite;
+	t_sprite	sprite;
 }				t_data;
 
 void	rendering_image(t_data *img, int i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/14 21:55:49 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:56:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,32 @@ void my_mlx_pixel_put(t_data *data, int x, int color)
 	}
 }
 
-void my_mlx_pixel_put_sprite(t_data *data,int start_x, int start_y, int height, int width)
-{
-	int	i;
-	int	y;
-    
-	i = 0;
-	while (i < width)
-	{
-		y = 0;
-		while(y < height)
-		{
-            int src_pixel_index = (y * data->sprite->line_length) + (i * (data->sprite->bits_per_pixel / 8));
-            unsigned int src_color = *(unsigned int *)(data->sprite->addr + src_pixel_index);
-            
-            // Skip truly transparent pixels (assuming 0x00000000 is transparent)
-            if ((src_color & 0xFF000000) == 0)
-			{
-				i++;
-                continue;
-			}
-            
-            // Calculate destination pixel index
+void my_mlx_pixel_put_sprite(t_data *data, int start_x, int start_y, int height, int width) {
+    int i, y;
+
+    for (i = 0; i < width; i++) {
+        for (y = 0; y < height; y++) {
+            // Get the pixel color from the sprite
+            int src_pixel_index = (y * data->sprite.line_length) + (i * (data->sprite.bits_per_pixel / 8));
+            unsigned int src_color = *(unsigned int *)(data->sprite.addr + src_pixel_index);
+
+            // Skip transparent pixels (alpha = 0 or black if necessary)
+			if (src_color == 0x000000 || src_color == 0xFF000000) // Skip black or opaque black
+				continue;
+
+            // Calculate destination position
             int dest_x = start_x + i;
             int dest_y = start_y + y;
-            
-            // Bounds checking
+
+            // Check if within bounds
             if (dest_x < 0 || dest_x >= WIDTH || dest_y < 0 || dest_y >= HEIGHT)
                 continue;
-            
-            // Write pixel to destination
-			my_mlx_pixel_put_image(data, i, y, src_color);
-		}
-		i++;
-	}
+
+            // Write the pixel to the main buffer
+            char *dst = data->addr + (dest_y * data->line_length + dest_x * (data->bits_per_pixel / 8));
+            *(unsigned int *)dst = src_color;
+        }
+    }
 }
 
 unsigned int rgb_to_hex(int r, int g, int b)
@@ -281,9 +273,9 @@ void	put_to_image(t_data *img, char *str)
 {
 	int		img_width;
 	int		img_height;
-	// mlx_destroy_image(img->mlx, img->img);
-	img->sprite->img = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
-	img->sprite->addr = mlx_get_data_addr(img->sprite->img, &img->sprite->bits_per_pixel, &img->sprite->line_length, &img->sprite->endian);
+	mlx_destroy_image(img->mlx, img->sprite.img);
+	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
+	img->sprite.addr = mlx_get_data_addr(img->sprite.img, &img->sprite.bits_per_pixel, &img->sprite.line_length, &img->sprite.endian);
 	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
@@ -341,13 +333,13 @@ void	rendering_wepon(t_data *img)
 	int			img_height;
 
 	if (!img->weapon || img->weapon == 0)
-    	img->sprite->img = mlx_xpm_file_to_image(img->mlx, "./puunch.xpm", &img_width, &img_height);
+    	img->sprite.img = mlx_xpm_file_to_image(img->mlx, "./puunch.xpm", &img_width, &img_height);
     else
-		img->sprite->img = mlx_xpm_file_to_image(img->mlx, "./pistool.xpm", &img_width, &img_height);
-	img->sprite->addr = mlx_get_data_addr(img->sprite->img, &img->sprite->bits_per_pixel, &img->sprite->line_length, &img->sprite->endian);
+		img->sprite.img = mlx_xpm_file_to_image(img->mlx, "./pistool.xpm", &img_width, &img_height);
+	img->sprite.addr = mlx_get_data_addr(img->sprite.img, &img->sprite.bits_per_pixel, &img->sprite.line_length, &img->sprite.endian);
 	event_keys2(img);
 	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
-	mlx_put_image_to_window(img->mlx, img->win, img->sprite->img, 0, 0);
+	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
 
 void	rendering_image(t_data *img, int i)
