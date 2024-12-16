@@ -112,35 +112,46 @@ typedef struct	s_data
 	t_sprite	sprite;
 }				t_data;
 
-void	rendering_image(t_data *img, int i);
+int		main_parsing(char **av, int ac, t_map *map, t_data *img);
+int		check_texture(t_texture *flag);
+int		parsing_map(char **map);
+int		parse_line(char *line, t_texture *flag, int i, t_data *img);
+int		texturing(char **path, char *new, t_texture *flag, t_data *img);
+int		check_and_set(char **path, int *flag, char *msg);
+int		check_set_color(int *flag, char *msg, char *new, t_data *img);
+int		parse_input(int ac, char **av);
+int		check_range(char *line, t_data *img);
+int		check_line(char **line);
+int		mini_map(char *line, t_map *map, int fd, int i);
+int		my_map(t_map *map, t_data *img);
+int		check_map_enclosure(char **map, int i, int j);
+int		check_path_exists(char *path);
+int		check_filled_map(char **map);
+int		find_starting_point(char **map, t_data *img, int i);
+void	rendering_image(t_data *img, int i, char *str);
+void	print_error(char *message, int *flag, int *error);
 void	event_keys(t_data *img);
-int main_parsing(char **av, int ac, t_map *map, t_data *img);
-int check_texture(t_texture *flag);
-void print_error(char *message, int *flag, int *error);
-int parse_line(char *line, t_texture *flag, int i, t_data *img);
-void free_path(char **path, char *new);
-int texturing(char **path, char *new, t_texture *flag, t_data *img);
-int check_set_color(int *flag, char *msg, char *new, t_data *img);
-int check_and_set(char **path, int *flag, char *msg);
-void init_flag(t_texture *flag, t_map *map, t_data *img);
-int parse_input(int ac, char **av);
-int check_range(char *line, t_data *img);
-int check_path_exists(char *path);
-void free_range(char **p, int i);
-int check_line(char **line);
-int mini_map(char *line, t_map *map, int fd, int i);
-int my_map(t_map *map, t_data *img);
-int check_map_enclosure(char **map, int i, int j);
-void flood_fill(t_map *map, int x, int y, int max_x, int max_y);
-int check_filled_map(char **map);
-int find_starting_point(char **map, t_data *img, int i);
-void flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
-int parsing_map(char **map);
+void	free_path(char **path, char *new);
+void	init_flag(t_texture *flag, t_map *map, t_data *img);
+void	free_range(char **p, int i);
+void	flood_fill(t_map *map, int x, int y, int max_x, int max_y);
+void	flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
+void	put_to_image(t_data *img, char *str);
+void	calculate_ray(t_data *img, int i);
+void	calculate_sside(t_data *img, int mapX, int mapY);
+void	calculate_vector(t_data *img, int mapX, int mapY, int hit);
+void	calculate_wall_height(t_data *img, int lineheight);
+void	coloring_the_image(t_data *img, int i, int color);
+void	my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
+void	my_mlx_pixel_put(t_data *data, int x, int color);
+void	my_mlx_pixel_put_sprite(t_data *data, int start_x, int start_y, int height, int width) ;
+unsigned int rgb_to_hex(int r, int g, int b);
+unsigned int convert_ceiling_to_hex(char *ceiling);
 
 
 //minimap
-void draw_minimap(t_data *img);
-void my_put(t_data *data, int x, int y, int color);
-int get_map_width(t_map *map, int i);
+int		get_map_width(t_map *map, int i);
+void	draw_minimap(t_data *img);
+void	my_put(t_data *data, int x, int y, int color);
 
 #endif

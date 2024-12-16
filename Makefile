@@ -1,9 +1,9 @@
 CCF = cc -Wall -Wextra -Werror -g3 -g -fsanitize=address
-FLAG = ./minilibx_linux/libmlx_Linux.a -lXext -lX11 -lm
+FLAG = ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
 NAME = cub3D
 LIBFT = Libft/libft.a
 GNL = Get_next_line/get_next_line.c Get_next_line/get_next_line_utils.c
-FILES =  mini-map/minimap.c  parsing/parsing1.c parsing/parsing2.c parsing/parsing3.c parsing/parsing4.c parsing/map_parsing1.c parsing/map_parsing2.c keys.c main.c 
+FILES =  mini-map/minimap.c  parsing/parsing1.c parsing/parsing2.c parsing/parsing3.c parsing/parsing4.c parsing/map_parsing1.c parsing/map_parsing2.c keys.c calculations.c coloring.c put_pixel.c main.c 
 
 all : $(NAME)
 
