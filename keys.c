@@ -36,7 +36,7 @@ static void	rotate_view(t_data *img, double rotSpeed)
 int	handle_movement(t_data *img)
 {
 	double moveSpeed = 0.12;  // Adjust speed as needed
-	double rotSpeed = 0.06;
+	double rotSpeed = 0.05;
 	int newX, newY;
 
 	// Forward (W)
