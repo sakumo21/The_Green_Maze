@@ -64,7 +64,7 @@ unsigned int convert_ceiling_to_hex(char *ceiling)
 
 int get_texture_index(t_data *img)
 {
-	if (img->map->map[(int)img->ray.posy][(int)img->ray.posx] == 'D')
+	if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
 		return (4);
     if (img->ray.side == 0)
 	{
@@ -80,6 +80,7 @@ int get_texture_index(t_data *img)
 		else
 			return (3);
 	}
+
 }
 
 
@@ -92,6 +93,9 @@ void draw_textured_wall(t_data *img, int x)
 	int startY;
 	int endY;
 	
+	printf(">>>>>>>>>>(%d)\n", img->map->texture_index);
+	if (img->map->texture_index == 4)
+		printf("wa lbaaaab \n");
     if (img->ray.side == 0)
         wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
     else
@@ -148,27 +152,27 @@ void coloring_the_image(t_data *img, int i, int color)
 	}
 }
 
-void	calculate_sside(t_data *img, int mapX, int mapY)
+void	calculate_sside(t_data *img)
 {
 	if (img->ray.rayX< 0)
 	{
 		img->ray.stepX = -1;
-		img->ray.SsideX = (img->ray.posx - mapX) * img->ray.DsideX;
+		img->ray.SsideX = (img->ray.posx - img->ray.mapX) * img->ray.DsideX;
 	}
 	else
 	{
 		img->ray.stepX = 1;
-		img->ray.SsideX = (mapX + 1.0 - img->ray.posx) * img->ray.DsideX;
+		img->ray.SsideX = (img->ray.mapX + 1.0 - img->ray.posx) * img->ray.DsideX;
 	}
 	if (img->ray.rayY< 0)
 	{
 		img->ray.stepY = -1;
-		img->ray.SsideY = (img->ray.posy - mapY) * img->ray.DsideY;
+		img->ray.SsideY = (img->ray.posy - img->ray.mapY) * img->ray.DsideY;
 	}
 	else
 	{
 		img->ray.stepY = 1;
-		img->ray.SsideY = (mapY + 1.0 - img->ray.posy) * img->ray.DsideY;
+		img->ray.SsideY = (img->ray.mapY + 1.0 - img->ray.posy) * img->ray.DsideY;
 	}
 }
 
@@ -187,7 +191,7 @@ void	calculate_ray(t_data *img, int i)
 		img->ray.DsideY = fabs(1.0 / img->ray.rayY);
 }
 
-void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove one line (the map array is not included)
+void	calculate_vector(t_data *img, int hit)//need to remove one line (the map array is not included)
 {
 
 	while (!hit)
@@ -195,32 +199,34 @@ void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove 
 		if (img->ray.SsideX < img->ray.SsideY)
 		{
 			img->ray.SsideX += img->ray.DsideX;
-			mapX += img->ray.stepX;
+			img->ray.mapX += img->ray.stepX;
 			img->ray.side = 0;
 		}
 		else
 		{
 			img->ray.SsideY += img->ray.DsideY;
-			mapY += img->ray.stepY;
+			img->ray.mapY += img->ray.stepY;
 			img->ray.side = 1;
 		}
-		if (img->map->map[mapY][mapX] != '0')
+		if (img->map->map[img->ray.mapY][img->ray.mapX] != '0')
 		{
 			hit = 1;
-			if (img->map->map[mapY][mapX] == 'D')
+			if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
 			{
-				if (mapX == (int)img->ray.posx)
+				img->map->texture_index = DOOR;
+				printf("(%d)\n", img->map->texture_index);
+				if (img->ray.mapX == (int)img->ray.posx)
 				{
-					if (mapY == (int)img->ray.posy + 1 || mapY == (int)img->ray.posy - 1)
+					if (img->ray.mapY == (int)img->ray.posy + 1 || img->ray.mapY == (int)img->ray.posy - 1)
 						hit = 0;
 				}
-				else if (mapY == (int)img->ray.posy)
-					if (mapX == (int)img->ray.posx + 1 || mapX == (int)img->ray.posx - 1)
+				else if (img->ray.mapY == (int)img->ray.posy)
+					if (img->ray.mapX == (int)img->ray.posx + 1 || img->ray.mapX == (int)img->ray.posx - 1)
 						hit = 0;
 			}
 			else
 			{
-				img->map->texture_index = get_texture_index(img);	
+				// img->map->texture_index = get_texture_index(img);	
 				img->ray.color = 0XFF0000;
 			}
 		}
@@ -333,9 +339,6 @@ void	init_cube(t_data *img)
 
 void	rendering_image(t_data *img, int i)
 {
-	int		mapX;
-	int		mapY;
-
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
@@ -343,10 +346,10 @@ void	rendering_image(t_data *img, int i)
 	while (WIDTH > i)
 	{
 		calculate_ray(img, i);
-		mapX = (int)img->ray.posx;
-		mapY = (int)img->ray.posy;
-		calculate_sside(img, mapX, mapY);
-		calculate_vector(img, mapX, mapY, 0);
+		img->ray.mapX = (int)img->ray.posx;
+		img->ray.mapY = (int)img->ray.posy;
+		calculate_sside(img);
+		calculate_vector(img, 0);
 		calculate_wall_height(img, 0);
 		if (img->ray.side == 1)
 			img->ray.color = img->ray.color / 2;
