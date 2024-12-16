@@ -35,7 +35,7 @@
 #define EPSILON 1e-6
 #define x_offset 10
 #define y_offset 1230
-#define DOOR 5
+#define DOOR 4
 
 typedef struct s_keys
 {
@@ -99,6 +99,8 @@ typedef struct s_ray
 	double	SsideY;
 	int		stepX;
 	int		stepY;
+	int		mapX;
+	int		mapY;
 	double	posx;
 	double	posy;
   	double	dirX;
