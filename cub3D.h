@@ -21,11 +21,13 @@
 #include <fcntl.h>
 #include "Libft/libft.h"
 #include "Get_next_line/get_next_line.h"
+#include <sys/time.h>
 
 
 
 #define WIDTH 800
 #define HEIGHT 800
+
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
@@ -41,6 +43,16 @@ typedef struct s_keys
 	int	left;
 	int	right;
 	int	space;
+} t_keys;
+
+typedef struct s_keys
+{
+	int w;
+	int s;
+	int a;
+	int d;
+	int left;
+	int right;
 } t_keys;
 
 
@@ -106,6 +118,12 @@ typedef struct s_ray
 	int		side;
 	int		color;
 	double	perpwalldist;
+	int move_forward;    // W key flag
+    int move_backward;   // S key flag
+    int move_left;       // A key flag
+    int move_right;      // D key flag
+    int rotate_left;     // Left arrow key flag
+    int rotate_right;    // Right arrow key flag
 }				t_ray;
 
 typedef struct	s_sprite 
@@ -118,6 +136,7 @@ typedef struct	s_sprite
 	int		line_length;
 	int		endian;
 }				t_sprite;
+
 
 typedef struct	s_data 
 {
@@ -176,6 +195,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int color);
 void	my_mlx_pixel_put_sprite(t_data *data, int start_x, int start_y, int height, int width) ;
 unsigned int rgb_to_hex(int r, int g, int b);
 unsigned int convert_ceiling_to_hex(char *ceiling);
+
 
 
 //minimap

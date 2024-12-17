@@ -53,6 +53,27 @@ void	initialize_data(t_data *img)
 	img->keys.right = 0;
 }
 
+
+void load_textures(t_data *img)
+{
+    img->textures[0].img = mlx_xpm_file_to_image(img->mlx, "textures/bluestone.xpm", &img->textures[0].width, &img->textures[0].height);
+    img->textures[1].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_gb05(1)(1).xpm", &img->textures[1].width, &img->textures[1].height);
+    img->textures[2].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[2].width, &img->textures[2].height);
+    img->textures[3].img = mlx_xpm_file_to_image(img->mlx, "textures/vertopal.com_alien(1).xpm", &img->textures[3].width, &img->textures[3].height);
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (!img->textures[i].img)
+        {
+            printf("Error loading texture %d\n", i);
+            exit(1);
+        }
+        img->textures[i].addr = mlx_get_data_addr(img->textures[i].img,
+            &img->textures[i].bits_per_pixel, &img->textures[i].line_length, &img->textures[i].endian);
+    }
+}
+
+
 void	init_cube(t_data *img)
 {
 	img->mlx = NULL;
@@ -88,6 +109,7 @@ void	put_to_image(t_data *img, char *str)
 	img->sprite.addr = mlx_get_data_addr(img->sprite.img, &img->sprite.bits_per_pixel, &img->sprite.line_length, &img->sprite.endian);
 	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+
 }
 
 void	rendering_wepon(t_data *img, char *str)
@@ -123,6 +145,15 @@ void	rendering_image(t_data *img, int i, char *str)
 	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
+void free_textures(t_data *img)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (img->textures[i].img)
+            mlx_destroy_image(img->mlx, img->textures[i].img);
+    }
+}
+
 
 void free_textures(t_data *img)
 {
@@ -136,7 +167,6 @@ void free_textures(t_data *img)
 int main(int ac, char **av)
 {
 	t_data	img;
-
     img.map = malloc(sizeof(t_map));
     if (main_parsing(av, ac, img.map, &img))
 		return (1);
