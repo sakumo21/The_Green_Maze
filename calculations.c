@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:25:06 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/15 18:27:19 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:19:22 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,72 +27,76 @@ void	calculate_ray(t_data *img, int i)
 		img->ray.DsideY = fabs(1.0 / img->ray.rayY);
 }
 
-void	calculate_sside(t_data *img, int mapX, int mapY)
+void	calculate_sside(t_data *img)
 {
 	if (img->ray.rayX< 0)
 	{
 		img->ray.stepX = -1;
-		img->ray.SsideX = (img->ray.posx - mapX) * img->ray.DsideX;
+		img->ray.SsideX = (img->ray.posx - img->ray.mapX) * img->ray.DsideX;
 	}
 	else
 	{
 		img->ray.stepX = 1;
-		img->ray.SsideX = (mapX + 1.0 - img->ray.posx) * img->ray.DsideX;
+		img->ray.SsideX = (img->ray.mapX + 1.0 - img->ray.posx) * img->ray.DsideX;
 	}
 	if (img->ray.rayY< 0)
 	{
 		img->ray.stepY = -1;
-		img->ray.SsideY = (img->ray.posy - mapY) * img->ray.DsideY;
+		img->ray.SsideY = (img->ray.posy - img->ray.mapY) * img->ray.DsideY;
 	}
 	else
 	{
 		img->ray.stepY = 1;
-		img->ray.SsideY = (mapY + 1.0 - img->ray.posy) * img->ray.DsideY;
+		img->ray.SsideY = (img->ray.mapY + 1.0 - img->ray.posy) * img->ray.DsideY;
 	}
 }
 
-void	calculate_vector(t_data *img, int mapX, int mapY, int hit)//need to remove one line (the map array is not included)
+void	calculate_vector(t_data *img, int hit)//need to remove one line (the map array is not included)
 {
+
 	while (!hit)
 	{
 		if (img->ray.SsideX < img->ray.SsideY)
 		{
 			img->ray.SsideX += img->ray.DsideX;
-			mapX += img->ray.stepX;
+			img->ray.mapX += img->ray.stepX;
 			img->ray.side = 0;
 		}
 		else
 		{
 			img->ray.SsideY += img->ray.DsideY;
-			mapY += img->ray.stepY;
+			img->ray.mapY += img->ray.stepY;
 			img->ray.side = 1;
 		}
-		if (img->map->map[mapY][mapX] != '0')
+		if (img->map->map[img->ray.mapY][img->ray.mapX] != '0')
 		{
 			hit = 1;
-			img->ray.color = 0X00000FF;
-			if (img->map->map[mapY][mapX] == 'D')
+			if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
 			{
-				if (mapX == (int)img->ray.posx)
+				if (img->ray.mapX == (int)img->ray.posx)
 				{
-					if (mapY == (int)img->ray.posy + 1 || mapY == (int)img->ray.posy - 1)
+					if (img->ray.mapY == (int)img->ray.posy + 1 || img->ray.mapY == (int)img->ray.posy - 1)
 						hit = 0;
 				}
-				else if (mapY == (int)img->ray.posy)
-					if (mapX == (int)img->ray.posx + 1 || mapX == (int)img->ray.posx - 1)
+				else if (img->ray.mapY == (int)img->ray.posy)
+					if (img->ray.mapX == (int)img->ray.posx + 1 || img->ray.mapX == (int)img->ray.posx - 1)
 						hit = 0;
 			}
 			else
+			{
+				// img->map->texture_index = get_texture_index(img);	
 				img->ray.color = 0XFF0000;
+			}
 		}
 	}
 	if(img->ray.side == 0)
 		img->ray.perpwalldist = (img->ray.SsideX - img->ray.DsideX);
 	else
 		img->ray.perpwalldist = (img->ray.SsideY - img->ray.DsideY);
-	if (img->ray.perpwalldist == 0)
+	if (img->ray.perpwalldist == 0) 
 		img->ray.perpwalldist = 1e-6;
 }
+
 
 void	calculate_wall_height(t_data *img, int lineheight)
 {

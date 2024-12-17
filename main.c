@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/15 21:48:20 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:49:04 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ void	initialize_data(t_data *img)
         img->ray.planeY = -0.66;
     }
 	img->ray.color = 0X0000FF;
+	img->weapon = 0;
+	img->keys.space = 0;
+	img->keys.w = 0;
+	img->keys.s = 0;
+	img->keys.a = 0;
+	img->keys.d = 0;
+	img->keys.left = 0;
+	img->keys.right = 0;
 }
 
 void	init_cube(t_data *img)
@@ -67,6 +75,7 @@ void	init_cube(t_data *img)
 	img->map->minimap_height = HEIGHT / 8;
 	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
+	load_textures(img);
 }
 
 
@@ -86,38 +95,43 @@ void	rendering_wepon(t_data *img, char *str)
 	int			img_width;
 	int			img_height;
 
+	printf("%s\n", str);
    	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
 	img->sprite.addr = mlx_get_data_addr(img->sprite.img, &img->sprite.bits_per_pixel, &img->sprite.line_length, &img->sprite.endian);
 	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);
-	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-}
+} 
 
 void	rendering_image(t_data *img, int i, char *str)
 {
-	int		mapX;
-	int		mapY;
-
+	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	while (WIDTH > i)
 	{
 		calculate_ray(img, i);
-		mapX = (int)img->ray.posx;
-		mapY = (int)img->ray.posy;
-		calculate_sside(img, mapX, mapY);
-		calculate_vector(img, mapX, mapY, 0);
+		img->ray.mapX = (int)img->ray.posx;
+		img->ray.mapY = (int)img->ray.posy;
+		calculate_sside(img);
+		calculate_vector(img, 0);
 		calculate_wall_height(img, 0);
-		if (img->ray.side == 1)
-			img->ray.color = img->ray.color / 2;
 		coloring_the_image(img, i, img->ray.color);
 		i++;
 	}
 	event_keys(img);
+	rendering_wepon(img, str);
 	draw_minimap(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
-	rendering_wepon(img, str);
-}  
+}
+
+void free_textures(t_data *img)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (img->textures[i].img)
+            mlx_destroy_image(img->mlx, img->textures[i].img);
+    }
+}
 
 int main(int ac, char **av)
 {
@@ -132,5 +146,6 @@ int main(int ac, char **av)
 	init_cube(&img);
 	rendering_image(&img, 0, "./puunch.xpm");
 	mlx_loop(img.mlx);
+	free_textures(&img);
 	exit(0);
 }	

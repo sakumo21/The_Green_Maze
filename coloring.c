@@ -6,11 +6,32 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:29:29 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/15 18:30:00 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:18:57 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+int get_texture_index(t_data *img)
+{
+	if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
+		return (4);
+    if (img->ray.side == 0)
+	{
+		if (img->ray.rayX < 0)
+			return (0);
+		else
+			return (1);
+	}
+    else
+    {
+		if (img->ray.rayY < 0)
+			return (2);
+		else
+			return (3);
+	}
+
+}
 
 unsigned int rgb_to_hex(int r, int g, int b)
 {
@@ -43,6 +64,7 @@ unsigned int convert_ceiling_to_hex(char *ceiling)
 
 void coloring_the_image(t_data *img, int i, int color)
 {
+	(void)color;
 	unsigned int cel;
 	unsigned int flo;
 
@@ -53,7 +75,7 @@ void coloring_the_image(t_data *img, int i, int color)
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
 		*(unsigned int*)dst = cel;
 	}
-	my_mlx_pixel_put(img, i, color);
+	draw_textured_wall(img, i);
 	for(int y = img->ray.drawend; y < HEIGHT; y++)
 	{
 		char *dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel / 8));
