@@ -30,6 +30,8 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
             break;
         free(line);
     }
+    if (flag.exit == 2)
+        return (1); 
     if (check_texture(&flag))
         return (1);
     if (flag.exit == 2)
