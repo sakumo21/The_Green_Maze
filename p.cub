@@ -1,9 +1,9 @@
-N ./textures/bluestone.xpm
+N ./textures/rca2.xpm
 WE ./textures/gb1.xpm
 C 169,169,169
 EA ./textures/gb2.xpm
 F 100, 20, 88
-S ./textures/gb1.xpm
+S ./textures/rca1.xpm
 
 111111111111111111
 1000000000000S0001
