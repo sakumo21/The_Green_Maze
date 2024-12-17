@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/16 16:42:28 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:22:26 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int get_texture_index(t_data *img)
     if (img->ray.side == 0)
 	{
 		if (img->ray.rayX < 0)
-		else
 			return (0);
+		else
 			return (1);
 	}
     else
@@ -93,9 +93,6 @@ void draw_textured_wall(t_data *img, int x)
 	int startY;
 	int endY;
 	
-	printf(">>>>>>>>>>(%d)\n", img->map->texture_index);
-	if (img->map->texture_index == 4)
-		printf("wa lbaaaab \n");
     if (img->ray.side == 0)
         wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
     else
@@ -213,8 +210,6 @@ void	calculate_vector(t_data *img, int hit)//need to remove one line (the map ar
 			hit = 1;
 			if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
 			{
-				img->map->texture_index = DOOR;
-				printf("(%d)\n", img->map->texture_index);
 				if (img->ray.mapX == (int)img->ray.posx)
 				{
 					if (img->ray.mapY == (int)img->ray.posy + 1 || img->ray.mapY == (int)img->ray.posy - 1)
@@ -225,10 +220,7 @@ void	calculate_vector(t_data *img, int hit)//need to remove one line (the map ar
 						hit = 0;
 			}
 			else
-			{
-				// img->map->texture_index = get_texture_index(img);	
 				img->ray.color = 0XFF0000;
-			}
 		}
 	}
 	if(img->ray.side == 0)
@@ -293,7 +285,7 @@ void	calculate_wall_height(t_data *img, int lineheight)
 
 void load_textures(t_data *img)
 {
-	img->textures[4].path = "textures/gb1.xpm";
+	img->textures[4].path = "textures/wac.xpm";
 	img->textures[0].img = mlx_xpm_file_to_image(img->mlx, img->textures[0].path, &img->textures[0].width, &img->textures[0].height);
     img->textures[1].img = mlx_xpm_file_to_image(img->mlx, img->textures[1].path, &img->textures[1].width, &img->textures[1].height);
     img->textures[2].img = mlx_xpm_file_to_image(img->mlx, img->textures[2].path, &img->textures[2].width, &img->textures[2].height);
