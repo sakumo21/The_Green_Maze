@@ -45,15 +45,6 @@ typedef struct s_keys
 	int	space;
 } t_keys;
 
-typedef struct s_keys
-{
-	int w;
-	int s;
-	int a;
-	int d;
-	int left;
-	int right;
-} t_keys;
 
 
 typedef struct s_texture
