@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/19 17:42:19 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:56:59 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void flood_fill2(t_map *map, int rows, int cols, int x, int y)
     // printf("%d %d\n", x, y);
     if (x < 0 || y < 0 || y >= rows || x >= cols)
         return ;
-    if (map->map[y][x] != '.' && map->map[y][x] != '+' && map->map[y][x] != '-')
+    if (map->map[y][x] != '.' && map->map[y][x] != '+' && map->map[y][x] != 'F')
         return ;
     if (map->map[y][x] == '.')
         map->map[y][x] = '0';
@@ -99,19 +99,25 @@ void check_map_with_flood_fill(t_map *map, int start_x, int start_y)
     printf("start point : (%d, %d)\n", start_x, start_y);
     flood_fill(map, max_y, max_x, start_x, start_y);
     flood_fill2(map, max_y, max_x, start_x, start_y);
-    for (int i = 0; i < max_y; i++)
+    int i = 0;
+    while (map->map[i])
     {
-        for (int j = 0; j < (int)ft_strlen(map->map[i]); j++)
-        {
-            if (map->map[i][j] == '0' || map->map[i][j] == 'D' || map->map[i][j] == 'N' || map->map[i][j] == 'S' || 
-                map->map[i][j] == 'W' || map->map[i][j] == 'E')
-            {
-                printf("Error: Map contains unreachable tiles at (%d, %d) = (%c).\n", i, j, map->map[i][j]);
-                exit(1);
-            }
-        }
-    }
-    // flood_fill2(map, max_y, max_x, start_y, start_x);
+        printf("map : (%s)\n", map->map[i]);
+        i++;
+    }    
+    // for (int i = 0; i < max_y; i++)
+    // {
+    //     for (int j = 0; j < (int)ft_strlen(map->map[i]); j++)
+    //     {
+    //         printf("cscscs\n");
+    //         if (map->map[i][j] == '0' || map->map[i][j] == 'D' || map->map[i][j] == 'N' || map->map[i][j] == 'S' || 
+    //             map->map[i][j] == 'W' || map->map[i][j] == 'E')
+    //         {
+    //             printf("Error: Map contains unreachable tiles at (%d, %d) = (%c).\n", i, j, map->map[i][j]);
+    //             exit(1);
+    //         }
+    //     }
+    // }
 }
 
 
@@ -217,6 +223,7 @@ int find_starting_point(char **map, t_data *img, int i)
                 img->map->player_y = i;
                 printf(">>>>>start point : (%d, %d)\n", img->map->player_x, img->map->player_y);
                 img->map->player = map[i][j];
+                img->map->map[i][j] = '0';
                 found = 1;
             }
             else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'D')

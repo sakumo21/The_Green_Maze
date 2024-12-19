@@ -38,12 +38,6 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
         return (1); 
     if (mini_map(line, map, fd, 0) || my_map(map, img))
         return (1);
-    int i = 0;
-    while (map->map[i])
-    {
-        printf("map : (%s)\n", map->map[i]);
-        i++;
-    }    
     close(fd);
     return (0);
 }
