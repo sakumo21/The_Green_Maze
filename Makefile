@@ -1,4 +1,4 @@
-CCF = cc -Wall -Wextra -Werror -g3 -g -fsanitize=address
+CCF = cc -Wall -Wextra -Werror -g3 #-g -fsanitize=address
 FLAG = ./minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
 NAME = cub3D
 LIBFT = Libft/libft.a
