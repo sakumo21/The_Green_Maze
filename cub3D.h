@@ -43,6 +43,7 @@ typedef struct s_keys
 	int	left;
 	int	right;
 	int	space;
+	int	old_x;
 } t_keys;
 
 
@@ -166,6 +167,7 @@ int		check_filled_map(char **map);
 int		find_starting_point(char **map, t_data *img, int i);
 int		get_texture_index(t_data *img);
 void	load_textures(t_data *img);
+void	free_textures(t_data *img);
 void	draw_textured_wall(t_data *img, int x);
 void	rendering_image(t_data *img, int i, char *str);
 void	print_error(char *message, int *flag, int *error);

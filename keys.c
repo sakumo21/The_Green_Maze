@@ -12,51 +12,9 @@
 
 #include "cub3D.h"
 
-int	key_handler2(int keysym, t_data *img)
-{
-	if (keysym == 32)
-	{
-		if (img->weapon == 0)
-		{
-			rendering_image(img, 0, "./puunch3.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./puunch3.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./puunch2.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./puunch.xpm");
-		}
-		else if (img->weapon == 1)
-		{
-		
-			rendering_image(img, 0, "./pistool2.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./pistool3.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./pistool4.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./pistool5.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./pistool2.xpm");
-			usleep(70000);
-			rendering_image(img, 0, "./pistool.xpm");
-			}
-	}
-	else if (keysym == 49)
-	{
-		img->weapon = 0;
-		rendering_image(img, 0, "./puunch.xpm");
-	}
-	else if (keysym == 50)
-	{
-		img->weapon = 1;
-		rendering_image(img, 0, "./pistool.xpm");
-	}
-	return (0);
-}
-
 static int	free_img(t_data *img)
 {
+	free_textures(img);
 	mlx_destroy_image(img->mlx, img->img);
 	mlx_destroy_window(img->mlx, img->win);
 	mlx_destroy_display(img->mlx);
@@ -129,26 +87,26 @@ int	handle_movement(t_data *img)
 		if (img->weapon == 0)
 		{
 			rendering_image(img, 0, "./puunch3.xpm");
-			usleep(70000);
+			usleep(10000);
 			rendering_image(img, 0, "./puunch3.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./puunch2.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./puunch.xpm");
 		}
 		else if (img->weapon == 1)
 		{
 		
 			rendering_image(img, 0, "./pistool2.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./pistool3.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./pistool4.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./pistool5.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./pistool2.xpm");
-			usleep(70000);
+			usleep(40000);
 			rendering_image(img, 0, "./pistool.xpm");
 			}
 	}
@@ -212,10 +170,19 @@ static int key_release_handler(int keysym, t_data *img)
 	return (0);
 }
 
-// int	mouse_handler(int mouse, int x, int y, t_data *img)
-// {
-	
-// }
+int	mouse_handler(int x, int y, t_data *img)
+{
+	// (void)img;
+	// printf(" x: %d, y: %d\n", x, y);
+	// (void)mouse;
+	(void)y;
+	if (x > img->keys.old_x)
+		rotate_view(img, 0.05);
+	else if (x < img->keys.old_x)
+		rotate_view(img, -0.05);
+	img->keys.old_x = x;
+	return (0);
+}
 
 void	event_keys(t_data *img)
 {
@@ -223,5 +190,5 @@ void	event_keys(t_data *img)
 	mlx_hook(img->win, KeyPress, KeyPressMask, key_press_handler, img);
 	mlx_hook(img->win, KeyRelease, KeyReleaseMask, key_release_handler, img);
 	mlx_hook(img->win, DestroyNotify, StructureNotifyMask, free_img, img);
-	// mlx_mouse_hook(img->win, mouse_handler, img);
+	mlx_hook(img->win, MotionNotify, PointerMotionMask, mouse_handler, img);
 }
