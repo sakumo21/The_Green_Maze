@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/17 17:49:04 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:26:22 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	rendering_wepon(t_data *img, char *str)
 	int			img_width;
 	int			img_height;
 
-	printf("%s\n", str);
    	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str, &img_width, &img_height);
 	img->sprite.addr = mlx_get_data_addr(img->sprite.img, &img->sprite.bits_per_pixel, &img->sprite.line_length, &img->sprite.endian);
 	my_mlx_pixel_put_sprite(img,0, 350, img_height, img_width);

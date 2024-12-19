@@ -84,7 +84,6 @@ int	handle_movement(t_data *img)
 	// Forward (W)
 	if (img->keys.w)
 	{
-		printf("www\n");
 		newX = (int)(img->ray.posx + img->ray.dirX * moveSpeed);
 		newY = (int)(img->ray.posy + img->ray.dirY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
@@ -96,7 +95,6 @@ int	handle_movement(t_data *img)
 	// Backward (S)
 	if (img->keys.s)
 	{
-		
 		newX = (int)(img->ray.posx - img->ray.dirX * moveSpeed);
 		newY = (int)(img->ray.posy - img->ray.dirY * moveSpeed);
 		if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')

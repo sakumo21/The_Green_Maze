@@ -46,34 +46,81 @@ int my_map(t_map *map, t_data *img)
     return (0);
 }
 
+// int check_map_enclosure(char **map, int i, int j)
+// {
+//     int max_y;
+
+//     max_y = 0;
+//     while (map[max_y]) //height
+//         max_y++;
+//     while (map[0][j])
+//     {
+//         if (map[0][j] != '1')
+//             return (printf("Error: Map not enclosed at top row.\n"), 1);
+//         j++;
+//     }
+//     j = 0;
+//     while (map[max_y - 1][j])
+//     {
+//         if (map[max_y - 1][j] != '1')
+//             return (printf("Error: Map not enclosed at bottom row.\n"), 1);
+//         j++;
+//     }
+//     while (i < max_y)
+//     {
+//         if (map[i][0] != '1' || map[i][ft_strlen(map[i]) - 1] != '1')
+//             return (printf("Error: Map not enclosed at row %d.\n", i), 1);
+//         i++;
+//     }
+//     return 0;
+// }
+
 int check_map_enclosure(char **map, int i, int j)
 {
-    int max_y;
+    int max_y = 0;
 
-    max_y = 0;
-    while (map[max_y]) //height
+    // Find map height
+    while (map[max_y])
         max_y++;
-    while (map[0][j])
+
+    // Check top and bottom rows
+    while (map[0][i])
     {
-        if (map[0][j] != '1')
+        if (map[0][i] != '1' && map[0][i] != ' ')
             return (printf("Error: Map not enclosed at top row.\n"), 1);
-        j++;
-    }
-    j = 0;
-    while (map[max_y - 1][j])
-    {
-        if (map[max_y - 1][j] != '1')
-            return (printf("Error: Map not enclosed at bottom row.\n"), 1);
-        j++;
-    }
-    while (i < max_y)
-    {
-        if (map[i][0] != '1' || map[i][ft_strlen(map[i]) - 1] != '1')
-            return (printf("Error: Map not enclosed at row %d.\n", i), 1);
         i++;
     }
-    return 0;
+    i = 0;
+    while (map[max_y - 1][i])
+    {
+        if (map[max_y - 1][i] != '1' && map[max_y - 1][i] != ' ')
+            return (printf("Error: Map not enclosed at bottom row.\n"), 1);
+        i++;
+    }
+
+    // Check side boundaries, ignoring spaces until walls are hit
+    for (i = 0; i < max_y; i++)
+    {
+        // Skip leading spaces
+        j = 0;
+        while (map[i][j] == ' ')
+            j++;
+        if (map[i][j] != '1') // First non-space must be a wall
+            return (printf("Error: Map not enclosed on the left at row %d.\n", i), 1);
+
+        // Check from the right side
+        j = ft_strlen(map[i]) - 1;
+        while (j >= 0 && map[i][j] == ' ')
+            j--;
+        if (map[i][j] != '1') // Last non-space must be a wall
+            return (printf("Error: Map not enclosed on the right at row %d.\n", i), 1);
+    }
+
+    return 0; // Map enclosed correctly
 }
+
+
+
 
 int parsing_map(char **map)
 {

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/09 14:47:52 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:39:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,11 @@ void draw_minimap(t_data *img)
 {
     int i, j;
     int x, y;
+    int row_length;
 
     for (i = 0; i < img->map->height; i++) {
-        for (j = 0; j < img->map->width; j++) {
+        row_length = ft_strlen(img->map->map[i]);  // Actual length of the current row
+        for (j = 0; j < row_length; j++) {
             x = j * img->map->tile_size + x_offset;
             y = i * img->map->tile_size + y_offset;
             if (img->map->map[i][j] == '1')  // Wall
@@ -135,11 +137,12 @@ void draw_minimap(t_data *img)
             else if (img->map->map[i][j] == '0')  // Floor
                 draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x696969);  // Grey for floor
             else if (img->map->map[i][j] == 'D')
-                draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x0000FF);  // BLUE for Doors
+                draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x0000FF);  // Blue for doors
         }
     }
     draw_player(img);
 }
+
 
 
 
