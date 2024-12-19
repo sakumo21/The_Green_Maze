@@ -18,7 +18,6 @@ void load_textures(t_data *img)
 
 	i = 0;
 	img->textures[4].path = "textures/gb1.xpm";
-	printf("texture (%s)\n", img->textures[0].path);
 	img->textures[0].img = mlx_xpm_file_to_image(img->mlx, img->textures[0].path, &img->textures[0].width, &img->textures[0].height);
     img->textures[1].img = mlx_xpm_file_to_image(img->mlx, img->textures[1].path, &img->textures[1].width, &img->textures[1].height);
     img->textures[2].img = mlx_xpm_file_to_image(img->mlx, img->textures[2].path, &img->textures[2].width, &img->textures[2].height);

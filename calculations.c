@@ -29,7 +29,7 @@ void	calculate_ray(t_data *img, int i)
 
 void	calculate_sside(t_data *img)
 {
-	if (img->ray.rayX< 0)
+	if (img->ray.rayX < 0)
 	{
 		img->ray.stepX = -1;
 		img->ray.SsideX = (img->ray.posx - img->ray.mapX) * img->ray.DsideX;
@@ -39,7 +39,7 @@ void	calculate_sside(t_data *img)
 		img->ray.stepX = 1;
 		img->ray.SsideX = (img->ray.mapX + 1.0 - img->ray.posx) * img->ray.DsideX;
 	}
-	if (img->ray.rayY< 0)
+	if (img->ray.rayY < 0)
 	{
 		img->ray.stepY = -1;
 		img->ray.SsideY = (img->ray.posy - img->ray.mapY) * img->ray.DsideY;
