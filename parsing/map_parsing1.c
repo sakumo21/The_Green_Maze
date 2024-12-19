@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_parsing1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/19 16:00:27 by mlamrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+
 #include "../cub3D.h"
 
 int mini_map(char *line, t_map *map, int fd, int i)
@@ -26,6 +40,50 @@ int mini_map(char *line, t_map *map, int fd, int i)
     return (0);
 }
 
+void flood_fill(t_map *map, int rows, int cols, int x, int y)
+{
+    if (x < 0 || x >= rows || y < 0 || y >= cols)
+    {
+        printf("Error: Map is open! Flood fill reached out-of-bounds at (%d, %d)\n", x, y);
+        exit(1);
+    }
+    if (map->map[x][y] == '1' || map->map[x][y] == 'F')
+        return;
+    else if (map->map[x][y] == '0')  // If it's an open space
+        map->map[x][y] = '+';
+    else if (map->map[x][y] == 'D')  // If it's a door
+        map->map[x][y] = '-';
+    else if (map->map[x][y] == map->player)  // If it's the player
+        map->map[x][y] = '+';
+    map->map[x][y] = 'F';
+    flood_fill(map, rows, cols, x + 1, y);
+    flood_fill(map, rows, cols, x - 1, y);
+    flood_fill(map, rows, cols, x, y + 1);
+    flood_fill(map, rows, cols, x, y - 1);
+}
+
+void check_map_with_flood_fill(t_map *map, int start_x, int start_y)
+{
+    int max_y = 0;
+    int max_x = 0;
+
+    while (map->map[max_y])
+        max_y++;
+    max_x = ft_strlen(map->map[0]);
+    flood_fill(map, max_y, max_x, start_y, start_x);
+    for (int i = 0; i < max_y; i++)
+    {
+        for (int j = 0; j < (int)ft_strlen(map->map[i]); j++)
+        {
+            if (map->map[i][j] == '0' || map->map[i][j] == 'D')
+            {
+                printf("Error: Map contains unreachable tiles at (%d, %d).\n", i, j);
+                exit(1);
+            }
+        }
+    }
+}
+
 int my_map(t_map *map, t_data *img)
 {
     int max_y;
@@ -39,41 +97,9 @@ int my_map(t_map *map, t_data *img)
         return (1);
     if (find_starting_point(map->map, img, 0))
         return (1);
-    // flood_fill(map, img->ray.posx, img->ray.posy, max_x, max_y);
-    // if (check_filled_map(map->map))
-    //     return (printf("Error: The map is not properly enclosed.\n"), 1);
-    // flood_fill2(map, img->ray.posx, img->ray.posy, max_x, max_y);
+    check_map_with_flood_fill(map, img->map->player_x, img->map->player_y);
     return (0);
 }
-
-// int check_map_enclosure(char **map, int i, int j)
-// {
-//     int max_y;
-
-//     max_y = 0;
-//     while (map[max_y]) //height
-//         max_y++;
-//     while (map[0][j])
-//     {
-//         if (map[0][j] != '1')
-//             return (printf("Error: Map not enclosed at top row.\n"), 1);
-//         j++;
-//     }
-//     j = 0;
-//     while (map[max_y - 1][j])
-//     {
-//         if (map[max_y - 1][j] != '1')
-//             return (printf("Error: Map not enclosed at bottom row.\n"), 1);
-//         j++;
-//     }
-//     while (i < max_y)
-//     {
-//         if (map[i][0] != '1' || map[i][ft_strlen(map[i]) - 1] != '1')
-//             return (printf("Error: Map not enclosed at row %d.\n", i), 1);
-//         i++;
-//     }
-//     return 0;
-// }
 
 int check_map_enclosure(char **map, int i, int j)
 {
@@ -115,12 +141,8 @@ int check_map_enclosure(char **map, int i, int j)
         if (map[i][j] != '1') // Last non-space must be a wall
             return (printf("Error: Map not enclosed on the right at row %d.\n", i), 1);
     }
-
-    return 0; // Map enclosed correctly
+    return 0;
 }
-
-
-
 
 int parsing_map(char **map)
 {
