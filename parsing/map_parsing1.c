@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/19 16:00:27 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/19 17:30:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,47 @@ int mini_map(char *line, t_map *map, int fd, int i)
     return (0);
 }
 
+void flood_fill2(t_map *map, int rows, int cols, int x, int y)
+{
+    // printf("%d %d\n", x, y);
+    if (x < 0 || y < 0 || y >= rows || x >= cols)
+        return ;
+    if (map->map[y][x] != '.' && map->map[y][x] != '+' && map->map[y][x] != '-')
+        return ;
+    if (map->map[y][x] == '.')
+        map->map[y][x] = '0';
+    else if (map->map[y][x] == '+')
+        map->map[y][x] = 'D';
+    else if (map->map[y][x] == 'F')
+        map->map[y][x] = map->player;
+    
+    // printf("Filling (%d, %d)\n", x, y);
+    flood_fill2(map, rows, cols, x + 1, y);  // Right
+    flood_fill2(map, rows, cols, x - 1, y);  // Left
+    flood_fill2(map, rows, cols, x, y + 1);  // Down
+    flood_fill2(map, rows, cols, x, y - 1);  // Up
+}
+
+
 void flood_fill(t_map *map, int rows, int cols, int x, int y)
 {
-    if (x < 0 || x >= rows || y < 0 || y >= cols)
-    {
-        printf("Error: Map is open! Flood fill reached out-of-bounds at (%d, %d)\n", x, y);
-        exit(1);
-    }
-    if (map->map[x][y] == '1' || map->map[x][y] == 'F')
+    if (x < 0 || y < 0 || x >= cols || y >= rows)
         return;
-    else if (map->map[x][y] == '0')  // If it's an open space
-        map->map[x][y] = '+';
-    else if (map->map[x][y] == 'D')  // If it's a door
-        map->map[x][y] = '-';
-    else if (map->map[x][y] == map->player)  // If it's the player
-        map->map[x][y] = '+';
-    map->map[x][y] = 'F';
+
+    if (map->map[y][x] != '0' && map->map[y][x] != 'D' && 
+        map->map[y][x] != 'E' && map->map[y][x] != 'N' && 
+        map->map[y][x] != 'S' && map->map[y][x] != 'W' && 
+        map->map[y][x] != ' ')
+    {
+        return;
+    }
+    if (map->map[y][x] == '0')
+        map->map[y][x] = '.';
+    else if (map->map[y][x] == 'D')
+        map->map[y][x] = '+';
+    else if (map->map[y][x] == 'N' || map->map[y][x] == 'S' || 
+                map->map[y][x] == 'W' || map->map[y][x] == 'E')
+        map->map[y][x] = 'F';
     flood_fill(map, rows, cols, x + 1, y);
     flood_fill(map, rows, cols, x - 1, y);
     flood_fill(map, rows, cols, x, y + 1);
@@ -70,19 +95,24 @@ void check_map_with_flood_fill(t_map *map, int start_x, int start_y)
     while (map->map[max_y])
         max_y++;
     max_x = ft_strlen(map->map[0]);
-    flood_fill(map, max_y, max_x, start_y, start_x);
+
+    printf("start point : (%d, %d)\n", start_x, start_y);
+    flood_fill(map, max_y, max_x, start_x, start_y);
+    flood_fill2(map, max_y, max_x, start_x, start_y);
     for (int i = 0; i < max_y; i++)
     {
         for (int j = 0; j < (int)ft_strlen(map->map[i]); j++)
         {
-            if (map->map[i][j] == '0' || map->map[i][j] == 'D')
+            if (map->map[i][j] == '0' || map->map[i][j] == 'D' || map->map[i][j] == 'N' || map->map[i][j] == 'S' || 
+                map->map[i][j] == 'W' || map->map[i][j] == 'E')
             {
-                printf("Error: Map contains unreachable tiles at (%d, %d).\n", i, j);
+                printf("Error: Map contains unreachable tiles at (%d, %d) = (%c).\n", i, j, map->map[i][j]);
                 exit(1);
             }
         }
     }
 }
+
 
 int my_map(t_map *map, t_data *img)
 {
@@ -184,8 +214,8 @@ int find_starting_point(char **map, t_data *img, int i)
                 img->ray.posy = i + 0.5;
                 img->map->player_x = j;
                 img->map->player_y = i;
+                printf(">>>>>start point : (%d, %d)\n", img->map->player_x, img->map->player_y);
                 img->map->player = map[i][j];
-                img->map->map[i][j] = '0';
                 found = 1;
             }
             else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ' && map[i][j] != 'D')

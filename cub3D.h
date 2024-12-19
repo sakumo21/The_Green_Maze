@@ -176,7 +176,7 @@ void	free_path(char **path, char *new);
 void	init_flag(t_flag *flag, t_map *map, t_data *img);
 void	free_range(char **p, int i);
 void flood_fill(t_map *map, int rows, int cols, int x, int y);
-void	flood_fill2(t_map *map, int x, int y, int max_x, int max_y);
+void flood_fill2(t_map *map, int rows, int cols, int x, int y);
 void	put_to_image(t_data *img, char *str);
 void	calculate_ray(t_data *img, int i);
 void	calculate_sside(t_data *img);
