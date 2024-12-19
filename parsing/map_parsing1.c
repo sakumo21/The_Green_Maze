@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/19 16:00:27 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/19 16:14:36 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ int mini_map(char *line, t_map *map, int fd, int i)
     return (0);
 }
 
+// void flood_fill(t_map *map, int rows, int cols, int x, int y)
+// {
+//     if (x < 0 || x >= rows || y < 0 || y >= cols)
+//     {
+//         printf("Error: Map is open! Flood fill reached out-of-bounds at (%d, %d)\n", x, y);
+//         exit(1);
+//     }
+//     if (map->map[x][y] == '1' || map->map[x][y] == 'F')
+//         return;
+//     else if (map->map[x][y] == 'F')  // If it's an open space
+//         map->map[x][y] = '0';
+//     else if (map->map[x][y] == '')  // If it's a door
+//         map->map[x][y] = '-';
+//     else if (map->map[x][y] == map->player)  // If it's the player
+//         map->map[x][y] = '+';
+//     map->map[x][y] = 'F';
+//     flood_fill(map, rows, cols, x + 1, y);
+//     flood_fill(map, rows, cols, x - 1, y);
+//     flood_fill(map, rows, cols, x, y + 1);
+//     flood_fill(map, rows, cols, x, y - 1);
+// }
+
+
 void flood_fill(t_map *map, int rows, int cols, int x, int y)
 {
     if (x < 0 || x >= rows || y < 0 || y >= cols)
@@ -47,15 +70,15 @@ void flood_fill(t_map *map, int rows, int cols, int x, int y)
         printf("Error: Map is open! Flood fill reached out-of-bounds at (%d, %d)\n", x, y);
         exit(1);
     }
-    if (map->map[x][y] == '1' || map->map[x][y] == 'F')
+    if (map->map[y][x] == '1' || map->map[y][x] == 'F')
         return;
-    else if (map->map[x][y] == '0')  // If it's an open space
-        map->map[x][y] = '+';
-    else if (map->map[x][y] == 'D')  // If it's a door
-        map->map[x][y] = '-';
-    else if (map->map[x][y] == map->player)  // If it's the player
-        map->map[x][y] = '+';
-    map->map[x][y] = 'F';
+    else if (map->map[y][x] == '0')  // If it's an open space
+        map->map[y][x] = '+';
+    else if (map->map[y][x] == 'D')  // If it's a door
+        map->map[y][x] = '-';
+    else if (map->map[y][x] == map->player)  // If it's the player
+        map->map[y][x] = '+';
+    // map->map[y][x] = 'F';
     flood_fill(map, rows, cols, x + 1, y);
     flood_fill(map, rows, cols, x - 1, y);
     flood_fill(map, rows, cols, x, y + 1);
@@ -82,6 +105,7 @@ void check_map_with_flood_fill(t_map *map, int start_x, int start_y)
             }
         }
     }
+    // flood_fill2(map, max_y, max_x, start_y, start_x);
 }
 
 int my_map(t_map *map, t_data *img)
