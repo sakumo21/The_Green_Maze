@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 15:59:38 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:39:36 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,19 @@ typedef struct s_texture
 	int		line_length;
 	int		endian;
 	char	*path;
-}				t_texture;
+ }				t_texture;
+
+typedef struct s_texture_info
+{
+	int			texX;
+	double		texPos;
+	double		step;
+	int			texture_height;
+	int			texture_width;
+	char		*texture_addr;
+	int			texture_length;
+	int			texture_bpp;
+}				t_texture_info;
 
 typedef struct s_flag
 {
@@ -86,6 +98,25 @@ typedef struct s_map
 	int			tile_size;
 	int			texture_index;
 }				t_map;
+
+typedef struct s_circle
+{
+	int			cx;
+	int			cy;
+	int			radius;
+	int			color;
+}				t_circle;
+
+typedef struct s_line
+{
+	int			x1;
+	int			y1;
+	int			x2;
+	int			y2;
+	int			color;
+	float		x;
+	float		y;
+}				t_line;
 
 typedef struct s_ray
 {
@@ -143,12 +174,24 @@ typedef struct s_data
 	int			weapon;
 	char		*floor;
 	char		*ceiling;
+	int			player_x;
+	int			player_y;
 	t_ray		ray;
 	t_map		*map;
 	t_texture	textures[5];
 	t_keys		keys;
 	t_sprite	sprite;
 }				t_data;
+
+typedef struct s_texture_data
+{
+	char		**path;
+	t_flag		*flag;
+	t_data		*img;
+	int			index;
+	char		*texture_name;
+	int			*flag_check;
+}				t_texture_data;
 
 int				free_img(t_data *img);
 int				parsing_map(char **map);
@@ -189,8 +232,6 @@ void			event_keys(t_data *img);
 void			free_path(char **path, char *new);
 void			init_flag(t_flag *flag, t_map *map, t_data *img);
 void			free_range(char **p, int i);
-void			flood_fill(t_map *map, int rows, int cols, int x, int y);
-void			flood_fill2(t_map *map, int rows, int cols, int x, int y);
 void			put_to_image(t_data *img, char *str);
 void			calculate_ray(t_data *img, int i);
 void			calculate_sside(t_data *img);
@@ -202,10 +243,23 @@ void			my_mlx_pixel_put(t_data *data, int x, int color);
 void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
+int				my_map(t_map *map, t_data *img);
+char			*ft_strjoin_three(char *s1, char *s2, char *s3);
+int				check_extra_values(char **p);
+int				validate_values(char **p);
+int				check_value_range(char **p);
+int				check_texture(t_flag *flag);
+void			free_path(char **path, char *new);
 
-// minimap
+//minimap
 int				get_map_width(t_map *map, int i);
-void			draw_minimap(t_data *img);
+void			draw_minimap(t_data *img, int i);
 void			my_put(t_data *data, int x, int y, int color);
+void			draw_textured_wall(t_data *img, int x);
+void			draw_pixel(t_data *img, int x, int y, unsigned int color);
+void			draw_player(t_data *img);
+void			draw_rectangle(t_data *img, int x, int y, int color);
+void			draw_circle(t_data *img, t_circle *circle);
+void			draw_line(t_data *img, t_line *line, int dx, int i);
 
 #endif

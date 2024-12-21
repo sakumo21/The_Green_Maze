@@ -12,161 +12,105 @@
 
 #include "../cub3D.h"
 
-int get_map_width(t_map *map, int i)
+int	get_map_width(t_map *map, int i)
 {
-    int max_width;
-    int height;
-    int row_width;
-    
-    max_width = 0;
-    height = 0;
-    while (map->map[height] != NULL)
-    {
-        height++;
-        map->height = height;
-        if (i == 1)
-            return height;
-    }
-    i = 0;
-    while (i < height)
-    {
-        row_width = ft_strlen(map->map[i]);
-        if (row_width > max_width)
-            max_width = row_width;
-        i++;
-    }
-    return max_width;
+	int	max_width;
+	int	height;
+	int	row_width;
+
+	max_width = 0;
+	height = 0;
+	while (map->map[height] != NULL)
+	{
+		height++;
+		map->height = height;
+		if (i == 1)
+			return (height);
+	}
+	i = 0;
+	while (i < height)
+	{
+		row_width = ft_strlen(map->map[i]);
+		if (row_width > max_width)
+			max_width = row_width;
+		i++;
+	}
+	return (max_width);
 }
 
-void my_put(t_data *data, int x, int y, int color)
+void	my_put(t_data *data, int x, int y, int color)
 {
-    char *dst;
+	char	*dst;
 
-    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-        return;
-
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int *)dst = color;
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }
 
-void draw_rectangle(t_data *img, int x, int y, int width, int height, int color)
+void	draw_rectangle(t_data *img, int x, int y, int color)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = x;
-    while (i < x + width)
-    {
-        j = y;
-        while (j < y + height)
-        {
-            my_put(img, i, j, color);  
-            j++;
-        }
-        i++;
-    }
+	i = x;
+	while (i < x + img->map->tile_size)
+	{
+		j = y;
+		while (j < y + img->map->tile_size)
+		{
+			my_put(img, i, j, color);
+			j++;
+		}
+		i++;
+	}
 }
 
-
-void draw_circle(t_data *img, int cx, int cy, int radius, int color)
+void	draw_circle(t_data *img, t_circle *circle)
 {
-    int x; 
-    int y;
-    int dx;
-    int dy;
+	int	x;
+	int	y;
+	int	dx;
+	int	dy;
 
-    y = -radius;
-    while (y <= radius)
-    {
-        x = -radius;
-        while (x <= radius)
-        {
-            dx = cx + x;
-            dy = cy + y;
-            if ((x * x) + (y * y) <= (radius * radius))
-                my_put(img, dx, dy, color);
-            x++;
-        }
-        y++;
-    }
+	y = -circle->radius;
+	while (y <= circle->radius)
+	{
+		x = -circle->radius;
+		while (x <= circle->radius)
+		{
+			dx = circle->cx + x;
+			dy = circle->cy + y;
+			if ((x * x) + (y * y) <= (circle->radius * circle->radius))
+				my_put(img, dx, dy, circle->color);
+			x++;
+		}
+		y++;
+	}
 }
 
-void draw_line(t_data *img, int x1, int y1, int x2, int y2, int color)
+void	draw_line(t_data *img, t_line *line, int dx, int i)
 {
-    int dx, dy, steps, i;
-    float x_inc, y_inc, x, y;
+	int		steps;
+	int		dy;
+	float	x_inc;
+	float	y_inc;
 
-    dx = x2 - x1;
-    dy = y2 - y1;
-    if (abs(dx) > abs(dy))
-        steps = abs(dx);
-    else
-        steps = abs(dy);
-    x_inc = dx / (float)steps;
-    y_inc = dy / (float)steps;
-    x = x1;
-    y = y1;
-    i = 0;
-    while (i <= steps)
-    {
-        my_put(img, x, y, color);
-        x += x_inc;
-        y += y_inc;
-        i++;
-    }
+	dx = line->x2 - line->x1;
+	dy = line->y2 - line->y1;
+	if (abs(dx) > abs(dy))
+		steps = abs(dx);
+	else
+		steps = abs(dy);
+	x_inc = dx / (float)steps;
+	y_inc = dy / (float)steps;
+	line->x = line->x1;
+	line->y = line->y1;
+	while (i <= steps)
+	{
+		my_put(img, line->x, line->y, line->color);
+		line->x += x_inc;
+		line->y += y_inc;
+		i++;
+	}
 }
-
-
-
-void draw_player(t_data *img)
-{
-    int player_x;
-    int player_y;
-    int radius;
-    int line_x;
-    int line_y;
-    int line_length;
-
-    player_x = img->ray.posx * img->map->tile_size + x_offset;
-    player_y = img->ray.posy * img->map->tile_size + y_offset;
-    radius = img->map->tile_size / 3; // Smaller radius for the player circle
-    line_length = img->map->tile_size; // Length of the direction line
-    line_x = player_x + img->ray.dirx * line_length;
-    line_y = player_y + img->ray.diry * line_length;
-    draw_circle(img, player_x, player_y, radius, 0x000000); // Red circle for the player
-    draw_line(img, player_x, player_y, line_x, line_y, 0x000000); // Green line for direction
-}
-
-
-void draw_minimap(t_data *img)
-{
-    int i;
-    int j;
-    int x;
-    int y;
-    int row_length;
-
-    for (i = 0; i < img->map->height; i++) {
-        row_length = ft_strlen(img->map->map[i]);  // Actual length of the current row
-        for (j = 0; j < row_length; j++) {
-            x = j * img->map->tile_size + x_offset;
-            y = i * img->map->tile_size + y_offset;
-            if (img->map->map[i][j] == '1')  // Wall
-                draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0xFF0000);  // Red for wall
-            else if (img->map->map[i][j] == '0')  // Floor
-                draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x696969);  // Grey for floor
-            else if (img->map->map[i][j] == 'D')
-                draw_rectangle(img, x, y, img->map->tile_size, img->map->tile_size, 0x0000FF);  // Blue for doors
-        }
-    }
-    draw_player(img);
-}
-
-
-
-
-
-
-
-
-

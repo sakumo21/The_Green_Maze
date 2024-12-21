@@ -12,80 +12,54 @@
 
 #include "../cub3D.h"
 
-
-
-int texturing(char **path, char *new, t_flag *flag, t_data *img)
+static int	set_texture(t_texture_data *data)
 {
-    path[0] = ft_strtrim(path[0], "\n");
-    if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
-    {
-        if (path[1])
-            img->textures[0].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->n_check, "North texture", flag));
-    }
-    else if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
-    {
-        if (path[1])
-            img->textures[1].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->s_check, "South texture", flag));
-    }
-    else if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
-    {   
-        if (path[1])
-            img->textures[2].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->w_check, "West texture", flag));
-    }
-    else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
-    {
-        if (path[1])
-            img->textures[3].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->e_check, "East texture", flag));
-    }
-    else if (!ft_strncmp(path[0], "F", 1))
-        return (check_set_color(&flag->f_check, "Floor color", new, img));
-    else if (!ft_strncmp(path[0], "C", 1))
-        return (check_set_color(&flag->c_check, "Ceiling color", new, img));
-    else if (ft_strncmp(path[0], "N", ft_strlen("N")) && ft_strncmp(path[0], "NO", ft_strlen("NO")) &&
-                ft_strncmp(path[0], "S", ft_strlen("S")) && ft_strncmp(path[0], "SO", ft_strlen("SO")) &&
-                ft_strncmp(path[0], "W", ft_strlen("W")) && ft_strncmp(path[0], "WE", ft_strlen("WE")) &&
-                ft_strncmp(path[0], "E", ft_strlen("E")) && ft_strncmp(path[0], "EA", ft_strlen("EA")) &&
-                ft_strncmp(path[0], "F", ft_strlen("F")) && ft_strncmp(path[0], "C", ft_strlen("C")) &&
-                ft_isalpha(path[0][0]))
-    {
-        printf("Error : %s is not a valid identifier.\n", path[0]);
-        flag->exit = 2;
-        return (1);
-    }
-    else 
-        return (1);
-    return (0);
+	if (data->path[1])
+		data->img->textures[data->index].path
+			= ft_strdup(ft_strtrim(data->path[1], "\n"));
+	return (check_and_set(data->path, data->flag_check, data->texture_name,
+			data->flag));
 }
 
-int check_set_color(int *flag, char *msg, char *new, t_data *img)
+static int	handle_texture(t_texture_data *data, int index, char *name,
+		int *flag_check)
 {
-    if (*flag)
-        return (printf("Error : %s already defined.\n", msg), 1);
-    *flag = 1;
-    if (new)
-    {
-        if (check_range(new, img, new + 2))
-            return (1);
-    }
-    return (0);
+	data->index = index;
+	data->texture_name = name;
+	data->flag_check = flag_check;
+	return (set_texture(data));
 }
 
-int check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
+int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
-    if (*flag)
-        return (printf("Error : %s already defined.\n", msg), 1);
-    *flag = 1;
-    path[1] = ft_strtrim(path[1], "\n");
-    if (check_line(path, flagg))
-        return (1);
-    return (0);
+	t_texture_data	data;
+
+	data.path = path;
+	data.flag = flag;
+	data.img = img;
+	if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO",
+			ft_strlen("NO")))
+		return (handle_texture(&data, 0, "North texture", &flag->N_check));
+	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
+			ft_strlen("SO")))
+		return (handle_texture(&data, 1, "South texture", &flag->S_check));
+	if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE",
+			ft_strlen("WE")))
+		return (handle_texture(&data, 2, "West texture", &flag->W_check));
+	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
+			ft_strlen("EA")))
+		return (handle_texture(&data, 3, "East texture", &flag->E_check));
+	if (!ft_strncmp(path[0], "F", 1))
+		return (check_set_color(&flag->F_check, "Floor color", new, img));
+	if (!ft_strncmp(path[0], "C", 1))
+		return (check_set_color(&flag->C_check, "Ceiling color", new, img));
+	if (ft_isalpha(path[0][0]))
+		return (printf("Error: %s is not a valid identifier.\n", path[0]),
+			flag->exit = 2, 1);
+	return (1);
 }
 
-void init_flag(t_flag *flag, t_map *map, t_data *img)
+void	init_flag(t_flag *flag, t_map *map, t_data *img)
 {
     flag->n_check = 0;
     flag->s_check = 0;
@@ -102,18 +76,23 @@ void init_flag(t_flag *flag, t_map *map, t_data *img)
     img->ceiling = NULL;
 }
 
-int parse_input(int ac, char **av)
+int	parse_input(int ac, char **av)
 {
-    int i = 0;
-    if (ac != 2)
-        return (printf("Where is the file?\n"), 1);
-    if (ft_strlen(av[1]) == 4 && !ft_strncmp(av[1] + ft_strlen(av[1]) - 4, ".cub", 4))
-        return (printf("Error : add a name to your .cub file.\n"), 1);
-    while(av[1][i] != '.')
-        i++;
-    if (av[1][i] == '.' && (av[1][i + 1] != 'c' || av[1][i + 2] != 'u' || av[1][i + 3] != 'b'))
-        return (printf("Error : Put the right extension (.cub) !\n"), 1);
-    else if (av[1][i] == '.' && av[1][i + 1] == 'c' && av[1][i + 2] == 'u' && av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
-        return (printf("Error : Put the right extension (.cub) !\n"), 1);
-    return (0);
+	int	i;
+
+	i = 0;
+	if (ac != 2)
+		return (printf("Where is the file?\n"), 1);
+	if (ft_strlen(av[1]) == 4 && !ft_strncmp(av[1] + ft_strlen(av[1]) - 4,
+			".cub", 4))
+		return (printf("Error : add a name to your .cub file.\n"), 1);
+	while (av[1][i] != '.')
+		i++;
+	if (av[1][i] == '.' && (av[1][i + 1] != 'c' || av[1][i + 2] != 'u'
+			|| av[1][i + 3] != 'b'))
+		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+	else if (av[1][i] == '.' && av[1][i + 1] == 'c' && av[1][i + 2] == 'u'
+			&& av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
+		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+	return (0);
 }
