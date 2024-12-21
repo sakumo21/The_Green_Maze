@@ -15,17 +15,17 @@
 int	counter_somthing(t_data *img, int hit)
 {
 	hit = 1;
-	if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
+	if (img->map->map[img->ray.mapy][img->ray.mapx] == 'D')
 	{
-		if (img->ray.mapX == (int)img->ray.posx)
+		if (img->ray.mapx == (int)img->ray.posx)
 		{
-			if (img->ray.mapY == (int)img->ray.posy + 1
-				|| img->ray.mapY == (int)img->ray.posy - 1)
+			if (img->ray.mapy == (int)img->ray.posy + 1
+				|| img->ray.mapy == (int)img->ray.posy - 1)
 				hit = 0;
 		}
-		else if (img->ray.mapY == (int)img->ray.posy)
-			if (img->ray.mapX == (int)img->ray.posx + 1
-				|| img->ray.mapX == (int)img->ray.posx - 1)
+		else if (img->ray.mapy == (int)img->ray.posy)
+			if (img->ray.mapx == (int)img->ray.posx + 1
+				|| img->ray.mapx == (int)img->ray.posx - 1)
 				hit = 0;
 	}
 	else
@@ -35,42 +35,42 @@ int	counter_somthing(t_data *img, int hit)
 
 void	calculate_ray(t_data *img, int i)
 {
-	img->ray.cameraX = 2 * (i / (double)WIDTH) - 1;
-	img->ray.rayX = img->ray.dirX + img->ray.planeX * img->ray.cameraX;
-	img->ray.rayY = img->ray.dirY + img->ray.planeY * img->ray.cameraX;
-	if (img->ray.rayX == 0)
-		img->ray.DsideX = 1e30;
+	img->ray.camerax = 2 * (i / (double)WIDTH) - 1;
+	img->ray.rayx = img->ray.dirx + img->ray.planex * img->ray.camerax;
+	img->ray.rayy = img->ray.diry + img->ray.planey * img->ray.camerax;
+	if (img->ray.rayx == 0)
+		img->ray.dsidex = 1e30;
 	else
-		img->ray.DsideX = fabs(1.0 / img->ray.rayX);
-	if (img->ray.rayY == 0)
-		img->ray.DsideY = 1e30;
+		img->ray.dsidex = fabs(1.0 / img->ray.rayx);
+	if (img->ray.rayy == 0)
+		img->ray.dsidey = 1e30;
 	else
-		img->ray.DsideY = fabs(1.0 / img->ray.rayY);
+		img->ray.dsidey = fabs(1.0 / img->ray.rayy);
 }
 
 void	calculate_sside(t_data *img)
 {
-	if (img->ray.rayX < 0)
+	if (img->ray.rayx < 0)
 	{
-		img->ray.stepX = -1;
-		img->ray.SsideX = (img->ray.posx - img->ray.mapX) * img->ray.DsideX;
+		img->ray.stepx = -1;
+		img->ray.ssidex = (img->ray.posx - img->ray.mapx) * img->ray.dsidex;
 	}
 	else
 	{
-		img->ray.stepX = 1;
-		img->ray.SsideX = (img->ray.mapX + 1.0 - img->ray.posx)
-			* img->ray.DsideX;
+		img->ray.stepx = 1;
+		img->ray.ssidex = (img->ray.mapx + 1.0 - img->ray.posx)
+			* img->ray.dsidex;
 	}
-	if (img->ray.rayY < 0)
+	if (img->ray.rayy < 0)
 	{
-		img->ray.stepY = -1;
-		img->ray.SsideY = (img->ray.posy - img->ray.mapY) * img->ray.DsideY;
+		img->ray.stepy = -1;
+		img->ray.ssidey = (img->ray.posy - img->ray.mapy) * img->ray.dsidey;
 	}
 	else
 	{
-		img->ray.stepY = 1;
-		img->ray.SsideY = (img->ray.mapY + 1.0 - img->ray.posy)
-			* img->ray.DsideY;
+		img->ray.stepy = 1;
+		img->ray.ssidey = (img->ray.mapy + 1.0 - img->ray.posy)
+			* img->ray.dsidey;
 	}
 }
 
@@ -78,25 +78,25 @@ void	calculate_vector(t_data *img, int hit)
 {
 	while (!hit)
 	{
-		if (img->ray.SsideX < img->ray.SsideY)
+		if (img->ray.ssidex < img->ray.ssidey)
 		{
-			img->ray.SsideX += img->ray.DsideX;
-			img->ray.mapX += img->ray.stepX;
+			img->ray.ssidex += img->ray.dsidex;
+			img->ray.mapx += img->ray.stepx;
 			img->ray.side = 0;
 		}
 		else
 		{
-			img->ray.SsideY += img->ray.DsideY;
-			img->ray.mapY += img->ray.stepY;
+			img->ray.ssidey += img->ray.dsidey;
+			img->ray.mapy += img->ray.stepy;
 			img->ray.side = 1;
 		}
-		if (img->map->map[img->ray.mapY][img->ray.mapX] != '0')
+		if (img->map->map[img->ray.mapy][img->ray.mapx] != '0')
 			hit = counter_somthing(img, hit);
 	}
 	if (img->ray.side == 0)
-		img->ray.perpwalldist = (img->ray.SsideX - img->ray.DsideX);
+		img->ray.perpwalldist = (img->ray.ssidex - img->ray.dsidex);
 	else
-		img->ray.perpwalldist = (img->ray.SsideY - img->ray.DsideY);
+		img->ray.perpwalldist = (img->ray.ssidey - img->ray.dsidey);
 	if (img->ray.perpwalldist == 0)
 		img->ray.perpwalldist = 1e-6;
 }

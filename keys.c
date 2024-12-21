@@ -12,59 +12,21 @@
 
 #include "cub3D.h"
 
-static int	free_img(t_data *img)
-{
-	free_textures(img);
-	mlx_destroy_image(img->mlx, img->img);
-	mlx_destroy_window(img->mlx, img->win);
-	mlx_destroy_display(img->mlx);
-	free(img->mlx);
-	exit(0);
-}
-
-static void	rotate_view(t_data *img, double rotSpeed)
+void	rotate_view(t_data *img, double rotSpeed)
 {
 	double	olddirx;
 	double	oldplanex;
 
-	olddirx = img->ray.dirX;
-	img->ray.dirX = img->ray.dirX * cos(rotSpeed)
-		- img->ray.dirY * sin(rotSpeed);
-	img->ray.dirY = olddirx * sin(rotSpeed)
-		+ img->ray.dirY * cos(rotSpeed);
-	oldplanex = img->ray.planeX;
-	img->ray.planeX = img->ray.planeX * cos(rotSpeed)
-		- img->ray.planeY * sin(rotSpeed);
-	img->ray.planeY = oldplanex * sin(rotSpeed)
-		+ img->ray.planeY * cos(rotSpeed);
-}
-
-int	handle_movement(t_data *img)
-{
-	if (img->keys.w)
-		move_up(img);
-	if (img->keys.s)
-		move_down(img);
-	if (img->keys.a)
-		move_left(img);
-	if (img->keys.d)
-		move_right(img);
-	if (img->keys.space)
-	{
-		if (img->weapon == 0)
-			punch_frames(img);
-		else if (img->weapon == 1)
-			pistol_frames(img);
-	}
-	if (img->keys.left)
-		rotate_view(img, -ROTSPEED);
-	if (img->keys.right)
-		rotate_view(img, ROTSPEED);
-	if (img->weapon == 0)
-		rendering_image(img, 0, "./puunch.xpm");
-	else
-		rendering_image(img, 0, "./pistool.xpm");
-	return (0);
+	olddirx = img->ray.dirx;
+	img->ray.dirx = img->ray.dirx * cos(rotSpeed)
+		- img->ray.diry * sin(rotSpeed);
+	img->ray.diry = olddirx * sin(rotSpeed)
+		+ img->ray.diry * cos(rotSpeed);
+	oldplanex = img->ray.planex;
+	img->ray.planex = img->ray.planex * cos(rotSpeed)
+		- img->ray.planey * sin(rotSpeed);
+	img->ray.planey = oldplanex * sin(rotSpeed)
+		+ img->ray.planey * cos(rotSpeed);
 }
 
 static int	key_press_handler(int keysym, t_data *img)

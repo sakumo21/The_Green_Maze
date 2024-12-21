@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 17:32:32 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:48:51 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,19 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 
 void	init_flag(t_flag *flag, t_map *map, t_data *img)
 {
-	flag->N_check = 0;
-	flag->S_check = 0;
-	flag->W_check = 0;
-	flag->E_check = 0;
-	flag->F_check = 0;
-	flag->C_check = 0;
-	flag->exit = 0;
-	map->map = NULL;
-	map->player = 0;
-	map->player_x = 0;
-	map->player_y = 0;
-	img->floor = NULL;
-	img->ceiling = NULL;
+    flag->n_check = 0;
+    flag->s_check = 0;
+    flag->w_check = 0;
+    flag->e_check = 0;
+    flag->f_check = 0;
+    flag->c_check = 0;
+    flag->exit = 0;
+    map->map = NULL;
+    map->player = 0;
+    map->player_x = 0;
+    map->player_y = 0;
+    img->floor = NULL;
+    img->ceiling = NULL;
 }
 
 int	parse_input(int ac, char **av)

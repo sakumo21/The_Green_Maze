@@ -27,11 +27,11 @@
 # define EMPTY '0'
 # define SPACE ' '
 
-# define WIDTH 2060
-# define HEIGHT 1080
+# define WIDTH 800
+# define HEIGHT 800
 
-# define mapWidth 24
-# define mapHeight 24
+# define MAPWIDTH 24
+# define MAPHEIGHT 24
 # define EPSILON 1e-6
 # define x_offset 10
 # define y_offset 10
@@ -50,6 +50,18 @@ typedef struct s_keys
 	int			old_x;
 }				t_keys;
 
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	char	*path;
+ }				t_texture;
+
 typedef struct s_texture_info
 {
 	int			texX;
@@ -62,26 +74,14 @@ typedef struct s_texture_info
 	int			texture_bpp;
 }				t_texture_info;
 
-typedef struct s_texture
-{
-	void *img;          // Image pointer for the texture
-	char *addr;         // Pixel data of the texture
-	int width;          // Texture width
-	int height;         // Texture height
-	int bits_per_pixel; // Bits per pixel
-	int line_length;    // Line size in bytes
-	int endian;         // Endian format
-	char		*path;
-}				t_texture;
-
 typedef struct s_flag
 {
-	int			N_check;
-	int			S_check;
-	int			W_check;
-	int			E_check;
-	int			F_check;
-	int			C_check;
+	int			n_check;
+	int			s_check;
+	int			w_check;
+	int			e_check;
+	int			f_check;
+	int			c_check;
 	int			exit;
 }				t_flag;
 
@@ -123,32 +123,32 @@ typedef struct s_ray
 	int			drawend;
 	int			drawstart;
 	int			wallheight;
-	double		cameraX;
-	double		rayX;
-	double		rayY;
-	double		DsideX;
-	double		DsideY;
-	double		SsideX;
-	double		SsideY;
-	int			stepX;
-	int			stepY;
-	int			mapX;
-	int			mapY;
+	double		camerax;
+	double		rayx;
+	double		rayy;
+	double		dsidex;
+	double		dsidey;
+	double		ssidex;
+	double		ssidey;
+	int			stepx;
+	int			stepy;
+	int			mapx;
+	int			mapy;
 	double		posx;
 	double		posy;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
 	int			side;
 	int			color;
 	double		perpwalldist;
-	int move_forward;  // W key flag
-	int move_backward; // S key flag
-	int move_left;     // A key flag
-	int move_right;    // D key flag
-	int rotate_left;   // Left arrow key flag
-	int rotate_right;  // Right arrow key flag
+	int			move_forward;
+	int			move_backward;
+	int			move_left;
+	int			move_right;
+	int			rotate_left;
+	int			rotate_right;
 }				t_ray;
 
 typedef struct s_sprite
@@ -193,33 +193,39 @@ typedef struct s_texture_data
 	int			*flag_check;
 }				t_texture_data;
 
-int				main_parsing(char **av, int ac, t_data *img, char *line);
-int				check_texture(t_flag *flag);
+int				free_img(t_data *img);
 int				parsing_map(char **map);
+int				check_texture(t_flag *flag);
+int				handle_movement(t_data *img);
+int				check_filled_map(char **map);
+int				check_path_exists(char *path);
+int				get_texture_index(t_data *img);
+int				parse_input(int ac, char **av);
+int				my_map(t_map *map, t_data *img);
+int				check_line(char **line, t_flag *flagg);
+int				check_map_enclosure(t_map *map, int x, int y);
+int				check_range(char *line, t_data *img, char *new);
+int				mini_map(char *line, t_map *map, int fd, int i);
+int				find_starting_point(char **map, t_data *img, int i);
+int				main_parsing(char **av, int ac, t_map *map, t_data *img);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
 int				texturing(char **path, char *new, t_flag *flag, t_data *img);
-int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
 int				check_set_color(int *flag, char *msg, char *new, t_data *img);
-int				parse_input(int ac, char **av);
-int				check_range(char *line, t_data *img, char *new);
-int				check_line(char **line, t_flag *flagg);
-int				mini_map(char *line, t_map *map, int fd, int i);
-int				my_map(t_map *map, t_data *img);
-int				check_map_enclosure(t_map *map, int x, int y);
-int				check_path_exists(char *path);
-int				check_filled_map(char **map);
-int				find_starting_point(char **map, t_data *img, int i, int found);
-int				get_texture_index(t_data *img);
-void			move_down(t_data *img);
+int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
 void			move_up(t_data *img);
+void			init_cube(t_data *img);
+void			move_down(t_data *img);
 void			move_left(t_data *img);
 void			move_right(t_data *img);
-void			load_textures(t_data *img, int i);
-;
-void			free_textures(t_data *img);
 void			punch_frames(t_data *img);
+void			free_textures(t_data *img);
+void			load_textures(t_data *img);
+void			free_textures(t_data *img);
 void			pistol_frames(t_data *img);
+void			free_resources(t_data *img);
 void			draw_textured_wall(t_data *img, int x);
+void			rotate_view(t_data *img, double rotSpeed);
+void			initialize_values(t_data *img, double a[4]);
 void			rendering_image(t_data *img, int i, char *str);
 void			print_error(char *message, int *flag, int *error);
 void			event_keys(t_data *img);

@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:29:29 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/20 18:03:51 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:55:30 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 int	get_texture_index(t_data *img)
 {
-	if (img->map->map[img->ray.mapY][img->ray.mapX] == 'D')
+	if (img->map->map[img->ray.mapy][img->ray.mapx] == 'D')
 		return (4);
 	if (img->ray.side == 0)
 	{
-		if (img->ray.rayX < 0)
+		if (img->ray.rayx < 0)
 			return (0);
 		else
 			return (1);
 	}
 	else
 	{
-		if (img->ray.rayY < 0)
+		if (img->ray.rayy < 0)
 			return (2);
 		else
 			return (3);
