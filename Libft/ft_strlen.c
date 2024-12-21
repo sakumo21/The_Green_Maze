@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:45:32 by mlamrani          #+#    #+#             */
-/*   Updated: 2023/11/26 13:56:21 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:58:07 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *c)
 	size_t	i;
 
 	i = 0;
-	while (c[i] != '\0')
+	while (c[i])
 	{
 		i++;
 	}

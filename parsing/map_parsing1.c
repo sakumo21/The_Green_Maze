@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/19 17:56:59 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 13:42:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../cub3D.h"
 
@@ -40,87 +38,6 @@ int mini_map(char *line, t_map *map, int fd, int i)
     return (0);
 }
 
-void flood_fill2(t_map *map, int rows, int cols, int x, int y)
-{
-    // printf("%d %d\n", x, y);
-    if (x < 0 || y < 0 || y >= rows || x >= cols)
-        return ;
-    if (map->map[y][x] != '.' && map->map[y][x] != '+' && map->map[y][x] != 'F')
-        return ;
-    if (map->map[y][x] == '.')
-        map->map[y][x] = '0';
-    else if (map->map[y][x] == '+')
-        map->map[y][x] = 'D';
-    else if (map->map[y][x] == 'F')
-        map->map[y][x] = map->player;
-    
-    // printf("Filling (%d, %d)\n", x, y);
-    flood_fill2(map, rows, cols, x + 1, y);  // Right
-    flood_fill2(map, rows, cols, x - 1, y);  // Left
-    flood_fill2(map, rows, cols, x, y + 1);  // Down
-    flood_fill2(map, rows, cols, x, y - 1);  // Up
-}
-
-
-void flood_fill(t_map *map, int rows, int cols, int x, int y)
-{
-    if (x < 0 || y < 0 || x >= cols || y >= rows)
-        return;
-
-    if (map->map[y][x] != '0' && map->map[y][x] != 'D' && 
-        map->map[y][x] != 'E' && map->map[y][x] != 'N' && 
-        map->map[y][x] != 'S' && map->map[y][x] != 'W' && 
-        map->map[y][x] != ' ')
-    {
-        return;
-    }
-    if (map->map[y][x] == '0')
-        map->map[y][x] = '.';
-    else if (map->map[y][x] == 'D')
-        map->map[y][x] = '+';
-    else if (map->map[y][x] == 'N' || map->map[y][x] == 'S' || 
-                map->map[y][x] == 'W' || map->map[y][x] == 'E')
-        map->map[y][x] = 'F';
-    flood_fill(map, rows, cols, x + 1, y);
-    flood_fill(map, rows, cols, x - 1, y);
-    flood_fill(map, rows, cols, x, y + 1);
-    flood_fill(map, rows, cols, x, y - 1);
-}
-
-void check_map_with_flood_fill(t_map *map, int start_x, int start_y)
-{
-    int max_y = 0;
-    int max_x = 0;
-
-    while (map->map[max_y])
-        max_y++;
-    max_x = ft_strlen(map->map[0]);
-
-    printf("start point : (%d, %d)\n", start_x, start_y);
-    flood_fill(map, max_y, max_x, start_x, start_y);
-    flood_fill2(map, max_y, max_x, start_x, start_y);
-    int i = 0;
-    while (map->map[i])
-    {
-        printf("map : (%s)\n", map->map[i]);
-        i++;
-    }    
-    // for (int i = 0; i < max_y; i++)
-    // {
-    //     for (int j = 0; j < (int)ft_strlen(map->map[i]); j++)
-    //     {
-    //         printf("cscscs\n");
-    //         if (map->map[i][j] == '0' || map->map[i][j] == 'D' || map->map[i][j] == 'N' || map->map[i][j] == 'S' || 
-    //             map->map[i][j] == 'W' || map->map[i][j] == 'E')
-    //         {
-    //             printf("Error: Map contains unreachable tiles at (%d, %d) = (%c).\n", i, j, map->map[i][j]);
-    //             exit(1);
-    //         }
-    //     }
-    // }
-}
-
-
 int my_map(t_map *map, t_data *img)
 {
     int max_y;
@@ -130,56 +47,40 @@ int my_map(t_map *map, t_data *img)
         return (1);
     while (map->map[max_y] != NULL)
         max_y++;
-    if (check_map_enclosure(map->map, 0, 0))
+    if (check_map_enclosure(map, 0, 0))
         return (1);
     if (find_starting_point(map->map, img, 0))
         return (1);
-    check_map_with_flood_fill(map, img->map->player_x, img->map->player_y);
     return (0);
 }
 
-int check_map_enclosure(char **map, int i, int j)
+int check_map_enclosure(t_map *map, int x, int y)
 {
-    int max_y = 0;
+    char *valid_neighbors;
 
-    // Find map height
-    while (map[max_y])
-        max_y++;
-
-    // Check top and bottom rows
-    while (map[0][i])
+    valid_neighbors = "10DNEWS";
+    while(map->map[y])
     {
-        if (map[0][i] != '1' && map[0][i] != ' ')
-            return (printf("Error: Map not enclosed at top row.\n"), 1);
-        i++;
-    }
-    i = 0;
-    while (map[max_y - 1][i])
-    {
-        if (map[max_y - 1][i] != '1' && map[max_y - 1][i] != ' ')
-            return (printf("Error: Map not enclosed at bottom row.\n"), 1);
-        i++;
-    }
-
-    // Check side boundaries, ignoring spaces until walls are hit
-    for (i = 0; i < max_y; i++)
-    {
-        // Skip leading spaces
-        j = 0;
-        while (map[i][j] == ' ')
-            j++;
-        if (map[i][j] != '1') // First non-space must be a wall
-            return (printf("Error: Map not enclosed on the left at row %d.\n", i), 1);
-
-        // Check from the right side
-        j = ft_strlen(map[i]) - 1;
-        while (j >= 0 && map[i][j] == ' ')
-            j--;
-        if (map[i][j] != '1') // Last non-space must be a wall
-            return (printf("Error: Map not enclosed on the right at row %d.\n", i), 1);
+        while(map->map[y][x])
+        {
+            if (map->map[y][x] == '0')
+            {
+                if (x == 0 || !ft_strchr(valid_neighbors, map->map[y][x - 1]) ||
+                    !map->map[y][x + 1] || !ft_strchr(valid_neighbors, map->map[y][x + 1]) ||
+                    y == 0 || x >= (int)ft_strlen(map->map[y - 1]) || !ft_strchr(valid_neighbors, map->map[y - 1][x]) ||
+                    !map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1]) || !ft_strchr(valid_neighbors, map->map[y + 1][x]))
+                {
+                    return (printf("Error: Invalid map"), 1);
+                }
+            }
+            x++;
+        }
+        y++;
     }
     return 0;
 }
+
+
 
 int parsing_map(char **map)
 {
@@ -221,7 +122,6 @@ int find_starting_point(char **map, t_data *img, int i)
                 img->ray.posy = i + 0.5;
                 img->map->player_x = j;
                 img->map->player_y = i;
-                printf(">>>>>start point : (%d, %d)\n", img->map->player_x, img->map->player_y);
                 img->map->player = map[i][j];
                 img->map->map[i][j] = '0';
                 found = 1;

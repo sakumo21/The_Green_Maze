@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_pixel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:27:58 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/15 21:29:50 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:17:36 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,4 @@ void my_mlx_pixel_put_sprite(t_data *data, int start_x, int start_y, int height,
 		i++;
     }
 
-}  
-
+}

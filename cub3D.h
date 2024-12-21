@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 19:38:41 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 19:38:41 by marvin           ###   ########.fr       */
+/*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/21 13:39:36 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 #include "Get_next_line/get_next_line.h"
 #include <sys/time.h>
 
+#define WALL '1'
+#define EMPTY '0'
+#define SPACE ' '
 
-
-#define WIDTH 800
-#define HEIGHT 800
+#define WIDTH 2060
+#define HEIGHT 1080
 
 #define mapWidth 24
 #define mapHeight 24
@@ -157,13 +159,12 @@ int		texturing(char **path, char *new, t_flag *flag, t_data *img);
 int		check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
 int		check_set_color(int *flag, char *msg, char *new, t_data *img);
 int		parse_input(int ac, char **av);
-int		check_range(char *line, t_data *img);
+int		check_range(char *line, t_data *img, char *new);
 int		check_line(char **line, t_flag *flagg);
 int		mini_map(char *line, t_map *map, int fd, int i);
 int		my_map(t_map *map, t_data *img);
-int		check_map_enclosure(char **map, int i, int j);
+int check_map_enclosure(t_map *map, int x, int y);
 int		check_path_exists(char *path);
-int		check_filled_map(char **map);
 int		find_starting_point(char **map, t_data *img, int i);
 int		get_texture_index(t_data *img);
 void	load_textures(t_data *img);
@@ -175,8 +176,6 @@ void	event_keys(t_data *img);
 void	free_path(char **path, char *new);
 void	init_flag(t_flag *flag, t_map *map, t_data *img);
 void	free_range(char **p, int i);
-void flood_fill(t_map *map, int rows, int cols, int x, int y);
-void flood_fill2(t_map *map, int rows, int cols, int x, int y);
 void	put_to_image(t_data *img, char *str);
 void	calculate_ray(t_data *img, int i);
 void	calculate_sside(t_data *img);

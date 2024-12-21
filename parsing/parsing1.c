@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/21 14:05:01 by mlamrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../cub3D.h"
 
 int first_parse(int ac, char **av, int *fd)
@@ -29,13 +42,9 @@ int main_parsing(char **av, int ac, t_map *map, t_data *img)
         if (parse_line(line, &flag, 0, img))
             break;
         free(line);
-    }
-    if (flag.exit == 2)
-        return (1); 
-    if (check_texture(&flag))
+    } 
+    if (flag.exit == 2 || check_texture(&flag))
         return (1);
-    if (flag.exit == 2)
-        return (1); 
     if (mini_map(line, map, fd, 0) || my_map(map, img))
         return (1);
     close(fd);

@@ -1,5 +1,16 @@
-#include "../cub3D.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
+/*   Updated: 2024/12/21 14:06:47 by mlamrani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../cub3D.h"
 
 
 
@@ -8,22 +19,26 @@ int texturing(char **path, char *new, t_flag *flag, t_data *img)
     path[0] = ft_strtrim(path[0], "\n");
     if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
     {
-        img->textures[0].path = ft_strdup(ft_strtrim(path[1], "\n"));
+        if (path[1])
+            img->textures[0].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->N_check, "North texture", flag));
     }
     else if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
     {
-        img->textures[1].path = ft_strdup(ft_strtrim(path[1], "\n"));
+        if (path[1])
+            img->textures[1].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->S_check, "South texture", flag));
     }
     else if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
-    {
-        img->textures[2].path = ft_strdup(ft_strtrim(path[1], "\n"));
+    {   
+        if (path[1])
+            img->textures[2].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->W_check, "West texture", flag));
     }
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
     {
-        img->textures[3].path = ft_strdup(ft_strtrim(path[1], "\n"));
+        if (path[1])
+            img->textures[3].path = ft_strdup(ft_strtrim(path[1], "\n"));
         return (check_and_set(path, &flag->E_check, "East texture", flag));
     }
     else if (!ft_strncmp(path[0], "F", 1))
@@ -53,7 +68,7 @@ int check_set_color(int *flag, char *msg, char *new, t_data *img)
     *flag = 1;
     if (new)
     {
-        if (check_range(new, img))
+        if (check_range(new, img, new + 2))
             return (1);
     }
     return (0);

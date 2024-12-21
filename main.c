@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/19 16:06:38 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:18:06 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,6 @@ void	rendering_wepon(t_data *img, char *str)
 
 void	rendering_image(t_data *img, int i, char *str)
 {
-    // (void) str;
-	// free_textures(img);
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
@@ -155,10 +153,14 @@ void	rendering_image(t_data *img, int i, char *str)
 }
 void free_textures(t_data *img)
 {
-    for (int i = 0; i < 4; i++)
+    int i;
+
+    i = 0;
+    while(i < 4)
     {
         if (img->textures[i].img)
             mlx_destroy_image(img->mlx, img->textures[i].img);
+        i++;
     }
 }
 

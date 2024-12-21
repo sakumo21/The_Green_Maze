@@ -50,10 +50,7 @@ int check_line(char **line, t_flag *flagg)
         }
     } 
     else
-    {
-        // flagg->exit = 1;
         return (printf("Error: No path specified for %s\n", line[0]), 1);
-    }
     return (0);
 }
 

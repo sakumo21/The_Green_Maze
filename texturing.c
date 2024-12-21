@@ -65,7 +65,6 @@ void draw_textured_wall(t_data *img, int x)
 		endY = HEIGHT - 1;
 	step = 1.0 * img->textures[img->map->texture_index].height / wallHeight;
 	texPos = (startY - HEIGHT / 2 + wallHeight / 2) * step; // Initial texture position
-	// printf("texture index : %d\n", texture_index);	
 	for (int y = startY; y < endY; y++)
 	{
 		texY = (int)texPos & (img->textures[img->map->texture_index].height - 1); // Wrap texY if necessary
