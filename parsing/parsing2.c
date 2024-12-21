@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 14:06:47 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:48:51 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,30 @@ int texturing(char **path, char *new, t_flag *flag, t_data *img)
     {
         if (path[1])
             img->textures[0].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->N_check, "North texture", flag));
+        return (check_and_set(path, &flag->n_check, "North texture", flag));
     }
     else if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
     {
         if (path[1])
             img->textures[1].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->S_check, "South texture", flag));
+        return (check_and_set(path, &flag->s_check, "South texture", flag));
     }
     else if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
     {   
         if (path[1])
             img->textures[2].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->W_check, "West texture", flag));
+        return (check_and_set(path, &flag->w_check, "West texture", flag));
     }
     else if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
     {
         if (path[1])
             img->textures[3].path = ft_strdup(ft_strtrim(path[1], "\n"));
-        return (check_and_set(path, &flag->E_check, "East texture", flag));
+        return (check_and_set(path, &flag->e_check, "East texture", flag));
     }
     else if (!ft_strncmp(path[0], "F", 1))
-        return (check_set_color(&flag->F_check, "Floor color", new, img));
+        return (check_set_color(&flag->f_check, "Floor color", new, img));
     else if (!ft_strncmp(path[0], "C", 1))
-        return (check_set_color(&flag->C_check, "Ceiling color", new, img));
+        return (check_set_color(&flag->c_check, "Ceiling color", new, img));
     else if (ft_strncmp(path[0], "N", ft_strlen("N")) && ft_strncmp(path[0], "NO", ft_strlen("NO")) &&
                 ft_strncmp(path[0], "S", ft_strlen("S")) && ft_strncmp(path[0], "SO", ft_strlen("SO")) &&
                 ft_strncmp(path[0], "W", ft_strlen("W")) && ft_strncmp(path[0], "WE", ft_strlen("WE")) &&
@@ -87,12 +87,12 @@ int check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 
 void init_flag(t_flag *flag, t_map *map, t_data *img)
 {
-    flag->N_check = 0;
-    flag->S_check = 0;
-    flag->W_check = 0;
-    flag->E_check = 0;
-    flag->F_check = 0;
-    flag->C_check = 0;
+    flag->n_check = 0;
+    flag->s_check = 0;
+    flag->w_check = 0;
+    flag->e_check = 0;
+    flag->f_check = 0;
+    flag->c_check = 0;
     flag->exit = 0;
     map->map = NULL;
     map->player = 0;

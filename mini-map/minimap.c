@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:17:42 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 14:15:45 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:48:21 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void draw_player(t_data *img)
     player_y = img->ray.posy * img->map->tile_size + y_offset;
     radius = img->map->tile_size / 3; // Smaller radius for the player circle
     line_length = img->map->tile_size; // Length of the direction line
-    line_x = player_x + img->ray.dirX * line_length;
-    line_y = player_y + img->ray.dirY * line_length;
+    line_x = player_x + img->ray.dirx * line_length;
+    line_y = player_y + img->ray.diry * line_length;
     draw_circle(img, player_x, player_y, radius, 0x000000); // Red circle for the player
     draw_line(img, player_x, player_y, line_x, line_y, 0x000000); // Green line for direction
 }

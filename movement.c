@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:30:10 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/20 17:33:33 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:47:45 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	move_down(t_data *img)
 	int	newX;
 	int	newY;
 	
-	newX = (int)(img->ray.posx - img->ray.dirX * MOVESPEED);
-	newY = (int)(img->ray.posy - img->ray.dirY * MOVESPEED);
+	newX = (int)(img->ray.posx - img->ray.dirx * MOVESPEED);
+	newY = (int)(img->ray.posy - img->ray.diry * MOVESPEED);
 	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
-		img->ray.posx -= img->ray.dirX * MOVESPEED;
+		img->ray.posx -= img->ray.dirx * MOVESPEED;
 	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
-		img->ray.posy -= img->ray.dirY * MOVESPEED;
+		img->ray.posy -= img->ray.diry * MOVESPEED;
 }
 
 void	move_up(t_data *img)
@@ -30,12 +30,12 @@ void	move_up(t_data *img)
 	int	newX;
 	int	newY;
 	
-	newX = (int)(img->ray.posx + img->ray.dirX * MOVESPEED);
-	newY = (int)(img->ray.posy + img->ray.dirY * MOVESPEED);
+	newX = (int)(img->ray.posx + img->ray.dirx * MOVESPEED);
+	newY = (int)(img->ray.posy + img->ray.diry * MOVESPEED);
 	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
-		img->ray.posx += img->ray.dirX * MOVESPEED;
+		img->ray.posx += img->ray.dirx * MOVESPEED;
 	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
-		img->ray.posy += img->ray.dirY * MOVESPEED;
+		img->ray.posy += img->ray.diry * MOVESPEED;
 }
 
 void 	move_left(t_data *img)
@@ -43,12 +43,12 @@ void 	move_left(t_data *img)
 	int	newX;
 	int	newY;
 
-	newX = (int)(img->ray.posx - img->ray.planeX * MOVESPEED);
-	newY = (int)(img->ray.posy - img->ray.planeY * MOVESPEED);
+	newX = (int)(img->ray.posx - img->ray.planex * MOVESPEED);
+	newY = (int)(img->ray.posy - img->ray.planey * MOVESPEED);
 	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
-		img->ray.posx -= img->ray.planeX * MOVESPEED;
+		img->ray.posx -= img->ray.planex * MOVESPEED;
 	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
-		img->ray.posy -= img->ray.planeY * MOVESPEED;
+		img->ray.posy -= img->ray.planey * MOVESPEED;
 }
 
 void	move_right(t_data *img)
@@ -56,10 +56,38 @@ void	move_right(t_data *img)
 	int	newX;
 	int	newY;
 
-	newX = (int)(img->ray.posx + img->ray.planeX * MOVESPEED);
-	newY = (int)(img->ray.posy + img->ray.planeY * MOVESPEED);
+	newX = (int)(img->ray.posx + img->ray.planex * MOVESPEED);
+	newY = (int)(img->ray.posy + img->ray.planey * MOVESPEED);
 	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
-		img->ray.posx += img->ray.planeX * MOVESPEED;
+		img->ray.posx += img->ray.planex * MOVESPEED;
 	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
-		img->ray.posy += img->ray.planeY * MOVESPEED;	
+		img->ray.posy += img->ray.planey * MOVESPEED;	
+}
+
+int	handle_movement(t_data *img)
+{
+	if (img->keys.w)
+		move_up(img);
+	if (img->keys.s)
+		move_down(img);
+	if (img->keys.a)
+		move_left(img);
+	if (img->keys.d)
+		move_right(img);
+	if (img->keys.space)
+	{
+		if (img->weapon == 0)
+			punch_frames(img);
+		else if (img->weapon == 1)
+			pistol_frames(img);
+	}
+	if (img->keys.left)
+		rotate_view(img, -ROTSPEED);
+	if (img->keys.right)
+		rotate_view(img, ROTSPEED);
+	if (img->weapon == 0)
+		rendering_image(img, 0, "./puunch.xpm");
+	else
+		rendering_image(img, 0, "./pistool.xpm");
+	return (0);
 }

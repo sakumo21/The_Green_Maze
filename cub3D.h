@@ -3,139 +3,135 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 13:39:36 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:59:38 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include "./minilibx-linux/mlx.h"
-#include <math.h>
-#include <X11/X.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include "Libft/libft.h"
-#include "Get_next_line/get_next_line.h"
-#include <sys/time.h>
+# include "./minilibx-linux/mlx.h"
+# include "Get_next_line/get_next_line.h"
+# include "Libft/libft.h"
+# include <X11/X.h>
+# include <fcntl.h>
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
-#define WALL '1'
-#define EMPTY '0'
-#define SPACE ' '
+# define WALL '1'
+# define EMPTY '0'
+# define SPACE ' '
 
-#define WIDTH 800
-#define HEIGHT 800
+# define WIDTH 800
+# define HEIGHT 800
 
-#define mapWidth 24
-#define mapHeight 24
-#define EPSILON 1e-6
-#define x_offset 10
-#define y_offset 10
-#define MOVESPEED 0.12
-#define ROTSPEED 0.05
+# define MAPWIDTH 24
+# define MAPHEIGHT 24
+# define EPSILON 1e-6
+# define x_offset 10
+# define y_offset 10
+# define MOVESPEED 0.12
+# define ROTSPEED 0.05
 
 typedef struct s_keys
 {
-	int	w;
-	int	s;
-	int	a;
-	int	d;
-	int	left;
-	int	right;
-	int	space;
-	int	old_x;
-} t_keys;
-
-
+	int			w;
+	int			s;
+	int			a;
+	int			d;
+	int			left;
+	int			right;
+	int			space;
+	int			old_x;
+}				t_keys;
 
 typedef struct s_texture
 {
-	void    *img;           // Image pointer for the texture
-	char    *addr;          // Pixel data of the texture
-	int     width;          // Texture width
-	int     height;         // Texture height
-	int     bits_per_pixel; // Bits per pixel
-	int     line_length;    // Line size in bytes
-	int     endian;        // Endian format
-	char *path;
-}               t_texture;
-
-typedef struct s_flag
-{
-    int N_check;
-    int S_check;
-    int W_check;
-    int E_check;
-    int F_check;
-    int C_check;
-	int exit;
-}               t_flag;
-
-typedef struct s_map
-{
-    char **map;
-	int height;
-	int width;
-	char player;
-	int player_x;
-	int player_y;
-	int minimap_width;
-	int minimap_height;
-	int tile_size;
-	int texture_index;
-}               t_map;
-
-
-typedef struct s_ray
-{
-	int		drawend;
-	int		drawstart;
-	int		wallheight;	
-	double 	cameraX;
-	double	rayX;
-	double	rayY;
-	double	DsideX;
-	double	DsideY;
-	double	SsideX;
-	double	SsideY;
-	int		stepX;
-	int		stepY;
-	int		mapX;
-	int		mapY;
-	double	posx;
-	double	posy;
-  	double	dirX;
-	double	dirY;
-  	double	planeX;
-	double	planeY;
-	int		side;
-	int		color;
-	double	perpwalldist;
-	int move_forward;    // W key flag
-    int move_backward;   // S key flag
-    int move_left;       // A key flag
-    int move_right;      // D key flag
-    int rotate_left;     // Left arrow key flag
-    int rotate_right;    // Right arrow key flag
-}				t_ray;
-
-typedef struct	s_sprite 
-{
-	void	*mlx;
-	void	*win;
 	void	*img;
 	char	*addr;
+	int		width;
+	int		height;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	char	*path;
+}				t_texture;
+
+typedef struct s_flag
+{
+	int			n_check;
+	int			s_check;
+	int			w_check;
+	int			e_check;
+	int			f_check;
+	int			c_check;
+	int			exit;
+}				t_flag;
+
+typedef struct s_map
+{
+	char		**map;
+	int			height;
+	int			width;
+	char		player;
+	int			player_x;
+	int			player_y;
+	int			minimap_width;
+	int			minimap_height;
+	int			tile_size;
+	int			texture_index;
+}				t_map;
+
+typedef struct s_ray
+{
+	int			drawend;
+	int			drawstart;
+	int			wallheight;
+	double		camerax;
+	double		rayx;
+	double		rayy;
+	double		dsidex;
+	double		dsidey;
+	double		ssidex;
+	double		ssidey;
+	int			stepx;
+	int			stepy;
+	int			mapx;
+	int			mapy;
+	double		posx;
+	double		posy;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
+	int			side;
+	int			color;
+	double		perpwalldist;
+	int			move_forward;
+	int			move_backward;
+	int			move_left;
+	int			move_right;
+	int			rotate_left;
+	int			rotate_right;
+}				t_ray;
+
+typedef struct s_sprite
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 }				t_sprite;
 
-
-typedef struct	s_data 
+typedef struct s_data
 {
 	void		*mlx;
 	void		*win;
@@ -154,57 +150,62 @@ typedef struct	s_data
 	t_sprite	sprite;
 }				t_data;
 
-int		main_parsing(char **av, int ac, t_map *map, t_data *img);
-int		check_texture(t_flag *flag);
-int		parsing_map(char **map);
-int		parse_line(char *line, t_flag *flag, int i, t_data *img);
-int		texturing(char **path, char *new, t_flag *flag, t_data *img);
-int		check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
-int		check_set_color(int *flag, char *msg, char *new, t_data *img);
-int		parse_input(int ac, char **av);
-int		check_range(char *line, t_data *img, char *new);
-int		check_line(char **line, t_flag *flagg);
-int		mini_map(char *line, t_map *map, int fd, int i);
-int		my_map(t_map *map, t_data *img);
-int		check_map_enclosure(t_map *map, int x, int y);
-int		check_path_exists(char *path);
-int		check_filled_map(char **map);
-int		find_starting_point(char **map, t_data *img, int i);
-int		get_texture_index(t_data *img);
-void	move_down(t_data *img);
-void	move_up(t_data *img);
-void	move_left(t_data *img);
-void	move_right(t_data *img);
-void	load_textures(t_data *img);
-void	free_textures(t_data *img);
-void	punch_frames(t_data *img);
-void	pistol_frames(t_data *img);
-void	draw_textured_wall(t_data *img, int x);
-void	rendering_image(t_data *img, int i, char *str);
-void	print_error(char *message, int *flag, int *error);
-void	event_keys(t_data *img);
-void	free_path(char **path, char *new);
-void	init_flag(t_flag *flag, t_map *map, t_data *img);
-void	free_range(char **p, int i);
-void flood_fill(t_map *map, int rows, int cols, int x, int y);
-void flood_fill2(t_map *map, int rows, int cols, int x, int y);
-void	put_to_image(t_data *img, char *str);
-void	calculate_ray(t_data *img, int i);
-void	calculate_sside(t_data *img);
-void	calculate_vector(t_data *img, int hit);
-void	calculate_wall_height(t_data *img);
-void	coloring_the_image(t_data *img, int i);
-void	my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
-void	my_mlx_pixel_put(t_data *data, int x, int color);
-void	my_mlx_pixel_put_sprite(t_data *data, int height, int width) ;
-unsigned int rgb_to_hex(int r, int g, int b);
-unsigned int convert_ceiling_to_hex(char *ceiling);
+int				free_img(t_data *img);
+int				parsing_map(char **map);
+int				check_texture(t_flag *flag);
+int				handle_movement(t_data *img);
+int				check_filled_map(char **map);
+int				check_path_exists(char *path);
+int				get_texture_index(t_data *img);
+int				parse_input(int ac, char **av);
+int				my_map(t_map *map, t_data *img);
+int				check_line(char **line, t_flag *flagg);
+int				check_map_enclosure(t_map *map, int x, int y);
+int				check_range(char *line, t_data *img, char *new);
+int				mini_map(char *line, t_map *map, int fd, int i);
+int				find_starting_point(char **map, t_data *img, int i);
+int				main_parsing(char **av, int ac, t_map *map, t_data *img);
+int				parse_line(char *line, t_flag *flag, int i, t_data *img);
+int				texturing(char **path, char *new, t_flag *flag, t_data *img);
+int				check_set_color(int *flag, char *msg, char *new, t_data *img);
+int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
+void			move_up(t_data *img);
+void			init_cube(t_data *img);
+void			move_down(t_data *img);
+void			move_left(t_data *img);
+void			move_right(t_data *img);
+void			punch_frames(t_data *img);
+void			free_textures(t_data *img);
+void			load_textures(t_data *img);
+void			free_textures(t_data *img);
+void			pistol_frames(t_data *img);
+void			free_resources(t_data *img);
+void			draw_textured_wall(t_data *img, int x);
+void			rotate_view(t_data *img, double rotSpeed);
+void			initialize_values(t_data *img, double a[4]);
+void			rendering_image(t_data *img, int i, char *str);
+void			print_error(char *message, int *flag, int *error);
+void			event_keys(t_data *img);
+void			free_path(char **path, char *new);
+void			init_flag(t_flag *flag, t_map *map, t_data *img);
+void			free_range(char **p, int i);
+void			flood_fill(t_map *map, int rows, int cols, int x, int y);
+void			flood_fill2(t_map *map, int rows, int cols, int x, int y);
+void			put_to_image(t_data *img, char *str);
+void			calculate_ray(t_data *img, int i);
+void			calculate_sside(t_data *img);
+void			calculate_vector(t_data *img, int hit);
+void			calculate_wall_height(t_data *img);
+void			coloring_the_image(t_data *img, int i);
+void			my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
+void			my_mlx_pixel_put(t_data *data, int x, int color);
+void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
+unsigned int	rgb_to_hex(int r, int g, int b);
+unsigned int	convert_ceiling_to_hex(char *ceiling);
 
-
-
-//minimap
-int		get_map_width(t_map *map, int i);
-void	draw_minimap(t_data *img);
-void	my_put(t_data *data, int x, int y, int color);
+// minimap
+int				get_map_width(t_map *map, int i);
+void			draw_minimap(t_data *img);
+void			my_put(t_data *data, int x, int y, int color);
 
 #endif

@@ -12,6 +12,16 @@
 
 #include "cub3D.h"
 
+int	free_img(t_data *img)
+{
+	free_textures(img);
+	mlx_destroy_image(img->mlx, img->img);
+	mlx_destroy_window(img->mlx, img->win);
+	mlx_destroy_display(img->mlx);
+	free(img->mlx);
+	exit(0);
+}
+
 void	punch_frames(t_data *img)
 {
 	rendering_image(img, 0, "./puunch3.xpm");
@@ -68,14 +78,14 @@ void draw_textured_wall(t_data *img, int x)
 	
 	img->map->texture_index = get_texture_index(img);
 	if (img->ray.side == 0)
-		wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
+		wallX = img->ray.posy + img->ray.perpwalldist * img->ray.rayy;
 	else
-		wallX = img->ray.posx + img->ray.perpwalldist * img->ray.rayX;
+		wallX = img->ray.posx + img->ray.perpwalldist * img->ray.rayx;
 	wallX -= (int)wallX;
 	if (wallX < 0)
 		wallX += 1.0;
 	texX = (int)(wallX * img->textures[img->map->texture_index].width);
-	if ((img->ray.side == 0 && img->ray.rayX > 0) || (img->ray.side == 1 && img->ray.rayY < 0))
+	if ((img->ray.side == 0 && img->ray.rayx > 0) || (img->ray.side == 1 && img->ray.rayy < 0))
 		texX = img->textures[img->map->texture_index].width - texX - 1;
 	step = 1.0 * img->textures[img->map->texture_index].height / img->ray.wallheight;
 	texPos = (img->ray.drawstart - HEIGHT / 2 + img->ray.wallheight / 2) * step;
