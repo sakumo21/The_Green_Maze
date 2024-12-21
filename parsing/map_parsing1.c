@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 13:42:10 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:50:02 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int check_map_enclosure(t_map *map, int x, int y)
     valid_neighbors = "10DNEWS";
     while(map->map[y])
     {
+        x = 0;
         while(map->map[y][x])
         {
             if (map->map[y][x] == '0')

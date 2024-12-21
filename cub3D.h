@@ -27,14 +27,16 @@
 #define EMPTY '0'
 #define SPACE ' '
 
-#define WIDTH 2060
-#define HEIGHT 1080
+#define WIDTH 800
+#define HEIGHT 800
 
 #define mapWidth 24
 #define mapHeight 24
 #define EPSILON 1e-6
 #define x_offset 10
 #define y_offset 10
+#define MOVESPEED 0.12
+#define ROTSPEED 0.05
 
 typedef struct s_keys
 {
@@ -92,6 +94,7 @@ typedef struct s_ray
 {
 	int		drawend;
 	int		drawstart;
+	int		wallheight;	
 	double 	cameraX;
 	double	rayX;
 	double	rayY;
@@ -163,12 +166,19 @@ int		check_range(char *line, t_data *img, char *new);
 int		check_line(char **line, t_flag *flagg);
 int		mini_map(char *line, t_map *map, int fd, int i);
 int		my_map(t_map *map, t_data *img);
-int check_map_enclosure(t_map *map, int x, int y);
+int		check_map_enclosure(t_map *map, int x, int y);
 int		check_path_exists(char *path);
+int		check_filled_map(char **map);
 int		find_starting_point(char **map, t_data *img, int i);
 int		get_texture_index(t_data *img);
+void	move_down(t_data *img);
+void	move_up(t_data *img);
+void	move_left(t_data *img);
+void	move_right(t_data *img);
 void	load_textures(t_data *img);
 void	free_textures(t_data *img);
+void	punch_frames(t_data *img);
+void	pistol_frames(t_data *img);
 void	draw_textured_wall(t_data *img, int x);
 void	rendering_image(t_data *img, int i, char *str);
 void	print_error(char *message, int *flag, int *error);
@@ -176,15 +186,17 @@ void	event_keys(t_data *img);
 void	free_path(char **path, char *new);
 void	init_flag(t_flag *flag, t_map *map, t_data *img);
 void	free_range(char **p, int i);
+void flood_fill(t_map *map, int rows, int cols, int x, int y);
+void flood_fill2(t_map *map, int rows, int cols, int x, int y);
 void	put_to_image(t_data *img, char *str);
 void	calculate_ray(t_data *img, int i);
 void	calculate_sside(t_data *img);
 void	calculate_vector(t_data *img, int hit);
-void	calculate_wall_height(t_data *img, int lineheight);
-void	coloring_the_image(t_data *img, int i, int color);
+void	calculate_wall_height(t_data *img);
+void	coloring_the_image(t_data *img, int i);
 void	my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
 void	my_mlx_pixel_put(t_data *data, int x, int color);
-void	my_mlx_pixel_put_sprite(t_data *data, int start_x, int start_y, int height, int width) ;
+void	my_mlx_pixel_put_sprite(t_data *data, int height, int width) ;
 unsigned int rgb_to_hex(int r, int g, int b);
 unsigned int convert_ceiling_to_hex(char *ceiling);
 
