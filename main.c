@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/20 17:43:35 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:06:50 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	initialize_values(t_data *img, double a[4])
 void	initialize_data(t_data *img)
 {
 	if (img->map->player == 'N')
-		initialize_values(img, (double [4]){0, -1, 0.66, 0});
+		initialize_values(img, (double[4]){0, -1, 0.66, 0});
 	else if (img->map->player == 'S')
-		initialize_values(img, (double [4]){0, 1, -0.66, 0});
+		initialize_values(img, (double[4]){0, 1, -0.66, 0});
 	else if (img->map->player == 'E')
-		initialize_values(img, (double [4]){1, 0, 0, 0.66});
+		initialize_values(img, (double[4]){1, 0, 0, 0.66});
 	else if (img->map->player == 'W')
-		initialize_values(img, (double [4]){-1, 0, 0, -0.66});
+		initialize_values(img, (double[4]){-1, 0, 0, -0.66});
 	img->ray.color = 0X0000FF;
 	img->weapon = 0;
 	img->keys.space = 0;
@@ -53,7 +53,7 @@ void	free_resources(t_data *img)
 		mlx_destroy_display(img->mlx);
 	free(img->mlx);
 	free(img->map);
-	exit (0);
+	exit(0);
 }
 
 void	init_cube(t_data *img)
@@ -64,7 +64,7 @@ void	init_cube(t_data *img)
 	img->addr = NULL;
 	img->mlx = mlx_init();
 	if (!img->mlx)
-		exit (0);
+		exit(0);
 	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "cub3d");
 	if (!img->win)
 		free_resources(img);
@@ -78,7 +78,7 @@ void	init_cube(t_data *img)
 	img->map->minimap_height = HEIGHT / 8;
 	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
-	load_textures(img);
+	load_textures(img, 0);
 }
 
 void	put_to_image(t_data *img, char *str)
@@ -87,11 +87,12 @@ void	put_to_image(t_data *img, char *str)
 	int	img_height;
 
 	mlx_destroy_image(img->mlx, img->sprite.img);
-	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str,
-			&img_width, &img_height);
+	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str, &img_width,
+			&img_height);
 	img->sprite.addr = mlx_get_data_addr(img->sprite.img,
-			&img->sprite.bits_per_pixel, &img->sprite.line_length,
-			&img->sprite.endian);
+											&img->sprite.bits_per_pixel,
+											&img->sprite.line_length,
+											&img->sprite.endian);
 	my_mlx_pixel_put_sprite(img, img_height, img_width);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
@@ -103,11 +104,12 @@ void	rendering_wepon(t_data *img, char *str)
 
 	if (img->sprite.img != NULL)
 		mlx_destroy_image(img->mlx, img->sprite.img);
-	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str,
-			&img_width, &img_height);
+	img->sprite.img = mlx_xpm_file_to_image(img->mlx, str, &img_width,
+			&img_height);
 	img->sprite.addr = mlx_get_data_addr(img->sprite.img,
-			&img->sprite.bits_per_pixel, &img->sprite.line_length,
-			&img->sprite.endian);
+											&img->sprite.bits_per_pixel,
+											&img->sprite.line_length,
+											&img->sprite.endian);
 	my_mlx_pixel_put_sprite(img, img_height, img_width);
 }
 
@@ -129,7 +131,7 @@ void	rendering_image(t_data *img, int i, char *str)
 		i++;
 	}
 	rendering_wepon(img, str);
-	draw_minimap(img);
+	draw_minimap(img, 0);
 	event_keys(img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
@@ -152,7 +154,7 @@ int	main(int ac, char **av)
 	t_data	img;
 
 	img.map = malloc(sizeof(t_map));
-	if (main_parsing(av, ac, img.map, &img))
+	if (main_parsing(av, ac, &img, NULL))
 		return (1);
 	initialize_data(&img);
 	img.map->height = get_map_width(img.map, 1);
