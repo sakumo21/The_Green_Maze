@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 14:50:02 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:00:59 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,12 @@ int my_map(t_map *map, t_data *img)
 
 int check_map_enclosure(t_map *map, int x, int y)
 {
-    char *valid_neighbors;
+    char *valid_neighbors = "10DNEWS";
 
-    valid_neighbors = "10DNEWS";
-    while(map->map[y])
+    while (map->map[y])
     {
         x = 0;
-        while(map->map[y][x])
+        while (map->map[y][x])
         {
             if (map->map[y][x] == '0')
             {
@@ -71,7 +70,8 @@ int check_map_enclosure(t_map *map, int x, int y)
                     y == 0 || x >= (int)ft_strlen(map->map[y - 1]) || !ft_strchr(valid_neighbors, map->map[y - 1][x]) ||
                     !map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1]) || !ft_strchr(valid_neighbors, map->map[y + 1][x]))
                 {
-                    return (printf("Error: Invalid map"), 1);
+                    printf("Error: Invalid map at (%d, %d)\n", y, x);
+                    return 1;
                 }
             }
             x++;
@@ -80,6 +80,7 @@ int check_map_enclosure(t_map *map, int x, int y)
     }
     return 0;
 }
+
 
 
 
