@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:27:58 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/20 16:12:03 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:22:25 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	my_mlx_pixel_put_sprite(t_data *data, int h, int w)
 				y++;
 				continue ;
 			}
-			if (0 + i < 0 || 0 + i >= WIDTH || 0 + 350 < 0 || 0 + 350 >= HEIGHT) // imkn t7aydo
-				continue ; // imkn it7aydo 
 			my_mlx_pixel_put_image(data, 0 + i, 350 + y, src_color);
 			y++;
 		}

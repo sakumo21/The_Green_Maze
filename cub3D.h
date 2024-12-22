@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 12:30:06 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:19:05 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,9 +249,9 @@ int				check_extra_values(char **p);
 int				validate_values(char **p);
 int				check_value_range(char **p);
 int				check_texture(t_flag *flag);
-int	handle_empty_map(char *str);
-int	handle_empty_lines(char *str);
-char	*read_map_lines(char *line, int fd);
+int				handle_empty_map(char *str);
+int				handle_empty_lines(char *str);
+char			*read_map_lines(char *line, int fd);
 
 //minimap
 int				get_map_width(t_map *map, int i);

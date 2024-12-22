@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:41:15 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 12:30:01 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:23:56 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_path(char **path, char *new)
 			free(path[i]);
 			i++;
 		}
-		free(path); // Free the array itself
+		free(path);
 	}
 	if (new)
 		free(new);

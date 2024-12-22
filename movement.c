@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:30:10 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/22 09:32:16 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:22:01 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,62 @@
 
 void	move_down(t_data *img)
 {
-	int	newX;
-	int	newY;
-	
-	newX = (int)(img->ray.posx - img->ray.dirx * MOVESPEED);
-	newY = (int)(img->ray.posy - img->ray.diry * MOVESPEED);
-	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+	int	newx;
+	int	newy;
+
+	newx = (int)(img->ray.posx - img->ray.dirx * MOVESPEED);
+	newy = (int)(img->ray.posy - img->ray.diry * MOVESPEED);
+	if (img->map->map[(int)img->ray.posy][newx] == '0'
+		|| img->map->map[(int)img->ray.posy][newx] == 'D')
 		img->ray.posx -= img->ray.dirx * MOVESPEED;
-	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
+	if (img->map->map[newy][(int)img->ray.posx] == '0'
+		|| img->map->map[newy][(int)img->ray.posx] == 'D')
 		img->ray.posy -= img->ray.diry * MOVESPEED;
 }
 
 void	move_up(t_data *img)
 {
-	int	newX;
-	int	newY;
-	
-	newX = (int)(img->ray.posx + img->ray.dirx * MOVESPEED);
-	newY = (int)(img->ray.posy + img->ray.diry * MOVESPEED);
-	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+	int	newx;
+	int	newy;
+
+	newx = (int)(img->ray.posx + img->ray.dirx * MOVESPEED);
+	newy = (int)(img->ray.posy + img->ray.diry * MOVESPEED);
+	if (img->map->map[(int)img->ray.posy][newx] == '0'
+		|| img->map->map[(int)img->ray.posy][newx] == 'D')
 		img->ray.posx += img->ray.dirx * MOVESPEED;
-	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
+	if (img->map->map[newy][(int)img->ray.posx] == '0'
+		|| img->map->map[newy][(int)img->ray.posx] == 'D')
 		img->ray.posy += img->ray.diry * MOVESPEED;
 }
 
-void 	move_left(t_data *img)
+void	move_left(t_data *img)
 {
-	int	newX;
-	int	newY;
+	int	newx;
+	int	newy;
 
-	newX = (int)(img->ray.posx - img->ray.planex * MOVESPEED);
-	newY = (int)(img->ray.posy - img->ray.planey * MOVESPEED);
-	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+	newx = (int)(img->ray.posx - img->ray.planex * MOVESPEED);
+	newy = (int)(img->ray.posy - img->ray.planey * MOVESPEED);
+	if (img->map->map[(int)img->ray.posy][newx] == '0'
+		|| img->map->map[(int)img->ray.posy][newx] == 'D')
 		img->ray.posx -= img->ray.planex * MOVESPEED;
-	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
+	if (img->map->map[newy][(int)img->ray.posx] == '0'
+		|| img->map->map[newy][(int)img->ray.posx] == 'D')
 		img->ray.posy -= img->ray.planey * MOVESPEED;
 }
 
 void	move_right(t_data *img)
 {
-	int	newX;
-	int	newY;
+	int	newx;
+	int	newy;
 
-	newX = (int)(img->ray.posx + img->ray.planex * MOVESPEED);
-	newY = (int)(img->ray.posy + img->ray.planey * MOVESPEED);
-	if (img->map->map[(int)img->ray.posy][newX] == '0' || img->map->map[(int)img->ray.posy][newX] == 'D')
+	newx = (int)(img->ray.posx + img->ray.planex * MOVESPEED);
+	newy = (int)(img->ray.posy + img->ray.planey * MOVESPEED);
+	if (img->map->map[(int)img->ray.posy][newx] == '0'
+		|| img->map->map[(int)img->ray.posy][newx] == 'D')
 		img->ray.posx += img->ray.planex * MOVESPEED;
-	if (img->map->map[newY][(int)img->ray.posx] == '0' || img->map->map[newY][(int)img->ray.posx] == 'D')
-		img->ray.posy += img->ray.planey * MOVESPEED;	
+	if (img->map->map[newy][(int)img->ray.posx] == '0'
+		|| img->map->map[newy][(int)img->ray.posx] == 'D')
+		img->ray.posy += img->ray.planey * MOVESPEED;
 }
 
 int	handle_movement(t_data *img)

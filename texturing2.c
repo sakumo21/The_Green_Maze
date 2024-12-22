@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texturing2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:08:25 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 09:58:50 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:22:57 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static t_texture_info	get_texture_info(t_data *img, double wallX, double step,
 	t_info.tex_x = (int)(wallX * img->textures[img->map->texture_index].width);
 	if ((img->ray.side == 0 && img->ray.rayx > 0) || (img->ray.side == 1
 			&& img->ray.rayy < 0))
-		t_info.tex_x = img->textures[img->map->texture_index].width - t_info.tex_x
+		t_info.tex_x = img->textures[img->map->texture_index].width
+			- t_info.tex_x
 			- 1;
 	t_info.step = step;
 	t_info.tex_pos = tex_pos;
