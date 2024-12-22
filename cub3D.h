@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 18:13:42 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:12:56 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int				get_texture_index(t_data *img);
 int				parse_input(int ac, char **av);
 int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
-int				check_map_enclosure(t_map *map, int x, int y);
+int	check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors);
 int				check_range(char *line, t_data *img, char *new);
 int				mini_map(char *line, t_map *map, int fd);
 int				find_starting_point(char **map, t_data *img, int i, int found);

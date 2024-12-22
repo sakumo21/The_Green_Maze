@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 12:12:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:11:51 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,42 @@ int	mini_map(char *line, t_map *map, int fd)
 		return (printf("Error: Memory allocation failed.\n"), 1);
 	return (0);
 }
-
-int	check_map_enclosure(t_map *map, int x, int y)
+int check_pos(t_map *map, int x, int y)
 {
-	char	*valid_neighbors;
+	char	*exit;
+	char 	*invalid_neighbors;
+	
+	exit = "10NWSE";
+	invalid_neighbors = "10D";
+	if (map->map[y][x] == 'D')
+	{
+		if (x == 0 || !ft_strchr(exit, map->map[y][x - 1]) ||
+			!map->map[y][x + 1] || !ft_strchr(exit,
+					map->map[y][x + 1]) ||
+			y == 0 || x >= (int)ft_strlen(map->map[y - 1])
+				|| !ft_strchr(exit, map->map[y - 1][x]) ||
+			!map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1])
+				|| !ft_strchr(exit, map->map[y + 1][x]))
+			return (printf("Error: Invalid map\n"), 1);
+	}
+	else if (map->map[y][x] == 'N' || map->map[y][x] == 'S' ||
+			map->map[y][x] == 'W' || map->map[y][x] == 'E')
+	{
+		if (x == 0 || !ft_strchr(invalid_neighbors, map->map[y][x - 1]) ||
+			!map->map[y][x + 1] || !ft_strchr(invalid_neighbors,
+					map->map[y][x + 1]) ||
+			y == 0 || x >= (int)ft_strlen(map->map[y - 1])
+				|| !ft_strchr(invalid_neighbors, map->map[y - 1][x]) ||
+			!map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1])
+				|| !ft_strchr(invalid_neighbors, map->map[y + 1][x]))
+			return (printf("Error: Invalid map\n"), 1);
+	}
+	return (0);
+}
 
+
+int	check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors)
+{
 	valid_neighbors = "10DNEWS";
 	while (map->map[y])
 	{
@@ -52,6 +83,8 @@ int	check_map_enclosure(t_map *map, int x, int y)
 						|| !ft_strchr(valid_neighbors, map->map[y + 1][x]))
 					return (printf("Error: Invalid map\n"), 1);
 			}
+			if (check_pos(map, x, y))
+				return (1);
 			x++;
 		}
 		y++;

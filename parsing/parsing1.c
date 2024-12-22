@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 18:29:52 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:21:51 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ int	parse_line(char *line, t_flag *flag, int i, t_data *img)
 			new = initialize_new(trimmed, img->path, new);
 		else
 			new = append_to_new(new, trimmed, img->path);
-		if (!new)
-			return (1);
 	}
 	trimmed = ft_strtrim(img->path[0], "\n");
 	free(img->path[0]);

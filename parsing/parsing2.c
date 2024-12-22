@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 18:37:01 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 19:50:21 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	set_texture(t_texture_data *data)
 		trimmed = ft_strtrim(data->path[1], "\n");
 		data->img->textures[data->index].path = ft_strdup(trimmed);
 		free(trimmed);
-		free(data->img->textures[data->index].path);
+		// free(data->img->textures[data->index].path);
 	}
 	return (check_and_set(data->path, data->flag_check, data->texture_name,
 			data->flag));
