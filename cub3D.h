@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 10:13:36 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:30:06 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
 int				check_map_enclosure(t_map *map, int x, int y);
 int				check_range(char *line, t_data *img, char *new);
-int				mini_map(char *line, t_map *map, int fd, int i);
+int				mini_map(char *line, t_map *map, int fd);
 int				find_starting_point(char **map, t_data *img, int i, int found);
 int				main_parsing(char **av, int ac, t_data *img, char *line);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
@@ -249,7 +249,9 @@ int				check_extra_values(char **p);
 int				validate_values(char **p);
 int				check_value_range(char **p);
 int				check_texture(t_flag *flag);
-void			free_path(char **path, char *new);
+int	handle_empty_map(char *str);
+int	handle_empty_lines(char *str);
+char	*read_map_lines(char *line, int fd);
 
 //minimap
 int				get_map_width(t_map *map, int i);

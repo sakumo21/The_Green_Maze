@@ -6,36 +6,28 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 16:45:36 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:12:35 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int	mini_map(char *line, t_map *map, int fd, int i)
+int	mini_map(char *line, t_map *map, int fd)
 {
 	char	*str;
 
-	str = NULL;
-	while (1)
-	{
-		if (!str)
-			str = ft_strdup("");
-		if (!line)
-			break ;
-		str = ft_strjoin(str, line);
-		line = get_next_line(fd);
-	}
+	str = read_map_lines(line, fd);
 	close(fd);
-	if (!str || !str[0])
-		return (printf("Error: Empty map.\n"), 1);
-	while (str[i])
-	{
-		if (str[i] == '\n' && str[i + 1] == '\n')
-			return (printf("Error: Empty line in map.\n"), 1);
-		i++;
-	}
+	if (!str)
+		return (printf("Error: Memory allocation failed.\n"), 1);
+	if (handle_empty_map(str))
+		return (1);
+	if (handle_empty_lines(str))
+		return (1);
 	map->map = ft_split(str, '\n');
+	free(str);
+	if (!map->map)
+		return (printf("Error: Memory allocation failed.\n"), 1);
 	return (0);
 }
 

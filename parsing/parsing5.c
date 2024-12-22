@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:41:15 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 09:48:00 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:30:01 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ void	free_path(char **path, char *new)
 {
 	int	i;
 
-	i = 0;
-	free(new);
-	while (path[i])
+	if (path)
 	{
-		free(path[i]);
-		i++;
+		i = 0;
+		while (path[i])
+		{
+			free(path[i]);
+			i++;
+		}
+		free(path); // Free the array itself
 	}
-	free(path);
+	if (new)
+		free(new);
 }
 
 int	check_texture(t_flag *flag)
