@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 19:37:15 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:24:54 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	initialize_data(t_data *img)
 		initialize_values(img, (double [4]){1, 0, 0, 0.66});
 	else if (img->map->player == 'W')
 		initialize_values(img, (double [4]){-1, 0, 0, -0.66});
-	img->new = NULL;
 	img->ray.color = 0X0000FF;
 	img->ray.movespeed = MOVESPEED;
 	img->weapon = 0;
@@ -97,6 +96,9 @@ int	main(int ac, char **av)
 	t_data	img;
 
 	img.map = malloc(sizeof(t_map));
+	int i = 0;
+	while(i < 4)
+		img.textures[i++].path = NULL;
 	if (main_parsing(av, ac, &img, NULL))
 		return (free_end(&img), 1);
 	initialize_data(&img);

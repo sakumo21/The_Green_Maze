@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:02:00 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/22 18:02:44 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 21:50:31 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,17 @@ void	free_end(t_data *img)
 	free(img->floor);
 	free(img->ceiling);
 	free(img->map);
+}
+
+void	free_textures_path(t_data *img)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (img->textures[i].path)
+			free(img->textures[i].path);
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 20:12:29 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:09:43 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 	if (new)
 	{
 		if (check_range(new, img, new + 2))
-			return (1);
+			exit (1);
 	}
 	return (0);
 }
@@ -86,6 +86,7 @@ int	check_range(char *line, t_data *img, char *new)
 	char	*trimmed;
 	char	*tmp;
 
+	printf("%s\n", new);
 	p = ft_split(new, ',');
 	if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2]
 			&& p[2][0] == '\n'))

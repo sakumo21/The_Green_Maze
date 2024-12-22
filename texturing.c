@@ -55,7 +55,7 @@ void	check_text(t_data *img, int i)
 }
 
 void	load_textures(t_data *img, int i)
-{	
+{
 	img->textures[4].path = "textures/alien.xpm";
 	img->textures[0].img = mlx_xpm_file_to_image(img->mlx,
 			img->textures[0].path, &img->textures[0].width,

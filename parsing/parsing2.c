@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 19:50:21 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:42:01 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static int	set_texture(t_texture_data *data)
 		trimmed = ft_strtrim(data->path[1], "\n");
 		data->img->textures[data->index].path = ft_strdup(trimmed);
 		free(trimmed);
-		// free(data->img->textures[data->index].path);
 	}
 	return (check_and_set(data->path, data->flag_check, data->texture_name,
 			data->flag));
@@ -83,23 +82,29 @@ void	init_flag(t_flag *flag, t_map *map, t_data *img)
 	img->ceiling = NULL;
 }
 
-int	parse_input(int ac, char **av)
+int	parse_input(int ac, char **av, int i)
 {
-	int	i;
-
-	i = 0;
 	if (ac != 2)
 		return (printf("Where is the file?\n"), 1);
 	if (ft_strlen(av[1]) == 4 && !ft_strncmp(av[1] + ft_strlen(av[1]) - 4,
 			".cub", 4))
-		return (printf("Error : add a name to your .cub file.\n"), 1);
+	{
+		printf("Error : add a name to your .cub file.\n");
+		exit(1);
+	}
 	while (av[1][i] != '.')
 		i++;
 	if (av[1][i] == '.' && (av[1][i + 1] != 'c' || av[1][i + 2] != 'u'
 			|| av[1][i + 3] != 'b'))
-		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+	{
+		printf("Error : Put the right extension (.cub) !\n");
+		exit(1);
+	}
 	else if (av[1][i] == '.' && av[1][i + 1] == 'c' && av[1][i + 2] == 'u'
 			&& av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
-		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+	{
+		printf("Error : Put the right extension (.cub) !\n");
+		exit(1);
+	}
 	return (0);
 }

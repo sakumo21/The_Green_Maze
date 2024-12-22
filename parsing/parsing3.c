@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:32:59 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 17:34:56 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:07:56 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_extra_values(char **p)
 	{
 		free_range(p, 0);
 		printf("Error : Expected 3 RGB values [..., ..., ...].\n");
-		return (1);
+		exit (1);
 	}
 	return (0);
 }

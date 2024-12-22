@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 20:12:56 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:40:17 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,23 +198,30 @@ typedef struct s_texture_data
 
 int				free_img(t_data *img);
 int				parsing_map(char **map);
+int				validate_values(char **p);
+int				check_value_range(char **p);
+int				check_texture(t_flag *flag);
+int				handle_empty_map(char *str);
 int				check_texture(t_flag *flag);
 int				handle_movement(t_data *img);
+int				check_extra_values(char **p);
 int				check_filled_map(char **map);
 int				check_path_exists(char *path);
+int				handle_empty_lines(char *str);
 int				get_texture_index(t_data *img);
-int				parse_input(int ac, char **av);
+int				parse_input(int ac, char **av, int i);
+int				my_map(t_map *map, t_data *img);
 int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
-int	check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors);
-int				check_range(char *line, t_data *img, char *new);
 int				mini_map(char *line, t_map *map, int fd);
-int				find_starting_point(char **map, t_data *img, int i, int found);
+int				check_range(char *line, t_data *img, char *new);
 int				main_parsing(char **av, int ac, t_data *img, char *line);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
 int				texturing(char **path, char *new, t_flag *flag, t_data *img);
 int				check_set_color(int *flag, char *msg, char *new, t_data *img);
+int				find_starting_point(char **map, t_data *img, int i, int found);
 int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
+int				check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors);
 void			free_d(char **args);
 void			free_end(t_data *img);
 void			init_cube(t_data *img);
@@ -222,6 +229,7 @@ void			punch_frames(t_data *img);
 void			free_textures(t_data *img);
 void			pistol_frames(t_data *img);
 void			free_resources(t_data *img);
+void			free_textures_path(t_data *img);
 void			load_textures(t_data *img, int i);
 void			draw_textured_wall(t_data *img, int x);
 void			move_up(t_data *img, double movespeed);
@@ -245,17 +253,10 @@ void			coloring_the_image(t_data *img, int i);
 void			my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
 void			my_mlx_pixel_put(t_data *data, int x, int color);
 void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
+char			*read_map_lines(char *line, int fd);
+char			*ft_strjoin_three(char *s1, char *s2, char *s3);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
-int				my_map(t_map *map, t_data *img);
-char			*ft_strjoin_three(char *s1, char *s2, char *s3);
-int				check_extra_values(char **p);
-int				validate_values(char **p);
-int				check_value_range(char **p);
-int				check_texture(t_flag *flag);
-int				handle_empty_map(char *str);
-int				handle_empty_lines(char *str);
-char			*read_map_lines(char *line, int fd);
 
 //minimap
 int				get_map_width(t_map *map, int i);

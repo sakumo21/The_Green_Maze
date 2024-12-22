@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 17:36:53 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:33:04 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	check_path_exists(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (printf("Error: File not found %s.\n", path), 1);
+	{
+		printf("Error: File not found %s.\n", path);
+		free(path);
+		exit (1);
+	}
 	else
 		close(fd);
 	return (0);
@@ -43,7 +47,10 @@ int	parse_path(char **av)
 	path = av[1] + 2;
 	if (ft_strlen(path) == 4 && !ft_strncmp(path + ft_strlen(path) - 4, ".xpm",
 			4))
-		return (printf("Error : add a name to your .xpm file.\n"), 1);
+	{
+		printf("Error : add a name to your .xpm file.\n");
+		exit(1);
+	}
 	while (path[i] != '.')
 		i++;
 	if (path[i] == '.' && (path[i + 1] != 'x' || path[i + 2] != 'p' || path[i

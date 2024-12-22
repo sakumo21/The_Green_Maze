@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 19:21:51 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:40:23 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	first_parse(int ac, char **av, int *fd)
 {
-	if (parse_input(ac, av))
+	if (parse_input(ac, av, 0))
 		return (1);
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
@@ -48,9 +48,9 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 		line = get_next_line(fd);
 	}
 	if (flag.exit == 2 || check_texture(&flag))
-		return (1);
+		return (free(line), free_textures_path(img) ,1);
 	if (mini_map(line, img->map, fd) || my_map(img->map, img))
-		return (1);
+		return (free_textures_path(img) ,1);
 	return (close(fd), 0);
 }
 
