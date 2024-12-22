@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:42 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/21 15:47:45 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 09:48:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,14 @@ void	init_cube(t_data *img)
 	img->map->minimap_height = HEIGHT / 8;
 	img->map->minimap_width = WIDTH / 8;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
-	load_textures(img);
+	load_textures(img, 0);
+}
+
+int	free_img(t_data *img)
+{
+	mlx_destroy_image(img->mlx, img->img);
+	mlx_destroy_window(img->mlx, img->win);
+	mlx_destroy_display(img->mlx);
+	free(img->mlx);
+	exit(0);
 }

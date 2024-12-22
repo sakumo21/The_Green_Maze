@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: memed <memed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 20:36:09 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/11/07 00:48:10 by memed            ###   ########.fr       */
+/*   Updated: 2024/12/22 09:50:34 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**ft_split(char const *s, char c)
 	if (!ptr)
 		return (NULL);
 	if (!mini_split((char *)s, c, 0, ptr))
-		return(free(ptr), NULL);
+		return (free (ptr), NULL);
 	ptr[number] = (char *) '\0';
 	return (ptr);
 }

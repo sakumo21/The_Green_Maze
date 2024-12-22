@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:08:25 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 16:21:12 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 09:58:50 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	draw_wall_slice(t_data *img, int x, t_texture_info *tex_info)
 	y = img->ray.drawstart;
 	while (y < img->ray.drawend)
 	{
-		tex_y = (int)tex_info->texPos & (tex_info->texture_height - 1);
-		tex_info->texPos += tex_info->step;
+		tex_y = (int)tex_info->tex_pos & (tex_info->texture_height - 1);
+		tex_info->tex_pos += tex_info->step;
 		color = *(unsigned int *)(tex_info->texture_addr + (tex_y
-					* tex_info->texture_length + tex_info->texX
+					* tex_info->texture_length + tex_info->tex_x
 					* (tex_info->texture_bpp / 8)));
 		draw_pixel(img, x, y, color);
 		y++;
@@ -32,17 +32,17 @@ static void	draw_wall_slice(t_data *img, int x, t_texture_info *tex_info)
 }
 
 static t_texture_info	get_texture_info(t_data *img, double wallX, double step,
-		double texPos)
+		double tex_pos)
 {
 	t_texture_info	t_info;
 
-	t_info.texX = (int)(wallX * img->textures[img->map->texture_index].width);
-	if ((img->ray.side == 0 && img->ray.rayX > 0) || (img->ray.side == 1
-			&& img->ray.rayY < 0))
-		t_info.texX = img->textures[img->map->texture_index].width - t_info.texX
+	t_info.tex_x = (int)(wallX * img->textures[img->map->texture_index].width);
+	if ((img->ray.side == 0 && img->ray.rayx > 0) || (img->ray.side == 1
+			&& img->ray.rayy < 0))
+		t_info.tex_x = img->textures[img->map->texture_index].width - t_info.tex_x
 			- 1;
 	t_info.step = step;
-	t_info.texPos = texPos;
+	t_info.tex_pos = tex_pos;
 	t_info.texture_height = img->textures[img->map->texture_index].height;
 	t_info.texture_width = img->textures[img->map->texture_index].width;
 	t_info.texture_addr = img->textures[img->map->texture_index].addr;
@@ -60,9 +60,9 @@ void	draw_textured_wall(t_data *img, int x)
 
 	img->map->texture_index = get_texture_index(img);
 	if (img->ray.side == 0)
-		wall_x = img->ray.posy + img->ray.perpwalldist * img->ray.rayY;
+		wall_x = img->ray.posy + img->ray.perpwalldist * img->ray.rayy;
 	else
-		wall_x = img->ray.posx + img->ray.perpwalldist * img->ray.rayX;
+		wall_x = img->ray.posx + img->ray.perpwalldist * img->ray.rayx;
 	wall_x -= (int)wall_x;
 	if (wall_x < 0)
 		wall_x += 1.0;

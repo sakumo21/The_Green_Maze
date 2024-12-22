@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 13:39:36 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 10:13:36 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@
 # define EMPTY '0'
 # define SPACE ' '
 
-# define WIDTH 800
-# define HEIGHT 800
+# define WIDTH 2256
+# define HEIGHT 1080
 
 # define MAPWIDTH 24
 # define MAPHEIGHT 24
 # define EPSILON 1e-6
-# define x_offset 10
-# define y_offset 10
+# define X_OFFSET 10
+# define Y_OFFSET 10
 # define MOVESPEED 0.12
 # define ROTSPEED 0.05
 
@@ -60,12 +60,12 @@ typedef struct s_texture
 	int		line_length;
 	int		endian;
 	char	*path;
- }				t_texture;
+}				t_texture;
 
 typedef struct s_texture_info
 {
-	int			texX;
-	double		texPos;
+	int			tex_x;
+	double		tex_pos;
 	double		step;
 	int			texture_height;
 	int			texture_width;
@@ -206,8 +206,8 @@ int				check_line(char **line, t_flag *flagg);
 int				check_map_enclosure(t_map *map, int x, int y);
 int				check_range(char *line, t_data *img, char *new);
 int				mini_map(char *line, t_map *map, int fd, int i);
-int				find_starting_point(char **map, t_data *img, int i);
-int				main_parsing(char **av, int ac, t_map *map, t_data *img);
+int				find_starting_point(char **map, t_data *img, int i, int found);
+int				main_parsing(char **av, int ac, t_data *img, char *line);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
 int				texturing(char **path, char *new, t_flag *flag, t_data *img);
 int				check_set_color(int *flag, char *msg, char *new, t_data *img);
@@ -219,7 +219,7 @@ void			move_left(t_data *img);
 void			move_right(t_data *img);
 void			punch_frames(t_data *img);
 void			free_textures(t_data *img);
-void			load_textures(t_data *img);
+void			load_textures(t_data *img, int i);
 void			free_textures(t_data *img);
 void			pistol_frames(t_data *img);
 void			free_resources(t_data *img);
