@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 17:35:59 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:36:53 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,19 @@ int	parse_path(char **av)
 
 int	check_line(char **line, t_flag *flagg)
 {
-	(void)flagg;
 	if (line[1] && line[1][0] != '\0' && line[1][0] != '\n')
 	{
 		if (parse_path(line) || check_path_exists(line[1]))
 		{
-			flagg->exit = 1;
+			flagg->exit = 2;
 			return (1);
 		}
 	}
 	else
+	{
+		flagg->exit = 2;
 		return (printf("Error: No path specified for %s\n", line[0]), 1);
+	}
 	return (0);
 }
 

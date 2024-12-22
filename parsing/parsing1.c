@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 12:31:50 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 18:29:52 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	first_parse(int ac, char **av, int *fd)
 		return (1);
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
-		return (printf("Error : File not found.\n"), 1);
+	{
+		printf("Error : File not found.\n");
+		exit (1);
+	}
 	return (0);
 }
 
@@ -78,29 +81,29 @@ static char	*append_to_new(char *new, char *trimmed, char **path)
 
 int	parse_line(char *line, t_flag *flag, int i, t_data *img)
 {
-	char	**path;
-	char	*new;
 	char	*trimmed;
+	char	*new;
 
 	new = NULL;
-	path = ft_split(line, ' ');
-	while (path[i])
+	img->path = ft_split(line, ' ');
+	while (img->path[i])
 	{
-		trimmed = ft_strtrim(path[i], " ");
+		trimmed = ft_strtrim(img->path[i], " ");
 		if (!trimmed)
-			return (free_path(path, new), 1);
-		free(path[i]);
-		path[i] = trimmed;
+			return (free_path(img->path, new), 1);
+		free(img->path[i]);
+		img->path[i++] = trimmed;
 		if (new == NULL)
-			new = initialize_new(trimmed, path, new);
+			new = initialize_new(trimmed, img->path, new);
 		else
-			new = append_to_new(new, trimmed, path);
+			new = append_to_new(new, trimmed, img->path);
 		if (!new)
 			return (1);
-		i++;
 	}
-	path[0] = ft_strtrim(path[0], "\n");
-	if (texturing(path, new, flag, img))
-		return (free_path(path, new), 1);
-	return (free_path(path, new), 0);
+	trimmed = ft_strtrim(img->path[0], "\n");
+	free(img->path[0]);
+	img->path[0] = trimmed;
+	if (texturing(img->path, new, flag, img))
+		return (free_path(img->path, new), 1);
+	return (free_path(img->path, new), 0);
 }

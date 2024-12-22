@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/21 17:36:22 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:28:46 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 
 int	check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 {
+	char	*tmp;
+
 	if (*flag)
 		return (printf("Error : %s already defined.\n", msg), 1);
 	*flag = 1;
-	path[1] = ft_strtrim(path[1], "\n");
+	tmp = ft_strtrim(path[1], "\n");
+	free(path[1]);
+	path[1] = tmp;
 	if (check_line(path, flagg))
 		return (1);
 	return (0);

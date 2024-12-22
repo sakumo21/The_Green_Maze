@@ -6,82 +6,82 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:30:10 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/22 14:22:01 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 14:49:22 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	move_down(t_data *img)
+void	move_down(t_data *img, double movespeed)
 {
 	int	newx;
 	int	newy;
 
-	newx = (int)(img->ray.posx - img->ray.dirx * MOVESPEED);
-	newy = (int)(img->ray.posy - img->ray.diry * MOVESPEED);
+	newx = (int)(img->ray.posx - img->ray.dirx * movespeed);
+	newy = (int)(img->ray.posy - img->ray.diry * movespeed);
 	if (img->map->map[(int)img->ray.posy][newx] == '0'
 		|| img->map->map[(int)img->ray.posy][newx] == 'D')
-		img->ray.posx -= img->ray.dirx * MOVESPEED;
+		img->ray.posx -= img->ray.dirx * movespeed;
 	if (img->map->map[newy][(int)img->ray.posx] == '0'
 		|| img->map->map[newy][(int)img->ray.posx] == 'D')
-		img->ray.posy -= img->ray.diry * MOVESPEED;
+		img->ray.posy -= img->ray.diry * movespeed;
 }
 
-void	move_up(t_data *img)
+void	move_up(t_data *img, double movespeed)
 {
 	int	newx;
 	int	newy;
 
-	newx = (int)(img->ray.posx + img->ray.dirx * MOVESPEED);
-	newy = (int)(img->ray.posy + img->ray.diry * MOVESPEED);
+	newx = (int)(img->ray.posx + img->ray.dirx * movespeed);
+	newy = (int)(img->ray.posy + img->ray.diry * movespeed);
 	if (img->map->map[(int)img->ray.posy][newx] == '0'
 		|| img->map->map[(int)img->ray.posy][newx] == 'D')
-		img->ray.posx += img->ray.dirx * MOVESPEED;
+		img->ray.posx += img->ray.dirx * movespeed;
 	if (img->map->map[newy][(int)img->ray.posx] == '0'
 		|| img->map->map[newy][(int)img->ray.posx] == 'D')
-		img->ray.posy += img->ray.diry * MOVESPEED;
+		img->ray.posy += img->ray.diry * movespeed;
 }
 
-void	move_left(t_data *img)
+void	move_left(t_data *img, double movespeed)
 {
 	int	newx;
 	int	newy;
 
-	newx = (int)(img->ray.posx - img->ray.planex * MOVESPEED);
-	newy = (int)(img->ray.posy - img->ray.planey * MOVESPEED);
+	newx = (int)(img->ray.posx - img->ray.planex * movespeed);
+	newy = (int)(img->ray.posy - img->ray.planey * movespeed);
 	if (img->map->map[(int)img->ray.posy][newx] == '0'
 		|| img->map->map[(int)img->ray.posy][newx] == 'D')
-		img->ray.posx -= img->ray.planex * MOVESPEED;
+		img->ray.posx -= img->ray.planex * movespeed;
 	if (img->map->map[newy][(int)img->ray.posx] == '0'
 		|| img->map->map[newy][(int)img->ray.posx] == 'D')
-		img->ray.posy -= img->ray.planey * MOVESPEED;
+		img->ray.posy -= img->ray.planey * movespeed;
 }
 
-void	move_right(t_data *img)
+void	move_right(t_data *img, double movespeed)
 {
 	int	newx;
 	int	newy;
 
-	newx = (int)(img->ray.posx + img->ray.planex * MOVESPEED);
-	newy = (int)(img->ray.posy + img->ray.planey * MOVESPEED);
+	newx = (int)(img->ray.posx + img->ray.planex * movespeed);
+	newy = (int)(img->ray.posy + img->ray.planey * movespeed);
 	if (img->map->map[(int)img->ray.posy][newx] == '0'
 		|| img->map->map[(int)img->ray.posy][newx] == 'D')
-		img->ray.posx += img->ray.planex * MOVESPEED;
+		img->ray.posx += img->ray.planex * movespeed;
 	if (img->map->map[newy][(int)img->ray.posx] == '0'
 		|| img->map->map[newy][(int)img->ray.posx] == 'D')
-		img->ray.posy += img->ray.planey * MOVESPEED;
+		img->ray.posy += img->ray.planey * movespeed;
 }
 
 int	handle_movement(t_data *img)
 {
 	if (img->keys.w)
-		move_up(img);
+		move_up(img, img->ray.movespeed);
 	if (img->keys.s)
-		move_down(img);
+		move_down(img, img->ray.movespeed);
 	if (img->keys.a)
-		move_left(img);
+		move_left(img, img->ray.movespeed);
 	if (img->keys.d)
-		move_right(img);
+		move_right(img, img->ray.movespeed);
 	if (img->keys.space)
 	{
 		if (img->weapon == 0)

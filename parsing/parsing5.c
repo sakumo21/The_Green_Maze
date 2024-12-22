@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:41:15 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 14:23:56 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/22 18:24:21 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	free_path(char **path, char *new)
 		free(path);
 	}
 	if (new)
+	{
 		free(new);
+		new = NULL;
+	}
 }
 
 int	check_texture(t_flag *flag)

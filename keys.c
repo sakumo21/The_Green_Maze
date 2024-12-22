@@ -32,10 +32,7 @@ void	rotate_view(t_data *img, double rotSpeed)
 static int	key_press_handler(int keysym, t_data *img)
 {
 	if (keysym == 65307)
-	{
 		free_img(img);
-		exit(0);
-	}
 	else if (keysym == 119)
 		img->keys.w = 1;
 	else if (keysym == 115)
@@ -54,6 +51,8 @@ static int	key_press_handler(int keysym, t_data *img)
 		img->weapon = 0;
 	else if (keysym == 50)
 		img->weapon = 1;
+	else if (keysym == 65505)
+		img->ray.movespeed = 0.1;
 	return (0);
 }
 
@@ -73,6 +72,8 @@ static int	key_release_handler(int keysym, t_data *img)
 		img->keys.right = 0;
 	else if (keysym == 32)
 		img->keys.space = 0;
+	else if (keysym == 65505)
+		img->ray.movespeed = MOVESPEED;
 	return (0);
 }
 
