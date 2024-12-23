@@ -97,8 +97,8 @@ void	calculate_vector(t_data *img, int hit)
 		img->ray.perpwalldist = (img->ray.ssidex - img->ray.dsidex);
 	else
 		img->ray.perpwalldist = (img->ray.ssidey - img->ray.dsidey);
-	if (img->ray.perpwalldist == 0)
-		img->ray.perpwalldist = 1e-6;
+	if ((double)img->ray.perpwalldist < 0.000001)
+		img->ray.perpwalldist = 0.00001;
 }
 
 void	calculate_wall_height(t_data *img)
