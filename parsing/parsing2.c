@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:42:01 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:26:08 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,36 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	data.img = img;
 	if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO",
 			ft_strlen("NO")))
+	{
+		if (path[2] && path[2][0] != '\n')
+			return (printf("Error: Too many arguments for North texture.\n"),
+				flag->exit = 2, 1);	
 		return (handle_texture(&data, 0, "North texture", &flag->n_check));
+	}
 	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
 			ft_strlen("SO")))
+	{
+		if (path[2] && path[2][0] != '\n')
+			return (printf("Error: Too many arguments for SOUTH texture.\n"),
+				flag->exit = 2, 1);
 		return (handle_texture(&data, 1, "South texture", &flag->s_check));
+	}
 	if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE",
 			ft_strlen("WE")))
+	{
+		if (path[2] && path[2][0] != '\n')
+			return (printf("Error: Too many arguments for WEST texture.\n"),
+				flag->exit = 2, 1);	
 		return (handle_texture(&data, 2, "West texture", &flag->w_check));
+	}
 	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
 			ft_strlen("EA")))
+	{
+		if (path[2] && path[2][0] != '\n')
+			return (printf("Error: Too many arguments for EAST texture.\n"),
+				flag->exit = 2, 1);	
 		return (handle_texture(&data, 3, "East texture", &flag->e_check));
+	}
 	if (!ft_strncmp(path[0], "F", 1))
 		return (check_set_color(&flag->f_check, "Floor color", new, img));
 	if (!ft_strncmp(path[0], "C", 1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:40:13 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:20:45 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ int	check_range(char *line, t_data *img, char *new)
 	char	**p;
 	char	*trimmed;
 	char	*tmp;
-
+	int i = 0;
+	while (new[i])
+	{
+		if (new[i] == ',' && new[i + 1] == ',')
+			return (printf("Error : Incorrect\n"), 1);
+		i++;
+	}
 	p = ft_split(new, ',');
 	if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2]
 			&& p[2][0] == '\n'))
