@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 13:45:19 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:01:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ int	check_range(char *line, t_data *img, char *new)
 	char	**p;
 	char	*trimmed;
 	char	*tmp;
-
+	int i = 0;
+	while (new[i])
+	{
+		if (new[i] == ',' && new[i + 1] == ',')
+			return (printf("Error : Incorrect\n"), 1);
+		i++;
+	}
 	p = ft_split(new, ',');
 	if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2]
 			&& p[2][0] == '\n'))

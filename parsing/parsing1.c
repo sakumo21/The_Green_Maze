@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 14:07:58 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:00:40 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ int	first_parse(int ac, char **av, int *fd)
 	return (0);
 }
 
+
+void par_line(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i] == ' ')
+	{
+		
+		i++;
+	}
+}
+
+
 int	main_parsing(char **av, int ac, t_data *img, char *line)
 {
 	int		fd;
@@ -36,12 +50,7 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] == '\n')
-		{
-			free(line);
-			line = get_next_line(fd);
-			continue ;
-		}
+		par_line(line);
 		if (parse_line(line, &flag, 0, img))
 			break ;
 		free(line);
@@ -73,9 +82,9 @@ static char	*append_to_new(char *new, char *trimmed, char **path)
 	char	*temp;
 
 	temp = ft_strjoin(new, trimmed);
-	free(new);
 	if (!temp)
 		return (free_path(path, new), NULL);
+	free(new);
 	return (temp);
 }
 
