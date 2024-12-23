@@ -20,7 +20,7 @@ int	first_parse(int ac, char **av, int *fd)
 	if (*fd < 0)
 	{
 		printf("Error : File not found.\n");
-		exit (1);
+		exit(1);
 	}
 	return (0);
 }
@@ -48,9 +48,9 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 		line = get_next_line(fd);
 	}
 	if (flag.exit == 2 || check_texture(&flag))
-		return (free(line), free_textures_path(img) ,1);
+		return (free(line), free_textures_path(img), 1);
 	if (mini_map(line, img->map, fd) || my_map(img->map, img))
-		return (free_textures_path(img) ,1);
+		return (free_textures_path(img), 1);
 	return (close(fd), 0);
 }
 

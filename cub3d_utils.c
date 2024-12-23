@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:42 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/22 22:11:46 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:15:33 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	init_cube(t_data *img)
 			&img->line_length, &img->endian);
 	if (!img->addr)
 		free_resources(img);
-	img->map->minimap_height = HEIGHT / 8;
-	img->map->minimap_width = WIDTH / 8;
+	img->map->minimap_height = HEIGHT / 9;
+	img->map->minimap_width = WIDTH / 9;
 	img->map->tile_size = img->map->minimap_width / img->map->width;
 	load_textures(img, 0);
 }

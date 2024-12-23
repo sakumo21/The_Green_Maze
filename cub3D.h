@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:40:17 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:50:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define WALL '1'
 # define EMPTY '0'
 # define SPACE ' '
+
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -97,6 +98,7 @@ typedef struct s_map
 	int			minimap_height;
 	int			tile_size;
 	int			texture_index;
+	char		*exit;
 }				t_map;
 
 typedef struct s_circle

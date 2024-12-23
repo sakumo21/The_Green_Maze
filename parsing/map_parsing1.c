@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 20:11:51 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:52:35 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,26 @@ int	mini_map(char *line, t_map *map, int fd)
 		return (printf("Error: Memory allocation failed.\n"), 1);
 	return (0);
 }
-int check_pos(t_map *map, int x, int y)
+
+int	check_pos(t_map *map, int x, int y, char *invalid_neighbors)
 {
-	char	*exit;
-	char 	*invalid_neighbors;
-	
-	exit = "10NWSE";
-	invalid_neighbors = "10D";
+	map->exit = "10DNEWS";
 	if (map->map[y][x] == 'D')
 	{
-		if (x == 0 || !ft_strchr(exit, map->map[y][x - 1]) ||
-			!map->map[y][x + 1] || !ft_strchr(exit,
-					map->map[y][x + 1]) ||
+		if (x == 0 || !ft_strchr(map->exit, map->map[y][x - 1]) ||
+			!map->map[y][x + 1] || !ft_strchr(map->exit, map->map[y][x + 1]) ||
 			y == 0 || x >= (int)ft_strlen(map->map[y - 1])
-				|| !ft_strchr(exit, map->map[y - 1][x]) ||
+				|| !ft_strchr(map->exit, map->map[y - 1][x]) ||
 			!map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1])
-				|| !ft_strchr(exit, map->map[y + 1][x]))
+				|| !ft_strchr(map->exit, map->map[y + 1][x]))
 			return (printf("Error: Invalid map\n"), 1);
 	}
 	else if (map->map[y][x] == 'N' || map->map[y][x] == 'S' ||
-			map->map[y][x] == 'W' || map->map[y][x] == 'E')
+				map->map[y][x] == 'W' || map->map[y][x] == 'E')
 	{
 		if (x == 0 || !ft_strchr(invalid_neighbors, map->map[y][x - 1]) ||
-			!map->map[y][x + 1] || !ft_strchr(invalid_neighbors,
-					map->map[y][x + 1]) ||
+			!map->map[y][x + 1] || !ft_strchr(invalid_neighbors, map->map[y][x
+					+ 1]) ||
 			y == 0 || x >= (int)ft_strlen(map->map[y - 1])
 				|| !ft_strchr(invalid_neighbors, map->map[y - 1][x]) ||
 			!map->map[y + 1] || x >= (int)ft_strlen(map->map[y + 1])
@@ -63,10 +59,8 @@ int check_pos(t_map *map, int x, int y)
 	return (0);
 }
 
-
-int	check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors)
+int	check_map_enclosure(t_map *map, int x, int y, char *valid_neighbors)
 {
-	valid_neighbors = "10DNEWS";
 	while (map->map[y])
 	{
 		x = 0;
@@ -83,34 +77,11 @@ int	check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors)
 						|| !ft_strchr(valid_neighbors, map->map[y + 1][x]))
 					return (printf("Error: Invalid map\n"), 1);
 			}
-			if (check_pos(map, x, y))
+			if (check_pos(map, x, y, "10D"))
 				return (1);
 			x++;
 		}
 		y++;
-	}
-	return (0);
-}
-
-int	parsing_map(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' '
-				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W'
-				&& map[i][j] != 'E' && map[i][j] != 'D')
-				return (printf("Error: Invalid map character\n"), 1);
-			j++;
-		}
-		i++;
 	}
 	return (0);
 }

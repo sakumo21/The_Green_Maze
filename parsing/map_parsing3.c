@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:30:24 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:52:46 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,27 @@ char	*read_map_lines(char *line, int fd)
 		line = get_next_line(fd);
 	}
 	return (str);
+}
+
+int	parsing_map(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' '
+				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W'
+				&& map[i][j] != 'E' && map[i][j] != 'D')
+				return (printf("Error: Invalid map character\n"), 1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }

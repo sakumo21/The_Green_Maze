@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:24:54 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:09:08 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ void	rendering_image(t_data *img, int i, char *str)
 int	main(int ac, char **av)
 {
 	t_data	img;
+	int i;
 
+	i = 0;
 	img.map = malloc(sizeof(t_map));
-	int i = 0;
 	while(i < 4)
 		img.textures[i++].path = NULL;
 	if (main_parsing(av, ac, &img, NULL))

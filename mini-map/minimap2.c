@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:13:25 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 09:57:48 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:33:53 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	draw_player(t_data *img)
 
 	player_circle.cx = img->ray.posx * img->map->tile_size + X_OFFSET;
 	player_circle.cy = img->ray.posy * img->map->tile_size + Y_OFFSET;
-	player_circle.radius = img->map->tile_size / 3;
+	player_circle.radius = img->map->tile_size / 1.5;
 	player_circle.color = 0x000000;
 	player_line.x1 = player_circle.cx;
 	player_line.y1 = player_circle.cy;
-	player_line.x2 = player_circle.cx + img->ray.dirx * img->map->tile_size;
-	player_line.y2 = player_circle.cy + img->ray.diry * img->map->tile_size;
+	player_line.x2 = player_circle.cx + img->ray.dirx
+		* img->map->tile_size * 1.5;
+	player_line.y2 = player_circle.cy + img->ray.diry
+		* img->map->tile_size * 1.5;
 	player_line.color = 0x000000;
 	draw_circle(img, &player_circle);
 	draw_line(img, &player_line, 0, 0);

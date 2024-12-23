@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:09:43 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:40:13 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	my_map(t_map *map, t_data *img)
 		return (1);
 	while (map->map[max_y] != NULL)
 		max_y++;
-	if (check_map_enclosure(map, 0, 0, NULL))
+	if (check_map_enclosure(map, 0, 0, "10DNEWS"))
 		return (1);
 	if (find_starting_point(map->map, img, 0, 0))
 		return (1);
@@ -32,14 +32,14 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 {
 	if (*flag)
 	{
-		printf("Error : %s already defined.\n", msg);	
-		exit (1);
+		printf("Error : %s already defined.\n", msg);
+		exit(1);
 	}
 	*flag = 1;
 	if (new)
 	{
 		if (check_range(new, img, new + 2))
-			exit (1);
+			exit(1);
 	}
 	return (0);
 }
@@ -50,8 +50,8 @@ int	check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 
 	if (*flag)
 	{
-		printf("Error : %s already defined.\n", msg);	
-		exit (1);
+		printf("Error : %s already defined.\n", msg);
+		exit(1);
 	}
 	*flag = 1;
 	tmp = ft_strtrim(path[1], "\n");
@@ -86,7 +86,6 @@ int	check_range(char *line, t_data *img, char *new)
 	char	*trimmed;
 	char	*tmp;
 
-	printf("%s\n", new);
 	p = ft_split(new, ',');
 	if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2]
 			&& p[2][0] == '\n'))
