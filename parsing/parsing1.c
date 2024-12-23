@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 19:00:40 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:22:26 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,40 @@ int	first_parse(int ac, char **av, int *fd)
 	}
 	return (0);
 }
+// int par_line(char *line, int *is_map_started)
+// {
+//     int i;
 
+//     i = 0;
+//     while (line[i] == ' ' || line[i] == '\t')
+//         i++;
+//     if (line[i] == '\0' || line[i] == '\n')
+//     {
+//         if (!*is_map_started)
+// 			return (0);
+// 		printf("Error: Empty line in the map.\n");
+// 		exit(1);
+//     }
+// 	if (line[i] == '1')
+//     	*is_map_started = 1;
+//     return (0);
+// }
 
-void par_line(char *line)
+int my_isspace(char c)
 {
-	int i;
+    return (c == ' ' || c == '\n');
+}
 
-	i = 0;
-	while (line[i] == ' ')
+
+int	is_empty_line(char *line)	
+{
+	while (*line)
 	{
-		
-		i++;
+		if (!my_isspace(*line))
+			return (0); // Line is not empty
+		line++;
 	}
+	return (1); // Line is empty
 }
 
 
@@ -50,8 +72,13 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		par_line(line);
-		if (parse_line(line, &flag, 0, img))
+		if (is_empty_line(line))
+		{
+			free(line);
+			line = get_next_line(fd);
+			continue;
+		}
+		if (parse_line(line, &flag, 0, img))	
 			break ;
 		free(line);
 		line = get_next_line(fd);

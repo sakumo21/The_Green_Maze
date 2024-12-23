@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:50:09 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 21:52:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_flag
 	int			f_check;
 	int			c_check;
 	int			exit;
+	int 		is_map_started;
 }				t_flag;
 
 typedef struct s_map
@@ -213,7 +214,6 @@ int				handle_empty_lines(char *str);
 int				get_texture_index(t_data *img);
 int				parse_input(int ac, char **av, int i);
 int				my_map(t_map *map, t_data *img);
-int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
 int				mini_map(char *line, t_map *map, int fd);
 int				check_range(char *line, t_data *img, char *new);
@@ -259,6 +259,7 @@ char			*read_map_lines(char *line, int fd);
 char			*ft_strjoin_three(char *s1, char *s2, char *s3);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
+int				is_empty_line(char *line);
 
 //minimap
 int				get_map_width(t_map *map, int i);

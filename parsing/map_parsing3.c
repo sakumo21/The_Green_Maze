@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:52:46 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:42:42 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	handle_empty_lines(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\n' && str[i + 1] == '\n')
+		if (str[i] == ' ' && str[i + 1] == '\n')
 		{
 			free(str);
-			printf("Error: Empty line in map.\n");
+			printf("Error:=> Empty line in map.\n");
 			return (1);
 		}
 		i++;
@@ -45,12 +45,48 @@ char	*read_map_lines(char *line, int fd)
 {
 	char	*str;
 	char	*temp;
-
+	int		i;
 	str = ft_strdup("");
 	if (!str)
 		return (NULL);
 	while (line)
 	{
+		//process line
+		i = 0;
+		while (line[i])
+		{
+			//check empyty line
+			if (line[i] != '\n' && line[i] != ' ')
+			{
+				break;
+		
+			}
+			i++;
+		}
+			// else if(!(line[i] == ' ' && line[i + 1] == '\n'))
+			// 	break;
+		if (i > 0 && line[i] == '\0')
+		{
+				int j = 0;
+				line = get_next_line(fd); //get next line
+				if(!line)
+						return (str);
+				while (line)
+				{
+					while (line[j])
+					{
+						if (line[j] != ' ' && line[j] != '\n')
+						{
+							printf("Error : Empty line in the map.\n");
+							return (NULL);	
+						}
+						j++;
+					}
+					line = get_next_line(fd);
+					if(!line)
+						return (str);
+				}
+		}
 		temp = ft_strjoin(str, line);
 		free(str);
 		free(line);

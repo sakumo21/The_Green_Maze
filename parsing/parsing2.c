@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 15:26:08 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 20:55:16 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	if (ft_isalpha(path[0][0]))
 		return (printf("Error: %s is not a valid identifier.\n", path[0]),
 			flag->exit = 2, 1);
+	flag->is_map_started = 1;
 	return (1);
 }
 
@@ -94,6 +95,7 @@ void	init_flag(t_flag *flag, t_map *map, t_data *img)
 	flag->f_check = 0;
 	flag->c_check = 0;
 	flag->exit = 0;
+	flag->is_map_started = 0;
 	map->map = NULL;
 	map->player = 0;
 	map->player_x = 0;

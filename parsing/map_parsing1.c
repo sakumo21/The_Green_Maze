@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:52:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:04:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ int	mini_map(char *line, t_map *map, int fd)
 	char	*str;
 
 	str = read_map_lines(line, fd);
-	close(fd);
+	printf("fd : %d\n", fd);
+	// close(fd);
 	if (!str)
 		return (printf("Error: Memory allocation failed.\n"), 1);
 	if (handle_empty_map(str))
-		return (1);
-	if (handle_empty_lines(str))
 		return (1);
 	map->map = ft_split(str, '\n');
 	free(str);
