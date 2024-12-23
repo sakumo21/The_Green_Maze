@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 22:33:04 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:10:14 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	parse_path(char **av)
 	else if (path[i] == '.' && path[i + 1] == 'x' && path[i + 2] == 'p'
 		&& path[i + 3] == 'm' && path[i + 4] != '\0')
 		return (printf("Error : Put the right extension (.xpm) !\n"), 1);
+	else if (path[i + 5])
+		printf("roor\n");
 	return (0);
 }
 
