@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 23:42:42 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/24 11:26:09 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,34 @@ int	handle_empty_map(char *str)
 	return (0);
 }
 
-int	handle_empty_lines(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str[i])
+char *process_line(char *line, char *str, int fd, int i)
+{
+	if (i > 0 && line[i] == '\0')
 	{
-		if (str[i] == ' ' && str[i + 1] == '\n')
+		int j = 0;
+		line = get_next_line(fd); //get next line
+		if(!line)
+				return (str);
+		while (line)
 		{
-			free(str);
-			printf("Error:=> Empty line in map.\n");
-			return (1);
+			while (line[j])
+			{
+				if (line[j] != ' ' && line[j] != '\n')
+				{
+					printf("Error : Empty line in the map.\n");
+					exit (1);	
+				}
+				j++;
+			}
+			line = get_next_line(fd);
+			if(!line)
+				return (str);
 		}
-		i++;
 	}
-	return (0);
+	return (str);
 }
+
 
 char	*read_map_lines(char *line, int fd)
 {
@@ -51,42 +62,10 @@ char	*read_map_lines(char *line, int fd)
 		return (NULL);
 	while (line)
 	{
-		//process line
 		i = 0;
-		while (line[i])
-		{
-			//check empyty line
-			if (line[i] != '\n' && line[i] != ' ')
-			{
-				break;
-		
-			}
+		while (line[i] && (line[i] == '\n' || line[i] == ' '))
 			i++;
-		}
-			// else if(!(line[i] == ' ' && line[i + 1] == '\n'))
-			// 	break;
-		if (i > 0 && line[i] == '\0')
-		{
-				int j = 0;
-				line = get_next_line(fd); //get next line
-				if(!line)
-						return (str);
-				while (line)
-				{
-					while (line[j])
-					{
-						if (line[j] != ' ' && line[j] != '\n')
-						{
-							printf("Error : Empty line in the map.\n");
-							return (NULL);	
-						}
-						j++;
-					}
-					line = get_next_line(fd);
-					if(!line)
-						return (str);
-				}
-		}
+		process_line(line, str, fd, i);
 		temp = ft_strjoin(str, line);
 		free(str);
 		free(line);
