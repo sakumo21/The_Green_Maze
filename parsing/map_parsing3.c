@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 11:29:55 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:28:31 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,20 @@ char *process_line(char *line, char *str, int fd, int i)
 		{
 			while (line[j])
 			{
-				if (line[j] != ' ' && line[j] != '\n')
+				if (line[j] != ' ' && line[j] != '\n' && line[j] != '\t')
 				{
+					if (line[i] == '\t')
 					printf("Error : Empty line in the map.\n");
 					exit (1);	
 				}
 				j++;
 			}
+			free(line);
 			line = get_next_line(fd);
 			if(!line)
+			{
 				return (str);
+			}
 		}
 	}
 	return (str);

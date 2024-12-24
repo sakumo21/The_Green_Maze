@@ -14,28 +14,28 @@
 
 void	punch_frames(t_data *img)
 {
-	rendering_image(img, 0, "./puunch3.xpm");
+	rendering_image(img, 0, "./textures/puunch3.xpm");
 	usleep(10000);
-	rendering_image(img, 0, "./puunch3.xpm");
+	rendering_image(img, 0, "./textures/puunch3.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./puunch2.xpm");
+	rendering_image(img, 0, "./textures/puunch2.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./puunch.xpm");
+	rendering_image(img, 0, "./textures/puunch.xpm");
 }
 
 void	pistol_frames(t_data *img)
 {
-	rendering_image(img, 0, "./pistool2.xpm");
+	rendering_image(img, 0, "./textures/pistool2.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./pistool3.xpm");
+	rendering_image(img, 0, "./textures/pistool3.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./pistool4.xpm");
+	rendering_image(img, 0, "./textures/pistool4.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./pistool5.xpm");
+	rendering_image(img, 0, "./textures/pistool5.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./pistool2.xpm");
+	rendering_image(img, 0, "./textures/pistool2.xpm");
 	usleep(40000);
-	rendering_image(img, 0, "./pistool.xpm");
+	rendering_image(img, 0, "./textures/pistool.xpm");
 }
 
 void	check_text(t_data *img, int i)

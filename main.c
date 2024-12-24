@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:09:08 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:08:33 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(int ac, char **av)
 	img.map->height = get_map_width(img.map, 1);
 	img.map->width = get_map_width(img.map, 0);
 	init_cube(&img);
-	rendering_image(&img, 0, "./puunch.xpm");
+	rendering_image(&img, 0, "./textures/puunch.xpm");
 	mlx_loop(img.mlx);
 	exit(0);
 }

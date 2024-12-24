@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 17:30:10 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/22 14:49:22 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:09:01 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ int	handle_movement(t_data *img)
 	if (img->keys.right)
 		rotate_view(img, ROTSPEED);
 	if (img->weapon == 0)
-		rendering_image(img, 0, "./puunch.xpm");
+		rendering_image(img, 0, "./textures/puunch.xpm");
 	else
-		rendering_image(img, 0, "./pistool.xpm");
+		rendering_image(img, 0, "./textures/pistool.xpm");
 	return (0);
 }
