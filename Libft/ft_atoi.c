@@ -3,40 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 21:37:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/11/05 13:02:56 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:17:33 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	r;
-	int	s;
+	long	p;
+	long	num;
 
-	i = 0;
-	r = 0;
-	s = 1;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-')
+	p = 1;
+	num = 0;
+	while ((*nptr >= 9 && *nptr <= 13) || (*nptr == 32))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		s = -1;
-		i++;
+		if (*nptr == '-')
+			p *= -1;
+		nptr++;
 	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i])
+	while (*nptr >= 48 && *nptr <= 57)
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			r = r * 10 + str[i] - '0';
-		else
-			return (-1);
-		i++;
+		num = num * 10 + (*nptr - 48);
+		nptr++;
 	}
-	return (s * r);
+	if (ft_isalpha(*nptr))
+		return (-1);
+	if ((p == 1 && num > 2147483647) || (p == -1 && num < -2147483648))
+		return (-2);
+	return (num * p);
 }

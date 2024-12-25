@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:18:24 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:49:15 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	first_parse(int ac, char **av, int *fd, t_data *img)
 {
 	if (parse_input(ac, av, 0))
-		return (1);
+	{
+		free(img->map);
+		exit (1);
+	}
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
 	{

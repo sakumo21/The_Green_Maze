@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 18:02:00 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/25 14:25:26 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:36:51 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ void	free_textures_path(t_data *img)
 	int	i;
 
 	i = 0;
-	while (i < 5)
+	while (i < 4)
 	{
-		printf("freeing %s\n", img->textures[i].path);
 		if (img->textures[i].path)
 			free(img->textures[i].path);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:32:59 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:05:47 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:16:28 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	only_num(char *s)
 	}
 	num = ft_atoi(&s[i]);
 	if (num == -1)
-	{
 		return (printf("Error : (%s), Only digits!\n", s), 1);
-	}
+	else if (num == -2)
+		return (printf("Error : (%s), Out of range!\n", s), 1);
 	return (0);
 }
 

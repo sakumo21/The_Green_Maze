@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:17:37 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:50:42 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	first_parse(int ac, char **av, int *fd, t_data *img)
 {
 	if (parse_input(ac, av, 0))
-		return (1);
+	{
+		free(img->map);
+		exit (1);
+	}
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
 	{
@@ -37,10 +40,10 @@ int	is_empty_line(char *line)
 	while (*line)
 	{
 		if (!my_isspace(*line))
-			return (0); // Line is not empty
+			return (0);
 		line++;
 	}
-	return (1); // Line is empty
+	return (1);
 }
 
 
