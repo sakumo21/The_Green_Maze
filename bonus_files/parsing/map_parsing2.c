@@ -6,27 +6,11 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 12:55:05 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:42:13 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
-
-int	my_map(t_map *map, t_data *img)
-{
-	int	max_y;
-
-	max_y = 0;
-	if (parsing_map(map->map))
-		return (1);
-	while (map->map[max_y] != NULL)
-		max_y++;
-	if (check_map_enclosure(map, 0, 0, "10DNEWS"))
-		return (1);
-	if (find_starting_point(map->map, img, 0, 0))
-		return (1);
-	return (0);
-}
 
 int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 {
@@ -38,7 +22,7 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 	*flag = 1;
 	if (new)
 	{
-		if (check_range(new, img, new + 2))
+		if (check_range(new, img, new + 2, 0))
 			return (2);
 	}
 	return (0);
@@ -80,25 +64,30 @@ void	set_set(char *line, char **p, t_data *img)
 	}
 }
 
-int	check_range(char *line, t_data *img, char *new)
+int	parse_num(char *new, int i)
 {
-	char	**p;
-	char	*trimmed;
-	char	*tmp;
-	int i = 0;
 	while (new[i])
 	{
 		if (new[i] == ',' && new[i + 1] == ',')
 			return (printf("Error : Incorrect.\n"), 1);
 		i++;
 	}
+	return (0);
+}
+
+int	check_range(char *line, t_data *img, char *new, int i)
+{
+	char	**p;
+	char	*trimmed;
+	char	*tmp;
+
+	if (parse_num(new, i))
+		return (1);
 	p = ft_split(new, ',');
 	if (!p || !p[0] || !p[1] || !p[2] || (!p[2] && !p[2][0]) || (p[2]
 			&& p[2][0] == '\n'))
-	{
-		free_range(p, 0);
-		return (printf("Error : Expected 3 RGB values [..., ..., ...].\n"), 1);
-	}
+		return (free_range(p, 0), printf("Error : Expected 3 RGB values \
+				[..., ..., ...].\n"), 1);
 	tmp = p[2];
 	p[2] = ft_strtrim(p[2], "\n");
 	free(tmp);

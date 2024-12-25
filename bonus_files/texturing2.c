@@ -40,8 +40,7 @@ static t_texture_info	get_texture_info(t_data *img, double wallX, double step,
 	if ((img->ray.side == 0 && img->ray.rayx > 0) || (img->ray.side == 1
 			&& img->ray.rayy < 0))
 		t_info.tex_x = img->textures[img->map->texture_index].width
-			- t_info.tex_x
-			- 1;
+			- t_info.tex_x - 1;
 	t_info.step = step;
 	t_info.tex_pos = tex_pos;
 	t_info.texture_height = img->textures[img->map->texture_index].height;

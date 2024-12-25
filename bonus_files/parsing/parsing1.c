@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:49:15 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 16:52:19 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,6 @@ int	first_parse(int ac, char **av, int *fd, t_data *img)
 	return (0);
 }
 
-int my_isspace(char c)
-{
-    return (c == ' ' || c == '\n' || c == '\t');
-}
-
-
-int	is_empty_line(char *line)	
-{
-	while (*line)
-	{
-		if (!my_isspace(*line))
-			return (0); // Line is not empty
-		line++;
-	}
-	return (1); // Line is empty
-}
-
-
 int	main_parsing(char **av, int ac, t_data *img, char *line)
 {
 	int		fd;
@@ -62,7 +44,7 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 		{
 			free(line);
 			line = get_next_line(fd);
-			continue;
+			continue ;
 		}
 		if (parse_line(line, &flag, 0, img))
 		{
@@ -72,10 +54,8 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (flag.exit == 2 || check_texture(&flag))
-		return (free(line), free_textures_path(img), 1);
-	if (mini_map(line, img->map, fd) || my_map(img->map, img))
-		return (free_textures_path(img), 1);
+	if (final_checks(&flag, line, img, fd))
+		return (1);
 	return (close(fd), 0);
 }
 

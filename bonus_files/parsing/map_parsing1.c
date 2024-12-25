@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 12:53:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:50:01 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	mini_map(char *line, t_map *map, int fd)
 {
 	char	*str;
 
-	str = read_map_lines(line, fd);
+	str = read_map_lines(line, fd, 0);
 	close(fd);
 	if (!str)
 		return (1);

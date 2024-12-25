@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 13:01:19 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:55:23 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,22 @@ void	free_range(char **p, int i)
 	free(p);
 }
 
-int parse_path(char **av)
+int	parse_path(char **av)
 {
-	int i;
-	char *path;
+	int		i;
+	char	*path;
 
 	i = 0;
 	path = av[1];
-	while(path[i])
+	while (path[i])
 		i++;
 	if (i < 5 || ft_strncmp(path + i - 4, ".xpm", 4))
 	{
 		printf("Error : Put the right extension (.xpm) !\n");
 		return (1);
 	}
-	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x' && path[i - 4] == '.' && path[i - 5] == '/')
+	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x'
+		&& path[i - 4] == '.' && path[i - 5] == '/')
 	{
 		printf("Error : Add a name to your .xpm file.\n");
 		return (1);

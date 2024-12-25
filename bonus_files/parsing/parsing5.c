@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:41:15 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 18:24:21 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 16:29:05 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,30 @@ int	check_texture(t_flag *flag)
 	print_error("Ceiling color", &flag->c_check, &error);
 	if (error)
 		return (1);
+	return (0);
+}
+
+int	my_isspace(char c)
+{
+	return (c == ' ' || c == '\n' || c == '\t');
+}
+
+int	is_empty_line(char *line)
+{
+	while (*line)
+	{
+		if (!my_isspace(*line))
+			return (0);
+		line++;
+	}
+	return (1);
+}
+
+int	final_checks(t_flag *flag, char *line, t_data *img, int fd)
+{
+	if (flag->exit == 2 || check_texture(flag))
+		return (free(line), free_textures_path(img), 1);
+	if (mini_map(line, img->map, fd) || my_map(img->map, img))
+		return (free_textures_path(img), 1);
 	return (0);
 }

@@ -53,10 +53,9 @@ void	my_mlx_pixel_put_sprite(t_data *data, int h, int w)
 		y = 0;
 		while (y < h)
 		{
-			src_pixel_index = (y * data->sprite.line_length)
-				+ (i * (data->sprite.bits_per_pixel / 8));
-			src_color = *(unsigned int *)(data->sprite.addr
-					+ src_pixel_index);
+			src_pixel_index = (y * data->sprite.line_length) + (i
+					* (data->sprite.bits_per_pixel / 8));
+			src_color = *(unsigned int *)(data->sprite.addr + src_pixel_index);
 			if (src_color == 0x000000 || src_color == 0xFF000000)
 			{
 				y++;

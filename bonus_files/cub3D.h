@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 18:36:00 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 16:29:20 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h"
 # include "../Get_next_line/get_next_line.h"
 # include "../Libft/libft.h"
+# include "../minilibx-linux/mlx.h"
 # include <X11/X.h>
 # include <fcntl.h>
 # include <math.h>
@@ -26,7 +26,6 @@
 # define WALL '1'
 # define EMPTY '0'
 # define SPACE ' '
-
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -53,14 +52,14 @@ typedef struct s_keys
 
 typedef struct s_texture
 {
-	void	*img;
-	char	*addr;
-	int		width;
-	int		height;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	char	*path;
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	char		*path;
 }				t_texture;
 
 typedef struct s_texture_info
@@ -84,7 +83,7 @@ typedef struct s_flag
 	int			f_check;
 	int			c_check;
 	int			exit;
-	int 		is_map_started;
+	int			is_map_started;
 }				t_flag;
 
 typedef struct s_map
@@ -181,7 +180,7 @@ typedef struct s_data
 	int			player_x;
 	int			player_y;
 	char		**path;
-	char 		*new;
+	char		*new;
 	t_ray		ray;
 	t_map		*map;
 	t_texture	textures[5];
@@ -216,14 +215,15 @@ int				parse_input(int ac, char **av, int i);
 int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
 int				mini_map(char *line, t_map *map, int fd);
-int				check_range(char *line, t_data *img, char *new);
+int				check_range(char *line, t_data *img, char *new, int i);
 int				main_parsing(char **av, int ac, t_data *img, char *line);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
 int				texturing(char **path, char *new, t_flag *flag, t_data *img);
 int				check_set_color(int *flag, char *msg, char *new, t_data *img);
 int				find_starting_point(char **map, t_data *img, int i, int found);
 int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
-int				check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors);
+int				check_map_enclosure(t_map *map, int x, int y,
+					char *valid_neighbors);
 void			free_d(char **args);
 void			free_end(t_data *img);
 void			init_cube(t_data *img);
@@ -255,12 +255,12 @@ void			coloring_the_image(t_data *img, int i);
 void			my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
 void			my_mlx_pixel_put(t_data *data, int x, int color);
 void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
-char			*read_map_lines(char *line, int fd);
+char			*read_map_lines(char *line, int fd, int i);
 char			*ft_strjoin_three(char *s1, char *s2, char *s3);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
 int				is_empty_line(char *line);
-
+int				final_checks(t_flag *flag, char *line, t_data *img, int fd);
 //minimap
 int				get_map_width(t_map *map, int i);
 void			draw_minimap(t_data *img, int i);

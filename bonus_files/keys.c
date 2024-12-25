@@ -18,15 +18,14 @@ void	rotate_view(t_data *img, double rotSpeed)
 	double	oldplanex;
 
 	olddirx = img->ray.dirx;
-	img->ray.dirx = img->ray.dirx * cos(rotSpeed)
-		- img->ray.diry * sin(rotSpeed);
-	img->ray.diry = olddirx * sin(rotSpeed)
-		+ img->ray.diry * cos(rotSpeed);
+	img->ray.dirx = img->ray.dirx * cos(rotSpeed) - img->ray.diry
+		* sin(rotSpeed);
+	img->ray.diry = olddirx * sin(rotSpeed) + img->ray.diry * cos(rotSpeed);
 	oldplanex = img->ray.planex;
-	img->ray.planex = img->ray.planex * cos(rotSpeed)
-		- img->ray.planey * sin(rotSpeed);
-	img->ray.planey = oldplanex * sin(rotSpeed)
-		+ img->ray.planey * cos(rotSpeed);
+	img->ray.planex = img->ray.planex * cos(rotSpeed) - img->ray.planey
+		* sin(rotSpeed);
+	img->ray.planey = oldplanex * sin(rotSpeed) + img->ray.planey
+		* cos(rotSpeed);
 }
 
 static int	key_press_handler(int keysym, t_data *img)

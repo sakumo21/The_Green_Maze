@@ -35,7 +35,7 @@ void	free_resources(t_data *img)
 		mlx_destroy_display(img->mlx);
 	free(img->mlx);
 	free(img->map);
-	exit (0);
+	exit(0);
 }
 
 void	initialize_values(t_data *img, double a[4])
@@ -54,7 +54,7 @@ void	init_cube(t_data *img)
 	img->addr = NULL;
 	img->mlx = mlx_init();
 	if (!img->mlx)
-		exit (0);
+		exit(0);
 	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "cub3d");
 	if (!img->win)
 		free_resources(img);
@@ -74,11 +74,11 @@ void	init_cube(t_data *img)
 int	free_img(t_data *img)
 {
 	int	i;
-	
+
 	i = 0;
 	free_textures_path(img);
 	free_end(img);
-	while(i < 5)
+	while (i < 5)
 	{
 		if (img->textures[i].img)
 			mlx_destroy_image(img->mlx, img->textures[i].img);

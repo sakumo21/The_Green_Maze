@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 12:56:32 by mlamrani         ###   ########.fr       */
+/*   Updated: 2024/12/25 16:49:44 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,50 +23,52 @@ int	handle_empty_map(char *str)
 	return (0);
 }
 
-
-int process_line(char *line, int fd, int i)
+int	process_line(char *line, int fd, int i)
 {
+	int	j;
+
 	if (i > 0 && line[i] == '\0')
 	{
-		int j = 0;
+		j = 0;
 		free(line);
 		line = get_next_line(fd);
-		if(!line)
+		if (!line)
 			return (-1);
 		while (line)
 		{
 			while (line[j])
 			{
 				if (line[j] != ' ' && line[j] != '\n' && line[j] != '\t')
-					return(printf("Error : Empty line in the map.\n"), free(line), 1);
+					return (printf("Error : Empty line in the map.\n"),
+						free(line), 1);
 				j++;
 			}
 			free(line);
 			line = get_next_line(fd);
-			if(!line)
+			if (!line)
 				return (-1);
 		}
 	}
 	return (0);
 }
 
-
-char	*read_map_lines(char *line, int fd)
+char	*read_map_lines(char *line, int fd, int i)
 {
 	char	*str;
 	char	*temp;
-	int		i;
-	int 	proc;
+	int		proc;
+
 	str = ft_strdup("");
 	if (!str)
 		return (NULL);
 	while (line)
 	{
 		i = 0;
-		while (line[i] && (line[i] == '\n' || line[i] == ' ' || line[i] == '\t'))
+		while (line[i] && (line[i] == '\n' || line[i] == ' '
+				|| line[i] == '\t'))
 			i++;
 		proc = process_line(line, fd, i);
-		if (proc== 1)
+		if (proc == 1)
 			return (get_next_line(-1), free(str), NULL);
 		else if (proc == -1)
 			return (str);
@@ -99,11 +101,27 @@ int	parsing_map(char **map)
 		{
 			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' '
 				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W'
-				&& map[i][j] != 'E' &&  map[i][j] != 'D' && map[i][j] != '\t')
+				&& map[i][j] != 'E' && map[i][j] != 'D' && map[i][j] != '\t')
 				return (printf("Error: Invalid map character\n"), 1);
 			j++;
 		}
 		i++;
 	}
+	return (0);
+}
+
+int	my_map(t_map *map, t_data *img)
+{
+	int	max_y;
+
+	max_y = 0;
+	if (parsing_map(map->map))
+		return (1);
+	while (map->map[max_y] != NULL)
+		max_y++;
+	if (check_map_enclosure(map, 0, 0, "10DNEWS"))
+		return (1);
+	if (find_starting_point(map->map, img, 0, 0))
+		return (1);
 	return (0);
 }

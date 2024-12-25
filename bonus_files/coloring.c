@@ -68,14 +68,13 @@ void	coloring_the_image(t_data *img, int i)
 	char			*dst;
 	int				y;
 
-
 	cel = convert_ceiling_to_hex(img->ceiling);
 	flo = convert_ceiling_to_hex(img->floor);
 	y = 0;
 	while (y < img->ray.drawstart)
 	{
-		dst = img->addr + (y * img->line_length + i
-				* (img->bits_per_pixel / 8));
+		dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel
+					/ 8));
 		*(unsigned int *)dst = cel;
 		y++;
 	}
@@ -83,8 +82,8 @@ void	coloring_the_image(t_data *img, int i)
 	y = img->ray.drawend;
 	while (y < HEIGHT)
 	{
-		dst = img->addr + (y * img->line_length + i
-				* (img->bits_per_pixel / 8));
+		dst = img->addr + (y * img->line_length + i * (img->bits_per_pixel
+					/ 8));
 		*(unsigned int *)dst = flo;
 		y++;
 	}

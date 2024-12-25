@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:48:45 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 16:46:02 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	set_texture(t_texture_data *data)
 {
 	char	*trimmed;
-	int 	i;
+	int		i;
 
 	trimmed = NULL;
 	if (data->path[1])
@@ -42,6 +42,7 @@ static int	handle_texture(t_texture_data *data, int index, char *name,
 	return (set_texture(data));
 }
 
+
 int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
 	t_texture_data	data;
@@ -54,7 +55,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	{
 		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for North texture.\n"),
-				flag->exit = 2, 1);	
+				flag->exit = 2, 1);
 		return (handle_texture(&data, 0, "North texture", &flag->n_check));
 	}
 	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
@@ -70,7 +71,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	{
 		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for WEST texture.\n"),
-				flag->exit = 2, 1);	
+				flag->exit = 2, 1);
 		return (handle_texture(&data, 2, "West texture", &flag->w_check));
 	}
 	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
@@ -78,7 +79,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	{
 		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for EAST texture.\n"),
-				flag->exit = 2, 1);	
+				flag->exit = 2, 1);
 		return (handle_texture(&data, 3, "East texture", &flag->e_check));
 	}
 	if (!ft_strncmp(path[0], "F", 1))
