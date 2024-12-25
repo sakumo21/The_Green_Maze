@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 17:11:10 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/24 18:40:09 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 09:54:34 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (fd == -1)
 	{
-		printf("aaaaaaaaaaaaaaaaaaaaaaaaaa\n");
 		free(lines);
 		lines = NULL;
 		return (NULL);

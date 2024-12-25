@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 17:24:48 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 12:55:05 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 	if (*flag)
 	{
 		printf("Error : %s already defined.\n", msg);
-		exit(1);
+		return (2);
 	}
 	*flag = 1;
 	if (new)
 	{
 		if (check_range(new, img, new + 2))
-			exit(1);
+			return (2);
 	}
 	return (0);
 }

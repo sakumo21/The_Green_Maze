@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 15:24:28 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 12:13:03 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,22 @@
 static int	set_texture(t_texture_data *data)
 {
 	char	*trimmed;
+	int 	i;
 
 	trimmed = NULL;
 	if (data->path[1])
 	{
 		trimmed = ft_strtrim(data->path[1], "\n");
+		if (data->img->textures[data->index].path)
+			free(data->img->textures[data->index].path);
 		data->img->textures[data->index].path = ft_strdup(trimmed);
 		free(trimmed);
 	}
-	return (check_and_set(data->path, data->flag_check, data->texture_name,
-			data->flag));
+	i = check_and_set(data->path, data->flag_check, data->texture_name,
+			data->flag);
+	if (i)
+		data->flag->exit = 2;
+	return (i);
 }
 
 static int	handle_texture(t_texture_data *data, int index, char *name,
@@ -46,7 +52,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO",
 			ft_strlen("NO")))
 	{
-		if (path[2] && path[2][0] != '\n')
+		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for North texture.\n"),
 				flag->exit = 2, 1);	
 		return (handle_texture(&data, 0, "North texture", &flag->n_check));
@@ -54,7 +60,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
 			ft_strlen("SO")))
 	{
-		if (path[2] && path[2][0] != '\n')
+		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for SOUTH texture.\n"),
 				flag->exit = 2, 1);
 		return (handle_texture(&data, 1, "South texture", &flag->s_check));
@@ -62,7 +68,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE",
 			ft_strlen("WE")))
 	{
-		if (path[2] && path[2][0] != '\n')
+		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for WEST texture.\n"),
 				flag->exit = 2, 1);	
 		return (handle_texture(&data, 2, "West texture", &flag->w_check));
@@ -70,15 +76,33 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
 			ft_strlen("EA")))
 	{
-		if (path[2] && path[2][0] != '\n')
+		if (path[1] && path[2] && path[2][0] != '\n')
 			return (printf("Error: Too many arguments for EAST texture.\n"),
 				flag->exit = 2, 1);	
 		return (handle_texture(&data, 3, "East texture", &flag->e_check));
 	}
 	if (!ft_strncmp(path[0], "F", 1))
-		return (check_set_color(&flag->f_check, "Floor color", new, img));
+	{
+		int i = check_set_color(&flag->f_check, "Floor color", new, img);
+		if (i)
+		{
+			if (i == 2)
+				return (flag->exit = 2, 1);
+			return (1);
+		}
+		return (0);
+	}
 	if (!ft_strncmp(path[0], "C", 1))
-		return (check_set_color(&flag->c_check, "Ceiling color", new, img));
+	{
+		int j = check_set_color(&flag->c_check, "Ceiling color", new, img);
+		if (j)
+		{
+			if (j == 2)
+				return (flag->exit = 2, 1);
+			return (1);
+		}
+		return (0);
+	}
 	if (ft_isalpha(path[0][0]))
 		return (printf("Error: %s is not a valid identifier.\n", path[0]),
 			flag->exit = 2, 1);

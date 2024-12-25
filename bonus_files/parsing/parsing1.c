@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 18:25:33 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:18:24 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int	first_parse(int ac, char **av, int *fd)
+int	first_parse(int ac, char **av, int *fd, t_data *img)
 {
 	if (parse_input(ac, av, 0))
 		return (1);
@@ -20,7 +20,8 @@ int	first_parse(int ac, char **av, int *fd)
 	if (*fd < 0)
 	{
 		printf("Error : File not found.\n");
-		exit(1);
+		free(img->map);
+		exit (1);
 	}
 	return (0);
 }
@@ -48,7 +49,7 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	int		fd;
 	t_flag	flag;
 
-	if (first_parse(ac, av, &fd))
+	if (first_parse(ac, av, &fd, img))
 		return (1);
 	init_flag(&flag, img->map, img);
 	line = get_next_line(fd);
@@ -60,8 +61,11 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 			line = get_next_line(fd);
 			continue;
 		}
-		if (parse_line(line, &flag, 0, img))	
+		if (parse_line(line, &flag, 0, img))
+		{
+			get_next_line(-1);
 			break ;
+		}
 		free(line);
 		line = get_next_line(fd);
 	}

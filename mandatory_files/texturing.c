@@ -42,9 +42,6 @@ void	load_textures(t_data *img, int i)
 	img->textures[3].img = mlx_xpm_file_to_image(img->mlx,
 			img->textures[3].path, &img->textures[3].width,
 			&img->textures[3].height);
-	img->textures[4].img = mlx_xpm_file_to_image(img->mlx,
-			img->textures[4].path, &img->textures[4].width,
-			&img->textures[4].height);
 	check_text(img, i);
 }
 

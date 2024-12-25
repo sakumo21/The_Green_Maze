@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 17:11:19 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2024/12/25 13:01:10 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	check_path_exists(char *path)
 	if (fd < 0)
 	{
 		printf("Error: File not found %s.\n", path);
-		free(path);
-		exit (1);
+		return (1);
 	}
 	else
 		close(fd);
@@ -38,29 +37,54 @@ void	free_range(char **p, int i)
 	free(p);
 }
 
-int	parse_path(char **av)
+int parse_path(char **av)
 {
-	int		i;
-	char	*path;
+	int i;
+	char *path;
 
 	i = 0;
-	path = av[1] + 2;
-	if (ft_strlen(path) == 4 && !ft_strncmp(path + ft_strlen(path) - 4, ".xpm",
-			4))
+	path = av[1];
+	while(path[i])
+		i++;
+	if (i < 5 || ft_strncmp(path + i - 4, ".xpm", 4))
 	{
-		printf("Error : add a name to your .xpm file.\n");
-		exit(1);
+		printf("Error : Put the right extension (.xpm) !\n");
+		return (1);
 	}
-	while (path[i] == '.' && path[i + 1] == '/') 
-		i += 2;
-	if (path[i] == '.' && (path[i + 1] != 'x' || path[i + 2] != 'p' || path[i
-				+ 3] != 'm'))
-		return (printf("Error : Put the right extension (.xpm) !\n"), 1);
-	else if (path[i] == '.' && path[i + 1] == 'x' && path[i + 2] == 'p'
-		&& path[i + 3] == 'm' && (path[i + 4] != '\0'))
-		return (printf("Error : Put the right extension (.xpm) !\n"), 1);
+	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x' && path[i - 4] == '.' && path[i - 5] == '/')
+	{
+		printf("Error : Add a name to your .xpm file.\n");
+		return (1);
+	}
 	return (0);
 }
+
+
+
+
+// int	parse_path(char **av)
+// {
+// 	int		i;
+// 	char	*path;
+
+// 	i = 0;
+// 	path = av[1] + 2;
+// 	if (ft_strlen(path) == 4 && !ft_strncmp(path + ft_strlen(path) - 4, ".xpm",
+// 			4))
+// 	{
+// 		printf("Error : add a name to your .xpm file.\n");
+// 		exit(1);
+// 	}
+// 	while (path[i] == '.' && path[i + 1] == '/') 
+// 		i += 2;
+// 	if (path[i] == '.' && (path[i + 1] != 'x' || path[i + 2] != 'p' || path[i
+// 				+ 3] != 'm'))
+// 		return (printf("Error : Put the right extension (.xpm) !\n"), 1);
+// 	else if (path[i] == '.' && path[i + 1] == 'x' && path[i + 2] == 'p'
+// 		&& path[i + 3] == 'm' && (path[i + 4] != '\0'))
+// 		return (printf("Error : Put the right extension (.xpm) !\n"), 1);
+// 	return (0);
+// }
 
 int	check_line(char **line, t_flag *flagg)
 {
