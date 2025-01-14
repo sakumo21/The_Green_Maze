@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:29:29 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/24 16:11:46 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:08:35 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	coloring_the_image(t_data *img, int i)
 	unsigned int	flo;
 	char			*dst;
 	int				y;
-
 
 	cel = convert_ceiling_to_hex(img->ceiling);
 	flo = convert_ceiling_to_hex(img->floor);

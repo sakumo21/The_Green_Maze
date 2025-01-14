@@ -46,9 +46,9 @@ int	validate_values(char **p)
 
 int	check_value_range(char **p)
 {
-	if ((ft_atoi(p[0]) < 0 || ft_atoi(p[0]) > 255)
-		|| (ft_atoi(p[1]) < 0 || ft_atoi(p[1]) > 255)
-		|| (ft_atoi(p[2]) < 0 || ft_atoi(p[2]) > 255))
+	if ((ft_atoi(p[0]) < 0 || ft_atoi(p[0]) > 255) || (ft_atoi(p[1]) < 0
+			|| ft_atoi(p[1]) > 255) || (ft_atoi(p[2]) < 0
+			|| ft_atoi(p[2]) > 255))
 	{
 		free_range(p, 0);
 		printf("Error : RGB range is between 0 and 255\n");

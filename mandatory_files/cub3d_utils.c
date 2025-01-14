@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 15:39:42 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/24 20:49:09 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:06:35 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void	init_cube(t_data *img)
 int	free_img(t_data *img)
 {
 	int	i;
-	
+
 	i = 0;
 	free_textures_path(img);
 	free_end(img);
-	while(i < 4)
+	while (i < 4)
 	{
 		if (img->textures[i].img)
 			mlx_destroy_image(img->mlx, img->textures[i].img);

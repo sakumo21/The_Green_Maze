@@ -17,14 +17,14 @@ int	first_parse(int ac, char **av, int *fd, t_data *img)
 	if (parse_input(ac, av, 0))
 	{
 		free(img->map);
-		exit (1);
+		exit(1);
 	}
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
 	{
 		printf("Error : File not found.\n");
 		free(img->map);
-		exit (1);
+		exit(1);
 	}
 	return (0);
 }

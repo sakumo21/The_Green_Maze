@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:50:42 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:06:04 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,24 @@ int	first_parse(int ac, char **av, int *fd, t_data *img)
 	if (parse_input(ac, av, 0))
 	{
 		free(img->map);
-		exit (1);
+		exit(1);
 	}
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
 	{
 		printf("Error : File not found.\n");
 		free(img->map);
-		exit (1);
+		exit(1);
 	}
 	return (0);
 }
 
-int my_isspace(char c)
+int	my_isspace(char c)
 {
-    return (c == ' ' || c == '\n' || c == '\t');
+	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-
-int	is_empty_line(char *line)	
+int	is_empty_line(char *line)
 {
 	while (*line)
 	{
@@ -46,6 +45,16 @@ int	is_empty_line(char *line)
 	return (1);
 }
 
+int	test(char *line, int fd)
+{
+	if (is_empty_line(line))
+	{
+		free(line);
+		line = get_next_line(fd);
+		return (1);
+	}
+	return (0);
+}
 
 int	main_parsing(char **av, int ac, t_data *img, char *line)
 {
@@ -58,12 +67,8 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_empty_line(line))
-		{
-			free(line);
-			line = get_next_line(fd);
-			continue;
-		}
+		if (test(line, fd))
+			continue ;
 		if (parse_line(line, &flag, 0, img))
 		{
 			get_next_line(-1);
@@ -96,7 +101,7 @@ static char	*initialize_new(char *trimmed, char **path, char *new)
 static char	*append_to_new(char *new, char *trimmed, char **path)
 {
 	char	*temp;
-	
+
 	temp = ft_strjoin(new, trimmed);
 	if (!temp)
 		return (free_path(path, new), NULL);

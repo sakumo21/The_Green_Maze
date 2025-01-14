@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:37:25 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 09:52:12 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:04:32 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*p;
 	size_t	len;
-	
+
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
@@ -27,11 +27,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(p, s2, len + 1);
 	return (p);
 }
-
-// #include <stdio.h>
-
-// int	main(void){
-// 	char s[] = "hello";
-// 	char c[] = "world !/";
-// 	printf("%s", ft_strjoin(s, c));
-// }

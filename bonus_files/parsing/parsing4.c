@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 15:55:23 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:02:15 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	parse_path(char **av)
 		printf("Error : Put the right extension (.xpm) !\n");
 		return (1);
 	}
-	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x'
-		&& path[i - 4] == '.' && path[i - 5] == '/')
+	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x' && path[i
+			- 4] == '.' && path[i - 5] == '/')
 	{
 		printf("Error : Add a name to your .xpm file.\n");
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 12:22:47 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:25:29 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_set_color(int *flag, char *msg, char *new, t_data *img)
 	*flag = 1;
 	if (new)
 	{
-		if (check_range(new, img, new + 2))
+		if (check_range(new, img, new + 2, 0))
 			return (2);
 	}
 	return (0);
@@ -80,12 +80,26 @@ void	set_set(char *line, char **p, t_data *img)
 	}
 }
 
-int	check_range(char *line, t_data *img, char *new)
+int	test3(char **p)
+{
+	char *trimmed;
+	
+	if (p[2][0] != '\0')
+	{
+		trimmed = ft_strtrim(p[2], "\n");
+		if (!trimmed)
+			return (1);
+		free(p[2]);
+		p[2] = trimmed;
+	}
+	return (0);
+}
+
+int	check_range(char *line, t_data *img, char *new, int i)
 {
 	char	**p;
-	char	*trimmed;
 	char	*tmp;
-	int i = 0;
+
 	while (new[i])
 	{
 		if (new[i] == ',' && new[i + 1] == ',')
@@ -102,14 +116,8 @@ int	check_range(char *line, t_data *img, char *new)
 	tmp = p[2];
 	p[2] = ft_strtrim(p[2], "\n");
 	free(tmp);
-	if (p[2][0] != '\0')
-	{
-		trimmed = ft_strtrim(p[2], "\n");
-		if (!trimmed)
-			return (free_range(p, 0), 1);
-		free(p[2]);
-		p[2] = trimmed;
-	}
+	if (test3(p))
+		return (free_range(p, 0), 1);
 	if (validate_values(p) || check_extra_values(p) || check_value_range(p))
 		return (1);
 	return (set_set(line, p, img), free_range(p, 0), 0);

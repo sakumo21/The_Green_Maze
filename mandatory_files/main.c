@@ -6,7 +6,7 @@
 /*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:22:47 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 17:46:42 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:00:50 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	rendering_image(t_data *img, int i)
 int	main(int ac, char **av)
 {
 	t_data	img;
-	int i;
+	int		i;
 
 	i = 0;
 	img.map = malloc(sizeof(t_map));
-	while(i < 4)
+	while (i < 4)
 		img.textures[i++].path = NULL;
 	if (main_parsing(av, ac, &img, NULL))
 		return (free_end(&img), 1);

@@ -1,9 +1,10 @@
 F 10,20,2
 C 13,169,169
-NO ./bonus_files/textures/rca2.xpm   lllll
-WE ./bonus_files/textures/gb1.xpm
-EA ./bonus_files/textures/gb2.xpm
-S ./bonus_files/textures/rca1.xpm
+
+NO ./bonus_files/textures/rca2.xpm
+WE ./bonus_files/textures/rca2.xpm
+EA ./bonus_files/textures/rca2.xpm
+S ./bonus_files/textures/rca2.xpm
 
 
 
@@ -18,13 +19,4 @@ S ./bonus_files/textures/rca1.xpm
 1000000000N0000001001
 100000000000000011111
 1000000000000000011
-111111111111111101111111111111111111
-1111111111111110001
-1000000000000000011111111111111111111
-1111111111111111111 
-1111111111111111111   
 111111111111111111
-100000000000000111
-1000000000000000011
-1111111111111111111111111111111111111         
-11111111111

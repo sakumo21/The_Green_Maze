@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 11:43:27 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:07:25 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@
 # define WALL '1'
 # define EMPTY '0'
 # define SPACE ' '
-
-
 # define WIDTH 800
 # define HEIGHT 800
-
 # define MAPWIDTH 24
 # define MAPHEIGHT 24
 # define EPSILON 1e-6
@@ -84,7 +81,7 @@ typedef struct s_flag
 	int			f_check;
 	int			c_check;
 	int			exit;
-	int 		is_map_started;
+	int			is_map_started;
 }				t_flag;
 
 typedef struct s_map
@@ -181,7 +178,7 @@ typedef struct s_data
 	int			player_x;
 	int			player_y;
 	char		**path;
-	char 		*new;
+	char		*new;
 	t_ray		ray;
 	t_map		*map;
 	t_texture	textures[4];
@@ -216,14 +213,15 @@ int				parse_input(int ac, char **av, int i);
 int				my_map(t_map *map, t_data *img);
 int				check_line(char **line, t_flag *flagg);
 int				mini_map(char *line, t_map *map, int fd);
-int				check_range(char *line, t_data *img, char *new);
+int				check_range(char *line, t_data *img, char *new, int i);
 int				main_parsing(char **av, int ac, t_data *img, char *line);
 int				parse_line(char *line, t_flag *flag, int i, t_data *img);
 int				texturing(char **path, char *new, t_flag *flag, t_data *img);
 int				check_set_color(int *flag, char *msg, char *new, t_data *img);
 int				find_starting_point(char **map, t_data *img, int i, int found);
 int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
-int				check_map_enclosure(t_map *map, int x, int y, char	*valid_neighbors);
+int				check_map_enclosure(t_map *map, int x, int y,
+					char	*valid_neighbors);
 void			free_d(char **args);
 void			free_end(t_data *img);
 void			init_cube(t_data *img);
@@ -255,7 +253,7 @@ void			coloring_the_image(t_data *img, int i);
 void			my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
 void			my_mlx_pixel_put(t_data *data, int x, int color);
 void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
-char			*read_map_lines(char *line, int fd);
+char			*read_map_lines(char *line, int fd, int i, int proc);
 char			*ft_strjoin_three(char *s1, char *s2, char *s3);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);

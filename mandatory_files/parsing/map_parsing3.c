@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 15:45:23 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:15:01 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,67 +23,77 @@ int	handle_empty_map(char *str)
 	return (0);
 }
 
-
-int process_line(char *line, int fd, int i)
+int	process_line(char *line, int fd, int i)
 {
+	int	j;
+
 	if (i > 0 && line[i] == '\0')
 	{
-		int j = 0;
+		j = 0;
 		free(line);
 		line = get_next_line(fd);
-		if(!line)
+		if (!line)
 			return (-1);
 		while (line)
 		{
 			while (line[j])
 			{
 				if (line[j] != ' ' && line[j] != '\n' && line[j] != '\t')
-					return(printf("Error : Empty line in the map.\n"), free(line), 1);
+					return (printf("Error : Empty line in the map.\n"),
+						free(line), 1);
 				j++;
 			}
 			free(line);
 			line = get_next_line(fd);
-			if(!line)
+			if (!line)
 				return (-1);
 		}
 	}
 	return (0);
 }
 
+int	test2(char *str, char *line, int fd)
+{
+	char	*temp;
 
-char	*read_map_lines(char *line, int fd)
+	temp = ft_strjoin(str, line);
+	free(str);
+	free(line);
+	if (!temp)
+		return (1);
+	str = temp;
+	line = get_next_line(fd);
+	get_next_line(-1);
+	return (0);
+}
+
+char	*read_map_lines(char *line, int fd, int i, int proc)
 {
 	char	*str;
-	char	*temp;
-	int		i;
-	int 	proc;
+
 	str = ft_strdup("");
 	if (!str)
 		return (NULL);
 	while (line)
 	{
 		i = 0;
-		while (line[i] && (line[i] == '\n' || line[i] == ' ' || line[i] == '\t'))
+		while (line[i] && (line[i] == '\n' || line[i] == ' '
+				|| line[i] == '\t'))
 			i++;
 		proc = process_line(line, fd, i);
-		if (proc== 1)
+		if (proc == 1)
 			return (get_next_line(-1), free(str), NULL);
 		else if (proc == -1)
 			return (str);
 		else
 		{
-			temp = ft_strjoin(str, line);
-			free(str);
-			free(line);
-			if (!temp)
+			if (test2(str, line, fd))
 				return (NULL);
-			str = temp;
-			line = get_next_line(fd);
-			get_next_line(-1);
 		}
 	}
 	return (str);
 }
+
 int	parsing_map(char **map)
 {
 	int	i;

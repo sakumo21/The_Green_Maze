@@ -42,10 +42,11 @@ static int	handle_texture(t_texture_data *data, int index, char *name,
 	return (set_texture(data));
 }
 
-
 int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
 	t_texture_data	data;
+	int				i;
+	int				j;
 
 	data.path = path;
 	data.flag = flag;
@@ -84,7 +85,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	}
 	if (!ft_strncmp(path[0], "F", 1))
 	{
-		int i = check_set_color(&flag->f_check, "Floor color", new, img);
+		i = check_set_color(&flag->f_check, "Floor color", new, img);
 		if (i)
 		{
 			if (i == 2)
@@ -95,7 +96,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 	}
 	if (!ft_strncmp(path[0], "C", 1))
 	{
-		int j = check_set_color(&flag->c_check, "Ceiling color", new, img);
+		j = check_set_color(&flag->c_check, "Ceiling color", new, img);
 		if (j)
 		{
 			if (j == 2)
@@ -142,7 +143,7 @@ int	parse_input(int ac, char **av, int i)
 			|| av[1][i + 3] != 'b'))
 		return (printf("Error : Put the right extension (.cub) !\n"), 1);
 	else if (av[1][i] == '.' && av[1][i + 1] == 'c' && av[1][i + 2] == 'u'
-			&& av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
+		&& av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
 		return (printf("Error : Put the right extension (.cub) !\n"), 1);
 	return (0);
 }

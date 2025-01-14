@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:28:51 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/24 20:22:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:12:09 by ziel-hac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	mini_map(char *line, t_map *map, int fd)
 {
 	char	*str;
 
-	str = read_map_lines(line, fd);
+	str = read_map_lines(line, fd, 0, 0);
 	close(fd);
 	if (!str)
 		return (1);
