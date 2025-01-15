@@ -42,75 +42,91 @@ static int	handle_texture(t_texture_data *data, int index, char *name,
 	return (set_texture(data));
 }
 
-int	texturing(char **path, char *new, t_flag *flag, t_data *img)
+static int check_too_many_args(char **path, t_flag *flag, const char *texture_name)
 {
-	t_texture_data	data;
-	int				i;
-	int				j;
-
-	data.path = path;
-	data.flag = flag;
-	data.img = img;
-	if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO",
-			ft_strlen("NO")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for North texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 0, "North texture", &flag->n_check));
-	}
-	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
-			ft_strlen("SO")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for SOUTH texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 1, "South texture", &flag->s_check));
-	}
-	if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE",
-			ft_strlen("WE")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for WEST texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 2, "West texture", &flag->w_check));
-	}
-	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
-			ft_strlen("EA")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for EAST texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 3, "East texture", &flag->e_check));
-	}
-	if (!ft_strncmp(path[0], "F", 1))
-	{
-		i = check_set_color(&flag->f_check, "Floor color", new, img);
-		if (i)
-		{
-			if (i == 2)
-				return (flag->exit = 2, 1);
-			return (1);
-		}
-		return (0);
-	}
-	if (!ft_strncmp(path[0], "C", 1))
-	{
-		j = check_set_color(&flag->c_check, "Ceiling color", new, img);
-		if (j)
-		{
-			if (j == 2)
-				return (flag->exit = 2, 1);
-			return (1);
-		}
-		return (0);
-	}
-	if (ft_isalpha(path[0][0]))
-		return (printf("Error: %s is not a valid identifier.\n", path[0]),
-			flag->exit = 2, 1);
-	flag->is_map_started = 1;
-	return (1);
+    if (path[1] && path[2] && path[2][0] != '\n')
+    {
+        printf("Error: Too many arguments for %s.\n", texture_name);
+        flag->exit = 2;
+        return 1;
+    }
+    return 0;
 }
+
+static int handle_texture_direction(char **path, t_texture_data *data, t_flag *flag)
+{
+    if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
+    {
+        if (check_too_many_args(path, flag, "North texture"))
+            return 1;
+        return handle_texture(data, 0, "North texture", &flag->n_check);
+    }
+    if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
+    {
+        if (check_too_many_args(path, flag, "South texture"))
+            return 1;
+        return handle_texture(data, 1, "South texture", &flag->s_check);
+    }
+    if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
+    {
+        if (check_too_many_args(path, flag, "West texture"))
+            return 1;
+        return handle_texture(data, 2, "West texture", &flag->w_check);
+    }
+    if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
+    {
+        if (check_too_many_args(path, flag, "East texture"))
+            return 1;
+        return handle_texture(data, 3, "East texture", &flag->e_check);
+    }
+    return -1;
+}
+
+static int handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img)
+{
+    if (!ft_strncmp(path[0], "F", 1))
+    {
+        int result = check_set_color(&flag->f_check, "Floor color", new, img);
+        if (result == 2)
+            flag->exit = 2;
+        return result ? 1 : 0;
+    }
+    if (!ft_strncmp(path[0], "C", 1))
+    {
+        int result = check_set_color(&flag->c_check, "Ceiling color", new, img);
+        if (result == 2)
+            flag->exit = 2;
+        return result ? 1 : 0;
+    }
+    return -1;
+}
+
+int texturing(char **path, char *new, t_flag *flag, t_data *img)
+{
+    t_texture_data data = {.path = path, .flag = flag, .img = img};
+
+    // Check for texture directions
+    int texture_result = handle_texture_direction(path, &data, flag);
+    if (texture_result != -1)
+        return texture_result;
+
+    // Check for floor or ceiling
+    int color_result = handle_floor_or_ceiling(path, new, flag, img);
+    if (color_result != -1)
+        return color_result;
+
+    // Invalid identifier
+    if (ft_isalpha(path[0][0]))
+    {
+        printf("Error: %s is not a valid identifier.\n", path[0]);
+        flag->exit = 2;
+        return 1;
+    }
+
+    flag->is_map_started = 1;
+    return 1;
+}
+
 
 void	init_flag(t_flag *flag, t_map *map, t_data *img)
 {
