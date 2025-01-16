@@ -12,7 +12,7 @@
 
 #include "../cub3D.h"
 
-int test5(int fd, char **line)
+int	test5(int fd, char **line)
 {
 	if (is_empty_line(*line))
 	{

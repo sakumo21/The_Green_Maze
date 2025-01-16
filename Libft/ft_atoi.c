@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 21:37:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 15:17:33 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:21:28 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	ft_atoi(const char *nptr)
 		num = num * 10 + (*nptr - 48);
 		nptr++;
 	}
-	if (ft_isalpha(*nptr))
-		return (-1);
+	// if (!ft_isdigit(*nptr))
+	// 	return (-1);
 	if ((p == 1 && num > 2147483647) || (p == -1 && num < -2147483648))
 		return (-2);
 	return (num * p);

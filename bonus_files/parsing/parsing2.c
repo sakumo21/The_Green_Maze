@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 01:24:51 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 11:22:14 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,29 @@ int	handle_texture(t_texture_data *data, int index, char *name,
 	return (set_texture(data));
 }
 
-int texturing(char **path, char *new, t_flag *flag, t_data *img)
+int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
-    t_texture_data data = {.path = path, .flag = flag, .img = img};
+	t_texture_data	data;
+	int				color_result;
+	int				texture_result;
 
-    // Check for texture directions
-    int texture_result = handle_texture_direction(path, &data, flag);
-    if (texture_result != -1)
-        return texture_result;
-
-    // Check for floor or ceiling
-    int color_result = handle_floor_or_ceiling(path, new, flag, img);
-    if (color_result != -1)
-        return color_result;
-
-    // Invalid identifier
-    if (ft_isalpha(path[0][0]))
-    {
-        printf("Error: %s is not a valid identifier.\n", path[0]);
-        flag->exit = 2;
-        return 1;
-    }
-
-    flag->is_map_started = 1;
-    return 1;
+	data.path = path;
+	data.flag = flag;
+	data.img = img;
+	texture_result = handle_texture_direction(path, &data, flag);
+	if (texture_result != -1)
+		return (texture_result);
+	color_result = handle_floor_or_ceiling(path, new, flag, img);
+	if (color_result != -1)
+		return (color_result);
+	if (ft_isalpha(path[0][0]))
+	{
+		printf("Error: %s is not a valid identifier.\n", path[0]);
+		flag->exit = 2;
+		return (1);
+	}
+	flag->is_map_started = 1;
+	return (1);
 }
 
 void	init_flag(t_flag *flag, t_map *map, t_data *img)
@@ -89,7 +88,7 @@ void	init_flag(t_flag *flag, t_map *map, t_data *img)
 int	parse_input(int ac, char **av, int i)
 {
 	if (ac != 2)
-		return (printf("Where is the file?\n"), 1);
+		return (printf("Error : Where is the file?\n"), 1);
 	if (ft_strlen(av[1]) == 4 && !ft_strncmp(av[1] + ft_strlen(av[1]) - 4,
 			".cub", 4))
 		return (printf("Error : add a name to your .cub file.\n"), 1);

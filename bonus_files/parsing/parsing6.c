@@ -29,61 +29,75 @@ int	first_parse(int ac, char **av, int *fd, t_data *img)
 	return (0);
 }
 
-int check_too_many_args(char **path, t_flag *flag, const char *texture_name)
+int	check_too_many_args(char **path, t_flag *flag, const char *texture_name)
 {
-    if (path[1] && path[2] && path[2][0] != '\n')
-    {
-        printf("Error: Too many arguments for %s.\n", texture_name);
-        flag->exit = 2;
-        return 1;
-    }
-    return 0;
+	if (path[1] && path[2] && path[2][0] != '\n')
+	{
+		printf("Error: Too many arguments for %s.\n", texture_name);
+		flag->exit = 2;
+		return (1);
+	}
+	return (0);
 }
 
-int handle_texture_direction(char **path, t_texture_data *data, t_flag *flag)
+int	is_texture_match(char *input, char *short_id, char *long_id)
 {
-    if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
-    {
-        if (check_too_many_args(path, flag, "North texture"))
-            return 1;
-        return handle_texture(data, 0, "North texture", &flag->n_check);
-    }
-    if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
-    {
-        if (check_too_many_args(path, flag, "South texture"))
-            return 1;
-        return handle_texture(data, 1, "South texture", &flag->s_check);
-    }
-    if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
-    {
-        if (check_too_many_args(path, flag, "West texture"))
-            return 1;
-        return handle_texture(data, 2, "West texture", &flag->w_check);
-    }
-    if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
-    {
-        if (check_too_many_args(path, flag, "East texture"))
-            return 1;
-        return handle_texture(data, 3, "East texture", &flag->e_check);
-    }
-    return -1;
+	return (!ft_strncmp(input, short_id, ft_strlen(short_id))
+		|| !ft_strncmp(input, long_id, ft_strlen(long_id)));
 }
 
-int handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img)
+int	handle_texture_direction(char **path, t_texture_data *data, t_flag *flag)
 {
-    if (!ft_strncmp(path[0], "F", 1))
-    {
-        int result = check_set_color(&flag->f_check, "Floor color", new, img);
-        if (result == 2)
-            flag->exit = 2;
-        return result ? 1 : 0;
-    }
-    if (!ft_strncmp(path[0], "C", 1))
-    {
-        int result = check_set_color(&flag->c_check, "Ceiling color", new, img);
-        if (result == 2)
-            flag->exit = 2;
-        return result ? 1 : 0;
-    }
-    return -1;
+	if (is_texture_match(path[0], "N", "NO"))
+	{
+		if (check_too_many_args(path, flag, "North texture"))
+			return (1);
+		return (handle_texture(data, 0, "North texture", &flag->n_check));
+	}
+	if (is_texture_match(path[0], "S", "SO"))
+	{
+		if (check_too_many_args(path, flag, "South texture"))
+			return (1);
+		return (handle_texture(data, 1, "South texture", &flag->s_check));
+	}
+	if (is_texture_match(path[0], "W", "WE"))
+	{
+		if (check_too_many_args(path, flag, "West texture"))
+			return (1);
+		return (handle_texture(data, 2, "West texture", &flag->w_check));
+	}
+	if (is_texture_match(path[0], "E", "EA"))
+	{
+		if (check_too_many_args(path, flag, "East texture"))
+			return (1);
+		return (handle_texture(data, 3, "East texture", &flag->e_check));
+	}
+	return (-1);
+}
+
+int	handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img)
+{
+	int	result;
+
+	if (!ft_strncmp(path[0], "F", 1))
+	{
+		result = check_set_color(&flag->f_check, "Floor color", new, img);
+		if (result == 2)
+			flag->exit = 2;
+		if (result)
+			return (1);
+		else
+			return (0);
+	}
+	if (!ft_strncmp(path[0], "C", 1))
+	{
+		result = check_set_color(&flag->c_check, "Ceiling color", new, img);
+		if (result == 2)
+			flag->exit = 2;
+		if (result)
+			return (1);
+		else
+			return (0);
+	}
+	return (-1);
 }

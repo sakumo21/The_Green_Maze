@@ -52,7 +52,7 @@ int	process_line(char *line, int fd, int i)
 	return (0);
 }
 
-int test44(int fd, char **str, char **line)
+int	test44(int fd, char **str, char **line)
 {
 	char	*temp;
 
@@ -115,21 +115,5 @@ int	parsing_map(char **map)
 		}
 		i++;
 	}
-	return (0);
-}
-
-int	my_map(t_map *map, t_data *img)
-{
-	int	max_y;
-
-	max_y = 0;
-	if (parsing_map(map->map))
-		return (1);
-	while (map->map[max_y] != NULL)
-		max_y++;
-	if (check_map_enclosure(map, 0, 0, "10DNEWS"))
-		return (1);
-	if (find_starting_point(map->map, img, 0, 0))
-		return (1);
 	return (0);
 }

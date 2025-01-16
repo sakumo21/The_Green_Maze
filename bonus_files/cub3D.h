@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 01:25:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 11:17:53 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,9 +261,12 @@ unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
 int				is_empty_line(char *line);
 int				final_checks(t_flag *flag, char *line, t_data *img, int fd);
-int				handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img);
-int				handle_texture_direction(char **path, t_texture_data *data, t_flag *flag);
-int				check_too_many_args(char **path, t_flag *flag, const char *texture_name);
+int				handle_floor_or_ceiling(char **path, char *new, t_flag *flag,
+					t_data *img);
+int				handle_texture_direction(char **path, t_texture_data *data,
+					t_flag *flag);
+int				check_too_many_args(char **path, t_flag *flag,
+					const char *texture_name);
 int				first_parse(int ac, char **av, int *fd, t_data *img);
 int				set_texture(t_texture_data *data);
 int				handle_texture(t_texture_data *data, int index, char *name,

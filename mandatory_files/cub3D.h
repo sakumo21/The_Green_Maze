@@ -13,9 +13,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h"
 # include "../Get_next_line/get_next_line.h"
 # include "../Libft/libft.h"
+# include "../minilibx-linux/mlx.h"
 # include <X11/X.h>
 # include <fcntl.h>
 # include <math.h>
@@ -50,14 +50,14 @@ typedef struct s_keys
 
 typedef struct s_texture
 {
-	void	*img;
-	char	*addr;
-	int		width;
-	int		height;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	char	*path;
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	char		*path;
 }				t_texture;
 
 typedef struct s_texture_info
@@ -221,7 +221,7 @@ int				check_set_color(int *flag, char *msg, char *new, t_data *img);
 int				find_starting_point(char **map, t_data *img, int i, int found);
 int				check_and_set(char **path, int *flag, char *msg, t_flag *flagg);
 int				check_map_enclosure(t_map *map, int x, int y,
-					char	*valid_neighbors);
+					char *valid_neighbors);
 void			free_d(char **args);
 void			free_end(t_data *img);
 void			init_cube(t_data *img);
@@ -262,9 +262,12 @@ int				is_empty_line(char *line);
 int				my_isspace(char c);
 void			draw_pixel(t_data *img, int x, int y, unsigned int color);
 int				first_parse(int ac, char **av, int *fd, t_data *img);
-int				handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img);
-int				handle_texture_direction(char **path, t_texture_data *data, t_flag *flag);
-int				check_too_many_args(char **path, t_flag *flag, const char *texture_name);
+int				handle_floor_or_ceiling(char **path, char *new, t_flag *flag,
+					t_data *img);
+int				handle_texture_direction(char **path, t_texture_data *data,
+					t_flag *flag);
+int				check_too_many_args(char **path, t_flag *flag,
+					const char *texture_name);
 void			set_set(char *line, char **p, t_data *img);
 int				handle_texture(t_texture_data *data, int index, char *name,
 					int *flag_check);

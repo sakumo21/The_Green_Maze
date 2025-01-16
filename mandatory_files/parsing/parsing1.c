@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 00:02:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 11:11:47 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int test5(int fd, char **line)
+int	test5(int fd, char **line)
 {
 	if (is_empty_line(*line))
 	{

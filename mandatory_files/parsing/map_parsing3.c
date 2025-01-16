@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/15 23:26:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 11:11:39 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	process_line(char *line, int fd, int i)
 	return (0);
 }
 
-int test44(int fd, char **str, char **line)
+int	test44(int fd, char **str, char **line)
 {
 	char	*temp;
 

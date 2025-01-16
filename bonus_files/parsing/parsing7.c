@@ -5,41 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 01:18:03 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/16 11:15:58 by mlamrani         ###   ########.fr       */
+/*   Created: 2025/01/16 11:01:48 by mlamrani          #+#    #+#             */
+/*   Updated: 2025/01/16 11:02:06 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int	handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img)
+int	my_map(t_map *map, t_data *img)
 {
-	int	result;
+	int	max_y;
 
-	if (!ft_strncmp(path[0], "F", 1))
-	{
-		result = check_set_color(&flag->f_check, "Floor color", new, img);
-		if (result == 2)
-			flag->exit = 2;
-		if (result)
-			return (1);
-		else
-			return (0);
-	}
-	if (!ft_strncmp(path[0], "C", 1))
-	{
-		result = check_set_color(&flag->c_check, "Ceiling color", new, img);
-		if (result == 2)
-			flag->exit = 2;
-		if (result)
-			return (1);
-		else
-			return (0);
-	}
-	return (-1);
-}
-
-int	my_isspace(char c)
-{
-	return (c == ' ' || c == '\n' || c == '\t');
+	max_y = 0;
+	if (parsing_map(map->map))
+		return (1);
+	while (map->map[max_y] != NULL)
+		max_y++;
+	if (check_map_enclosure(map, 0, 0, "10DNEWS"))
+		return (1);
+	if (find_starting_point(map->map, img, 0, 0))
+		return (1);
+	return (0);
 }

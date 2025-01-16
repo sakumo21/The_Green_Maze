@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 15:42:13 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:34:05 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ int	parse_num(char *new, int i)
 {
 	while (new[i])
 	{
-		if (new[i] == ',' && new[i + 1] == ',')
-			return (printf("Error : Incorrect.\n"), 1);
+		if (new[0] == ',' || (new[i] == ',' && new[i + 1] == ','))
+			return (printf("Error : Expected 3 RGB values\
+					[..., ..., ...].\n"), 1);
 		i++;
 	}
 	return (0);

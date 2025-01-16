@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/15 23:44:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:33:04 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 
 int	test3(char **p)
 {
-	char *trimmed;
-	
+	char	*trimmed;
+
 	if (p[2][0] != '\0')
 	{
 		trimmed = ft_strtrim(p[2], "\n");
@@ -84,8 +84,9 @@ int	check_range(char *line, t_data *img, char *new, int i)
 
 	while (new[i])
 	{
-		if (new[i] == ',' && new[i + 1] == ',')
-			return (printf("Error : Incorrect.\n"), 1);
+		if (new[0] == ',' || (new[i] == ',' && new[i + 1] == ','))
+			return (printf("Error : Expected 3 RGB values\
+					[..., ..., ...].\n"), 1);
 		i++;
 	}
 	p = ft_split(new, ',');
