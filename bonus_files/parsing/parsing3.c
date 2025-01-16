@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:32:59 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 12:31:18 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:58:27 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ int	only_num(char *s)
 	i = 0;
 	if (s[i] == '+' || s[i] == '-')
 	{
-		return (printf("Error: No sign allowed!\n"), 1);
+		return (printf("Error\nNo sign allowed!\n"), 1);
 	}
 	while (s[i])
 	{
 		if (!(s[i] >= '0' && s[i] <= '9'))
-			return (printf("Error: (%s), Only digits allowed!\n", s), 1);
+			return (printf("Error\n(%s), Only digits allowed!\n", s), 1);
 		i++;
 	}
 	num = ft_atoi(&s[i]);
 	if (num == -2)
-		return (printf("Error : (%s), Out of range!\n", s), 1);
+		return (printf("Error\n(%s), Out of range!\n", s), 1);
 	return (0);
 }
 
@@ -55,7 +55,7 @@ int	check_value_range(char **p)
 			|| ft_atoi(p[2]) > 255))
 	{
 		free_range(p, 0);
-		printf("Error : RGB range is between 0 and 255\n");
+		printf("Error\nRGB range is between 0 and 255\n");
 		return (1);
 	}
 	return (0);
@@ -66,7 +66,7 @@ int	check_extra_values(char **p)
 	if (p[3] || p[2][0] == '\n' || p[2][0] == '\0')
 	{
 		free_range(p, 0);
-		printf("Error : Expected 3 RGB values [..., ..., ...].\n");
+		printf("Error\nExpected 3 RGB values [..., ..., ...].\n");
 		return (1);
 	}
 	return (0);

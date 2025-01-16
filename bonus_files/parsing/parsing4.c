@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:35:16 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/10 16:02:15 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:59:01 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_path_exists(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("Error: File not found %s.\n", path);
+		printf("Error\nFile not found %s.\n", path);
 		return (1);
 	}
 	else
@@ -48,13 +48,13 @@ int	parse_path(char **av)
 		i++;
 	if (i < 5 || ft_strncmp(path + i - 4, ".xpm", 4))
 	{
-		printf("Error : Put the right extension (.xpm) !\n");
+		printf("Error\nPut the right extension (.xpm) !\n");
 		return (1);
 	}
 	if (path[i - 1] == 'm' && path[i - 2] == 'p' && path[i - 3] == 'x' && path[i
 			- 4] == '.' && path[i - 5] == '/')
 	{
-		printf("Error : Add a name to your .xpm file.\n");
+		printf("Error\nAdd a name to your .xpm file.\n");
 		return (1);
 	}
 	return (0);
@@ -73,7 +73,7 @@ int	check_line(char **line, t_flag *flagg)
 	else
 	{
 		flagg->exit = 2;
-		return (printf("Error: No path specified for %s\n", line[0]), 1);
+		return (printf("Error\nNo path specified for %s\n", line[0]), 1);
 	}
 	return (0);
 }
@@ -82,7 +82,7 @@ void	print_error(char *message, int *flag, int *error)
 {
 	if (*flag == 0)
 	{
-		printf("Error: %s not defined.\n", message);
+		printf("Error\n%s not defined.\n", message);
 		*error = 1;
 	}
 }

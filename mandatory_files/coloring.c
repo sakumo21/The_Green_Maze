@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coloring.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:29:29 by ziel-hac          #+#    #+#             */
-/*   Updated: 2025/01/10 16:08:35 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:59:38 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ unsigned int	rgb_to_hex(int r, int g, int b)
 {
 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 	{
-		printf("Error: RGB values must be between 0 and 255.\n");
+		printf("Error\nRGB values must be between 0 and 255.\n");
 		return (0);
 	}
 	return ((r << 16) | (g << 8) | b);

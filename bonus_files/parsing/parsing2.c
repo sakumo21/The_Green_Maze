@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 11:22:14 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:10:14 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	texturing(char **path, char *new, t_flag *flag, t_data *img)
 		return (color_result);
 	if (ft_isalpha(path[0][0]))
 	{
-		printf("Error: %s is not a valid identifier.\n", path[0]);
+		printf("Error\n%s is not a valid identifier.\n", path[0]);
 		flag->exit = 2;
 		return (1);
 	}
@@ -87,18 +87,20 @@ void	init_flag(t_flag *flag, t_map *map, t_data *img)
 
 int	parse_input(int ac, char **av, int i)
 {
-	if (ac != 2)
-		return (printf("Error : Where is the file?\n"), 1);
+	if (ac < 2)
+		return (printf("Error\nWhere is the file?\n"), 1);
+	if (ac > 2)
+		return (printf("Error\nToo many files.\n"), 1);
 	if (ft_strlen(av[1]) == 4 && !ft_strncmp(av[1] + ft_strlen(av[1]) - 4,
 			".cub", 4))
-		return (printf("Error : add a name to your .cub file.\n"), 1);
+		return (printf("Error\nadd a name to your .cub file.\n"), 1);
 	while (av[1][i] != '.')
 		i++;
 	if (av[1][i] == '.' && (av[1][i + 1] != 'c' || av[1][i + 2] != 'u'
 			|| av[1][i + 3] != 'b'))
-		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+		return (printf("Error\nPut the right extension (.cub) !\n"), 1);
 	else if (av[1][i] == '.' && av[1][i + 1] == 'c' && av[1][i + 2] == 'u'
 		&& av[1][i + 3] == 'b' && av[1][i + 4] != '\0')
-		return (printf("Error : Put the right extension (.cub) !\n"), 1);
+		return (printf("Error\nPut the right extension (.cub) !\n"), 1);
 	return (0);
 }

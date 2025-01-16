@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texturing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:17:37 by ziel-hac          #+#    #+#             */
-/*   Updated: 2025/01/10 16:06:05 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:59:47 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_text(t_data *img, int i)
 	{
 		if (!img->textures[i].img)
 		{
-			printf("Error : Loading texture %d\n", i);
+			printf("Error\nLoading texture %d\n", i);
 			exit(1);
 		}
 		img->textures[i].addr = mlx_get_data_addr(img->textures[i].img,

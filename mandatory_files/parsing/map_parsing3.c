@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 11:11:39 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:01:00 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_empty_map(char *str)
 	if (!str[0])
 	{
 		free(str);
-		printf("Error: Empty map.\n");
+		printf("Error\nEmpty map.\n");
 		return (1);
 	}
 	return (0);
@@ -39,7 +39,7 @@ int	process_line(char *line, int fd, int i)
 			while (line[j])
 			{
 				if (line[j] != ' ' && line[j] != '\n' && line[j] != '\t')
-					return (printf("Error : Empty line in the map.\n"),
+					return (printf("Error\nEmpty line in the map.\n"),
 						free(line), 1);
 				j++;
 			}
@@ -110,7 +110,7 @@ int	parsing_map(char **map)
 			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' '
 				&& map[i][j] != 'N' && map[i][j] != 'S' && map[i][j] != 'W'
 				&& map[i][j] != 'E' && map[i][j] != '\t')
-				return (printf("Error: Invalid map character\n"), 1);
+				return (printf("Error\nInvalid map character\n"), 1);
 			j++;
 		}
 		i++;

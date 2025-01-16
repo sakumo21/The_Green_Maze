@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 23:47:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/16 11:15:10 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:02:40 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	first_parse(int ac, char **av, int *fd, t_data *img)
 	*fd = open(av[1], O_RDONLY);
 	if (*fd < 0)
 	{
-		printf("Error : File not found.\n");
+		printf("Error\nFile not found.\n");
 		free(img->map);
 		exit(1);
 	}
@@ -44,7 +44,7 @@ int	check_too_many_args(char **path, t_flag *flag, const char *texture_name)
 {
 	if (path[1] && path[2] && path[2][0] != '\n')
 	{
-		printf("Error: Too many arguments for %s.\n", texture_name);
+		printf("Error\nToo many arguments for %s.\n", texture_name);
 		flag->exit = 2;
 		return (1);
 	}
