@@ -3,57 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/13 15:06:04 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 00:02:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int	first_parse(int ac, char **av, int *fd, t_data *img)
+int test5(int fd, char **line)
 {
-	if (parse_input(ac, av, 0))
+	if (is_empty_line(*line))
 	{
-		free(img->map);
-		exit(1);
-	}
-	*fd = open(av[1], O_RDONLY);
-	if (*fd < 0)
-	{
-		printf("Error : File not found.\n");
-		free(img->map);
-		exit(1);
-	}
-	return (0);
-}
-
-int	my_isspace(char c)
-{
-	return (c == ' ' || c == '\n' || c == '\t');
-}
-
-int	is_empty_line(char *line)
-{
-	while (*line)
-	{
-		if (!my_isspace(*line))
-			return (0);
-		line++;
+		free(*line);
+		*line = get_next_line(fd);
+		return (0);
 	}
 	return (1);
-}
-
-int	test(char *line, int fd)
-{
-	if (is_empty_line(line))
-	{
-		free(line);
-		line = get_next_line(fd);
-		return (1);
-	}
-	return (0);
 }
 
 int	main_parsing(char **av, int ac, t_data *img, char *line)
@@ -67,7 +34,7 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (test(line, fd))
+		if (!test5(fd, &line))
 			continue ;
 		if (parse_line(line, &flag, 0, img))
 		{
@@ -77,10 +44,8 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (flag.exit == 2 || check_texture(&flag))
-		return (free(line), free_textures_path(img), 1);
-	if (mini_map(line, img->map, fd) || my_map(img->map, img))
-		return (free_textures_path(img), 1);
+	if (final_checks(&flag, line, img, fd))
+		return (1);
 	return (close(fd), 0);
 }
 

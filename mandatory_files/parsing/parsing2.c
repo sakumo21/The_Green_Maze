@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 14:49:40 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 01:23:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-static int	set_texture(t_texture_data *data)
+int	set_texture(t_texture_data *data)
 {
 	char	*trimmed;
 	int		i;
@@ -33,7 +33,7 @@ static int	set_texture(t_texture_data *data)
 	return (i);
 }
 
-static int	handle_texture(t_texture_data *data, int index, char *name,
+int	handle_texture(t_texture_data *data, int index, char *name,
 		int *flag_check)
 {
 	data->index = index;
@@ -42,74 +42,30 @@ static int	handle_texture(t_texture_data *data, int index, char *name,
 	return (set_texture(data));
 }
 
-int	texturing(char **path, char *new, t_flag *flag, t_data *img)
+int texturing(char **path, char *new, t_flag *flag, t_data *img)
 {
-	t_texture_data	data;
-	int				i;
-	int				j;
+    t_texture_data data = {.path = path, .flag = flag, .img = img};
 
-	data.path = path;
-	data.flag = flag;
-	data.img = img;
-	if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO",
-			ft_strlen("NO")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for North texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 0, "North texture", &flag->n_check));
-	}
-	if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO",
-			ft_strlen("SO")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for SOUTH texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 1, "South texture", &flag->s_check));
-	}
-	if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE",
-			ft_strlen("WE")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for WEST texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 2, "West texture", &flag->w_check));
-	}
-	if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA",
-			ft_strlen("EA")))
-	{
-		if (path[1] && path[2] && path[2][0] != '\n')
-			return (printf("Error: Too many arguments for EAST texture.\n"),
-				flag->exit = 2, 1);
-		return (handle_texture(&data, 3, "East texture", &flag->e_check));
-	}
-	if (!ft_strncmp(path[0], "F", 1))
-	{
-		i = check_set_color(&flag->f_check, "Floor color", new, img);
-		if (i)
-		{
-			if (i == 2)
-				return (flag->exit = 2, 1);
-			return (1);
-		}
-		return (0);
-	}
-	if (!ft_strncmp(path[0], "C", 1))
-	{
-		j = check_set_color(&flag->c_check, "Ceiling color", new, img);
-		if (j)
-		{
-			if (j == 2)
-				return (flag->exit = 2, 1);
-			return (1);
-		}
-		return (0);
-	}
-	if (ft_isalpha(path[0][0]))
-		return (printf("Error: %s is not a valid identifier.\n", path[0]),
-			flag->exit = 2, 1);
-	flag->is_map_started = 1;
-	return (1);
+    // Check for texture directions
+    int texture_result = handle_texture_direction(path, &data, flag);
+    if (texture_result != -1)
+        return texture_result;
+
+    // Check for floor or ceiling
+    int color_result = handle_floor_or_ceiling(path, new, flag, img);
+    if (color_result != -1)
+        return color_result;
+
+    // Invalid identifier
+    if (ft_isalpha(path[0][0]))
+    {
+        printf("Error: %s is not a valid identifier.\n", path[0]);
+        flag->exit = 2;
+        return 1;
+    }
+
+    flag->is_map_started = 1;
+    return 1;
 }
 
 void	init_flag(t_flag *flag, t_map *map, t_data *img)

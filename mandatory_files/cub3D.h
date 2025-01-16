@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:39:36 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/13 16:07:25 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/16 01:24:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,11 +253,21 @@ void			coloring_the_image(t_data *img, int i);
 void			my_mlx_pixel_put_image(t_data *data, int x, int y, int color);
 void			my_mlx_pixel_put(t_data *data, int x, int color);
 void			my_mlx_pixel_put_sprite(t_data *data, int height, int width);
-char			*read_map_lines(char *line, int fd, int i, int proc);
+char			*read_map_lines(char *line, int fd, int i);
+int				final_checks(t_flag *flag, char *line, t_data *img, int fd);
 char			*ft_strjoin_three(char *s1, char *s2, char *s3);
 unsigned int	rgb_to_hex(int r, int g, int b);
 unsigned int	convert_ceiling_to_hex(char *ceiling);
 int				is_empty_line(char *line);
+int				my_isspace(char c);
 void			draw_pixel(t_data *img, int x, int y, unsigned int color);
+int				first_parse(int ac, char **av, int *fd, t_data *img);
+int				handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img);
+int				handle_texture_direction(char **path, t_texture_data *data, t_flag *flag);
+int				check_too_many_args(char **path, t_flag *flag, const char *texture_name);
+void			set_set(char *line, char **p, t_data *img);
+int				handle_texture(t_texture_data *data, int index, char *name,
+					int *flag_check);
+int				set_texture(t_texture_data *data);
 
 #endif

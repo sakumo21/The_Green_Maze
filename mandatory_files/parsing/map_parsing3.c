@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:11:40 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/13 15:15:01 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:26:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,25 @@ int	process_line(char *line, int fd, int i)
 	return (0);
 }
 
-int	test2(char *str, char *line, int fd)
+int test44(int fd, char **str, char **line)
 {
 	char	*temp;
 
-	temp = ft_strjoin(str, line);
-	free(str);
-	free(line);
+	temp = ft_strjoin(*str, *line);
+	free(*str);
+	free(*line);
 	if (!temp)
 		return (1);
-	str = temp;
-	line = get_next_line(fd);
+	*str = temp;
+	*line = get_next_line(fd);
 	get_next_line(-1);
 	return (0);
 }
 
-char	*read_map_lines(char *line, int fd, int i, int proc)
+char	*read_map_lines(char *line, int fd, int i)
 {
 	char	*str;
+	int		proc;
 
 	str = ft_strdup("");
 	if (!str)
@@ -87,7 +88,7 @@ char	*read_map_lines(char *line, int fd, int i, int proc)
 			return (str);
 		else
 		{
-			if (test2(str, line, fd))
+			if (test44(fd, &str, &line))
 				return (NULL);
 		}
 	}

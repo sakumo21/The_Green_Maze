@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:41:15 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/22 18:24:21 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:44:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,31 @@ int	check_texture(t_flag *flag)
 	if (error)
 		return (1);
 	return (0);
+}
+
+int	final_checks(t_flag *flag, char *line, t_data *img, int fd)
+{
+	if (flag->exit == 2 || check_texture(flag))
+		return (free(line), free_textures_path(img), 1);
+	if (mini_map(line, img->map, fd) || my_map(img->map, img))
+		return (free_textures_path(img), 1);
+	return (0);
+}
+
+void	set_set(char *line, char **p, t_data *img)
+{
+	char	*tmp;
+
+	if (line[0] == 'F')
+	{
+		tmp = ft_strjoin_three(p[0], ",", p[1]);
+		img->floor = ft_strjoin_three(tmp, ",", p[2]);
+		free(tmp);
+	}
+	else if (line[0] == 'C')
+	{
+		tmp = ft_strjoin_three(p[0], ",", p[1]);
+		img->ceiling = ft_strjoin_three(tmp, ",", p[2]);
+		free(tmp);
+	}
 }

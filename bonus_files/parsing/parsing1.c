@@ -3,30 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 14:04:58 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 16:52:19 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 00:03:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-int	first_parse(int ac, char **av, int *fd, t_data *img)
+int test5(int fd, char **line)
 {
-	if (parse_input(ac, av, 0))
+	if (is_empty_line(*line))
 	{
-		free(img->map);
-		exit(1);
+		free(*line);
+		*line = get_next_line(fd);
+		return (0);
 	}
-	*fd = open(av[1], O_RDONLY);
-	if (*fd < 0)
-	{
-		printf("Error : File not found.\n");
-		free(img->map);
-		exit(1);
-	}
-	return (0);
+	return (1);
 }
 
 int	main_parsing(char **av, int ac, t_data *img, char *line)
@@ -40,12 +34,8 @@ int	main_parsing(char **av, int ac, t_data *img, char *line)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_empty_line(line))
-		{
-			free(line);
-			line = get_next_line(fd);
+		if (!test5(fd, &line))
 			continue ;
-		}
 		if (parse_line(line, &flag, 0, img))
 		{
 			get_next_line(-1);

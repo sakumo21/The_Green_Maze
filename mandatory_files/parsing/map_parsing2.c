@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ziel-hac <ziel-hac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/13 16:25:29 by ziel-hac         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:44:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,6 @@ int	check_and_set(char **path, int *flag, char *msg, t_flag *flagg)
 	if (check_line(path, flagg))
 		return (1);
 	return (0);
-}
-
-void	set_set(char *line, char **p, t_data *img)
-{
-	char	*tmp;
-
-	if (line[0] == 'F')
-	{
-		tmp = ft_strjoin_three(p[0], ",", p[1]);
-		img->floor = ft_strjoin_three(tmp, ",", p[2]);
-		free(tmp);
-	}
-	else if (line[0] == 'C')
-	{
-		tmp = ft_strjoin_three(p[0], ",", p[1]);
-		img->ceiling = ft_strjoin_three(tmp, ",", p[2]);
-		free(tmp);
-	}
 }
 
 int	test3(char **p)

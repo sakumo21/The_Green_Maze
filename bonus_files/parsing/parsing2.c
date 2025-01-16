@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 13:59:03 by mlamrani          #+#    #+#             */
-/*   Updated: 2024/12/25 16:46:02 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/16 01:24:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3D.h"
 
-static int	set_texture(t_texture_data *data)
+int	set_texture(t_texture_data *data)
 {
 	char	*trimmed;
 	int		i;
@@ -33,72 +33,13 @@ static int	set_texture(t_texture_data *data)
 	return (i);
 }
 
-static int	handle_texture(t_texture_data *data, int index, char *name,
+int	handle_texture(t_texture_data *data, int index, char *name,
 		int *flag_check)
 {
 	data->index = index;
 	data->texture_name = name;
 	data->flag_check = flag_check;
 	return (set_texture(data));
-}
-
-static int check_too_many_args(char **path, t_flag *flag, const char *texture_name)
-{
-    if (path[1] && path[2] && path[2][0] != '\n')
-    {
-        printf("Error: Too many arguments for %s.\n", texture_name);
-        flag->exit = 2;
-        return 1;
-    }
-    return 0;
-}
-
-static int handle_texture_direction(char **path, t_texture_data *data, t_flag *flag)
-{
-    if (!ft_strncmp(path[0], "N", ft_strlen("N")) || !ft_strncmp(path[0], "NO", ft_strlen("NO")))
-    {
-        if (check_too_many_args(path, flag, "North texture"))
-            return 1;
-        return handle_texture(data, 0, "North texture", &flag->n_check);
-    }
-    if (!ft_strncmp(path[0], "S", ft_strlen("S")) || !ft_strncmp(path[0], "SO", ft_strlen("SO")))
-    {
-        if (check_too_many_args(path, flag, "South texture"))
-            return 1;
-        return handle_texture(data, 1, "South texture", &flag->s_check);
-    }
-    if (!ft_strncmp(path[0], "W", ft_strlen("W")) || !ft_strncmp(path[0], "WE", ft_strlen("WE")))
-    {
-        if (check_too_many_args(path, flag, "West texture"))
-            return 1;
-        return handle_texture(data, 2, "West texture", &flag->w_check);
-    }
-    if (!ft_strncmp(path[0], "E", ft_strlen("E")) || !ft_strncmp(path[0], "EA", ft_strlen("EA")))
-    {
-        if (check_too_many_args(path, flag, "East texture"))
-            return 1;
-        return handle_texture(data, 3, "East texture", &flag->e_check);
-    }
-    return -1;
-}
-
-static int handle_floor_or_ceiling(char **path, char *new, t_flag *flag, t_data *img)
-{
-    if (!ft_strncmp(path[0], "F", 1))
-    {
-        int result = check_set_color(&flag->f_check, "Floor color", new, img);
-        if (result == 2)
-            flag->exit = 2;
-        return result ? 1 : 0;
-    }
-    if (!ft_strncmp(path[0], "C", 1))
-    {
-        int result = check_set_color(&flag->c_check, "Ceiling color", new, img);
-        if (result == 2)
-            flag->exit = 2;
-        return result ? 1 : 0;
-    }
-    return -1;
 }
 
 int texturing(char **path, char *new, t_flag *flag, t_data *img)
@@ -126,7 +67,6 @@ int texturing(char **path, char *new, t_flag *flag, t_data *img)
     flag->is_map_started = 1;
     return 1;
 }
-
 
 void	init_flag(t_flag *flag, t_map *map, t_data *img)
 {
