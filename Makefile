@@ -32,7 +32,7 @@ clean:
 
 fclean: clean
 	@$(MAKE) -C Libft fclean > /dev/null
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@echo "Full clean done...✅"
 
-re: fclean all
+re: fclean all 

@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 16:40:53 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 17:00:38 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:42:52 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	check_range(char *line, t_data *img, char *new, int i)
 	while (new[i])
 	{
 		if (new[0] == ',' || (new[i] == ',' && new[i + 1] == ','))
-			return (printf("Error\nExpected 3 RGB values\
-					[..., ..., ...].\n"), 1);
+			return (printf("Error\nExpected 3 RGB values [..., ..., ...].\n")
+				, 1);
 		i++;
 	}
 	p = ft_split(new, ',');

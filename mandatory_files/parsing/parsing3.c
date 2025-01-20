@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:32:59 by mlamrani          #+#    #+#             */
-/*   Updated: 2025/01/16 17:01:47 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:44:38 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_value_range(char **p)
 		|| (ft_atoi(p[2]) < 0 || ft_atoi(p[2]) > 255))
 	{
 		free_range(p, 0);
-		printf("Error\nRGB range is between 0 and 255\n");
+		printf("Error\nRGB range is between 0 and 255.\n");
 		return (1);
 	}
 	return (0);

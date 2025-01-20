@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:17:37 by ziel-hac          #+#    #+#             */
-/*   Updated: 2024/12/25 15:41:35 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:44:59 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	check_text(t_data *img, int i)
 	{
 		if (!img->textures[i].img)
 		{
-			printf("Error : Loading texture %d\n", i);
+			printf("Error : Loading texture %d.\n", i);
 			exit(1);
 		}
 		img->textures[i].addr = mlx_get_data_addr(img->textures[i].img,
