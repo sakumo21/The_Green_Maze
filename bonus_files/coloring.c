@@ -6,7 +6,7 @@
 /*   By: mlamrani <mlamrani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:29:29 by ziel-hac          #+#    #+#             */
-/*   Updated: 2025/01/16 16:55:34 by mlamrani         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:13:12 by mlamrani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ int	get_texture_index(t_data *img)
 	if (img->ray.side == 0)
 	{
 		if (img->ray.rayx < 0)
-			return (0);
+			return (2);
 		else
-			return (1);
+			return (3);
 	}
 	else
 	{
 		if (img->ray.rayy < 0)
-			return (2);
+			return (0);
 		else
-			return (3);
+			return (1);
 	}
 }
 
