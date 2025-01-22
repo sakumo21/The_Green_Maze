@@ -19,7 +19,9 @@ $(NAME) : $(FILES) $(LIBFT) $(GNL)
 	@$(CCF) $(FILES) $(LIBFT) $(GNL) $(FLAG) -o $(NAME)
 	@echo "Done ✅"
 
-bonus: $(FILES_BONUS) $(LIBFT) $(GNL)
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS) : $(FILES_BONUS) $(LIBFT) $(GNL)
 	@echo "Making $@... ⏳"
 	@$(CCF) $(FILES_BONUS) $(LIBFT) $(GNL) $(FLAG) -o $(NAME_BONUS)
 	@echo "Done ✅"
